@@ -408,15 +408,6 @@ This project demonstrates:
 
 ---
 
-## 📞 Support
-
-For questions or issues:
-1. Check the [SETUP_GUIDE.md](SETUP_GUIDE.md)
-2. Review the documentation in `docs/`
-3. Check the notebook comments
-4. Review test cases in `tests/`
-
----
 
 ## 📄 License
 
@@ -426,9 +417,9 @@ This project is for educational purposes.
 
 ## 👤 Author
 
-**Student Name:** [Your Name]  
-**Course:** Data Engineering / Cloud Computing  
-**University:** [Your University]  
+**Student Name:** [Abdulrahman Alanmlan]  
+**Course:** AI Engineering 
+**University:** [UDST]  
 **Date:** December 2025
 
 ---
