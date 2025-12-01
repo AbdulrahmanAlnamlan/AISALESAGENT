@@ -1,0 +1,9 @@
+product_id,product_name,category,base_price,currency,launch_date
+P001,Enterprise Suite,Software,50000,USD,2023-01-01
+P002,Cloud Analytics,Software,30000,USD,2023-06-15
+P003,Security Pro,Software,25000,USD,2023-03-20
+P004,Integration Hub,Software,40000,USD,2023-09-10
+P005,AI Assistant,Software,35000,USD,2024-01-15
+P006,Consulting Services,Services,100,USD,2023-02-01
+P007,Training Program,Services,50,USD,2023-05-10
+P008,Support Premium,Services,200,USD,2023-04-01

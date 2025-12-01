@@ -1,0 +1,111 @@
+
+================================================================================
+MEDALLION ARCHITECTURE - EXPLORATORY DATA ANALYSIS REPORT
+================================================================================
+
+EXECUTIVE SUMMARY
+--------------------------------------------------------------------------------
+Total Customers: 13
+Total Leads: 15
+Total Interactions: 25
+Total Products: 8
+
+LEADS METRICS
+--------------------------------------------------------------------------------
+Total Deal Value: $1,937,000
+Average Deal Value: $129,133
+Median Deal Value: $85,000
+
+Deal Status Breakdown:
+  • OPEN: 7 deals ($737,000) - 46.7%
+  • CLOSED_WON: 6 deals ($995,000) - 40.0%
+  • CLOSED_LOST: 2 deals ($205,000) - 13.3%
+
+Lead Source Breakdown:
+  • LinkedIn: 5 leads - 33.3%
+  • Referral: 4 leads - 26.7%
+  • Cold Call: 3 leads - 20.0%
+  • Email: 3 leads - 20.0%
+
+CUSTOMER METRICS
+--------------------------------------------------------------------------------
+Total Annual Revenue: $1,299,500,000
+Average Company Size: 1,000 employees
+Largest Company: 5,000 employees
+Smallest Company: 45 employees
+
+Top 5 Industries:
+  • Technology: 3 customers - 23.1%
+  • Manufacturing: 2 customers - 15.4%
+  • Consulting: 2 customers - 15.4%
+  • Retail: 2 customers - 15.4%
+  • Software: 1 customers - 7.7%
+
+INTERACTION METRICS
+--------------------------------------------------------------------------------
+Total Interactions: 25
+Average Interaction Duration: 11.6 minutes
+
+Channel Distribution:
+  • call: 11 interactions - 44.0%
+  • email: 10 interactions - 40.0%
+  • whatsapp: 4 interactions - 16.0%
+
+Outcome Distribution:
+  • positive: 21 interactions - 84.0%
+  • negative: 2 interactions - 8.0%
+  • neutral: 2 interactions - 8.0%
+
+GOLD LAYER - CUSTOMER FEATURES
+--------------------------------------------------------------------------------
+Average Lead Score: 88.7
+Median Lead Score: 100.0
+Max Lead Score: 100.0
+
+Lead Quality Distribution:
+  • HOT: 11 customers - 84.6%
+  • WARM: 0 customers - 0.0%
+  • COOL: 0 customers - 0.0%
+  • COLD: 2 customers - 15.4%
+
+Average Engagement Score: 6.3
+Average Total Interactions per Customer: 1.9
+Average Total Revenue per Customer: $149,000
+
+TOP 10 CUSTOMERS BY LEAD SCORE
+--------------------------------------------------------------------------------
+ 1. Acme Corp                      | Score:  100.0 | Revenue: $      85,000 | Quality: HOT
+ 2. TechCorp                       | Score:  100.0 | Revenue: $     140,000 | Quality: HOT
+ 3. Innovate Solutions             | Score:  100.0 | Revenue: $      45,000 | Quality: HOT
+ 4. Enterprise Ltd                 | Score:  100.0 | Revenue: $     200,000 | Quality: HOT
+ 5. StartUp IO                     | Score:  100.0 | Revenue: $      15,000 | Quality: HOT
+ 6. BigTech                        | Score:  100.0 | Revenue: $     550,000 | Quality: HOT
+ 7. Finance Plus                   | Score:  100.0 | Revenue: $      95,000 | Quality: HOT
+ 8. Consulting Group               | Score:  100.0 | Revenue: $     160,000 | Quality: HOT
+ 9. Retail Plus                    | Score:  100.0 | Revenue: $      42,000 | Quality: HOT
+10. Healthcare Solutions           | Score:  100.0 | Revenue: $     180,000 | Quality: HOT
+
+================================================================================
+VISUALIZATIONS GENERATED
+--------------------------------------------------------------------------------
+✓ 01_deals_and_interactions.png - Overview of deals and interactions
+✓ 02_customer_features.png - Customer features and lead scoring analysis
+✓ 03_industry_analysis.png - Industry and company size analysis
+✓ customer_features.csv - Full customer features dataset (Gold layer)
+
+================================================================================
+NEXT STEPS
+--------------------------------------------------------------------------------
+1. Import customer_features.csv into Power BI
+2. Create dashboards for:
+   - Lead scoring and quality distribution
+   - Revenue by industry and customer
+   - Interaction channel effectiveness
+   - Sales pipeline metrics
+3. Use customer features in AI sales agent for:
+   - Lead prioritization
+   - Personalized outreach
+   - Channel recommendation
+   - Conversion prediction
+
+================================================================================

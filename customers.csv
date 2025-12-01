@@ -1,0 +1,14 @@
+customer_id,customer_name,industry,country,city,employee_count,annual_revenue,account_manager,created_at
+C001,Acme Corp,Manufacturing,USA,New York,500,50000000,John Doe,2023-01-15
+C002,TechCorp,Technology,USA,San Francisco,1200,120000000,Jane Smith,2022-06-20
+C003,Global Inc,Consulting,USA,Chicago,800,80000000,Mike Johnson,2023-03-10
+C004,Innovate Solutions,Software,USA,Boston,350,35000000,Sarah Lee,2023-09-05
+C005,Enterprise Ltd,Finance,USA,New York,2000,200000000,David Chen,2022-11-30
+C006,StartUp IO,Technology,USA,Austin,45,4500000,Emma Wilson,2024-02-14
+C007,BigTech,Technology,USA,Seattle,5000,500000000,Robert Taylor,2021-05-01
+C008,MidMarket Co,Retail,USA,Los Angeles,250,25000000,Lisa Anderson,2023-07-22
+C009,Finance Plus,Financial Services,USA,New York,600,60000000,James Martin,2022-12-10
+C010,Consulting Group,Consulting,USA,Washington DC,900,90000000,Jennifer Lee,2023-04-18
+C011,Retail Plus,Retail,USA,Miami,180,18000000,Christopher White,2023-08-25
+C012,Healthcare Solutions,Healthcare,USA,Boston,420,42000000,Patricia Harris,2023-10-12
+C013,Manufacturing Inc,Manufacturing,USA,Detroit,750,75000000,Michael Clark,2022-09-03
