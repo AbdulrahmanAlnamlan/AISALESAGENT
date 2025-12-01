@@ -417,7 +417,7 @@ This project is for educational purposes.
 
 ## 👤 Author
 
-**Student Name:** [Abdulrahman Alanmlan]  
+**Student Name:** [Abdulrahman Alnamlan]  
 **Course:** AI Engineering 
 **University:** [UDST]  
 **Date:** December 2025
