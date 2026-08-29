@@ -1,0 +1,14 @@
+customer_id,customer_name,industry,country,city,employee_count,annual_revenue,account_manager,created_at,total_interactions,avg_interaction_duration,last_interaction_date,num_call,num_email,num_whatsapp,num_negative_outcomes,num_neutral_outcomes,num_positive_outcomes,total_revenue,total_deals,avg_deal_value,num_closed_won,engagement_score,lead_score,lead_quality
+C001,Acme Corp,Manufacturing,USA,New York,500,50000000,John Doe,2023-01-15,3,9.0,2024-11-25,2,1,0,0,0,3,85000,2,42500.0,2,9.0,100.0,hot
+C002,TechCorp,Technology,USA,San Francisco,1200,120000000,Jane Smith,2022-06-20,3,17.666666666666668,2024-11-20,2,0,1,0,0,3,140000,2,70000.0,2,9.0,100.0,hot
+C003,Global Inc,Consulting,USA,Chicago,800,80000000,Mike Johnson,2023-03-10,2,10.0,2024-11-10,1,1,0,1,1,0,120000,1,120000.0,0,-0.3333333333333333,31.666666666666668,cold
+C004,Innovate Solutions,Software,USA,Boston,350,35000000,Sarah Lee,2023-09-05,2,6.0,2024-11-22,0,1,1,0,0,2,45000,1,45000.0,0,8.0,100.0,hot
+C005,Enterprise Ltd,Finance,USA,New York,2000,200000000,David Chen,2022-11-30,3,13.333333333333334,2024-11-25,1,1,1,0,0,3,200000,1,200000.0,0,9.0,100.0,hot
+C006,StartUp IO,Technology,USA,Austin,45,4500000,Emma Wilson,2024-02-14,1,0.0,2024-11-24,0,1,0,0,0,1,15000,1,15000.0,0,6.0,100.0,hot
+C007,BigTech,Technology,USA,Seattle,5000,500000000,Robert Taylor,2021-05-01,2,22.5,2024-11-20,1,1,0,0,0,2,550000,1,550000.0,1,8.0,100.0,hot
+C008,MidMarket Co,Retail,USA,Los Angeles,250,25000000,Lisa Anderson,2023-07-22,2,10.0,2024-11-19,1,1,0,1,1,0,85000,1,85000.0,0,-0.3333333333333333,21.166666666666668,cold
+C009,Finance Plus,Financial Services,USA,New York,600,60000000,James Martin,2022-12-10,2,10.0,2024-11-23,1,0,1,0,0,2,95000,1,95000.0,0,8.0,100.0,hot
+C010,Consulting Group,Consulting,USA,Washington DC,900,90000000,Jennifer Lee,2023-04-18,1,0.0,2024-11-25,0,1,0,0,0,1,160000,1,160000.0,0,6.0,100.0,hot
+C011,Retail Plus,Retail,USA,Miami,180,18000000,Christopher White,2023-08-25,1,18.0,2024-11-24,1,0,0,0,0,1,42000,1,42000.0,0,6.0,100.0,hot
+C012,Healthcare Solutions,Healthcare,USA,Boston,420,42000000,Patricia Harris,2023-10-12,1,0.0,2024-11-22,0,1,0,0,0,1,180000,1,180000.0,0,6.0,100.0,hot
+C013,Manufacturing Inc,Manufacturing,USA,Detroit,750,75000000,Michael Clark,2022-09-03,2,17.5,2024-11-20,1,1,0,0,0,2,220000,1,220000.0,1,8.0,100.0,hot

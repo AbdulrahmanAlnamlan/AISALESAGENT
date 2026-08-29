@@ -1,0 +1,16 @@
+lead_id,customer_id,lead_name,email,phone,company,deal_value,status,created_at,updated_at,source
+L001,C001,John Smith,john.smith@acme.com,+1-555-0101,Acme Corp,50000,closed_won,2024-10-15,2024-11-20,LinkedIn
+L002,C002,Sarah Johnson,sarah.johnson@techcorp.com,+1-555-0102,TechCorp,75000,closed_won,2024-09-20,2024-11-18,Referral
+L003,C003,Mike Davis,mike.davis@globalinc.com,+1-555-0103,Global Inc,120000,closed_lost,2024-08-10,2024-11-15,Cold Call
+L004,C004,Emma Wilson,emma.wilson@innovate.com,+1-555-0104,Innovate Solutions,45000,open,2024-11-01,2024-11-25,Email
+L005,C005,David Brown,david.brown@enterprise.com,+1-555-0105,Enterprise Ltd,200000,open,2024-10-05,2024-11-22,LinkedIn
+L006,C001,Robert Taylor,robert.taylor@acme.com,,Acme Corp,35000,closed_won,2024-11-10,2024-11-23,Referral
+L007,C006,Lisa Anderson,lisa.anderson@startup.io,+1-555-0107,StartUp IO,15000,open,2024-11-12,2024-11-24,Email
+L008,C007,James Martin,james.martin@bigtech.com,+1-555-0108,BigTech,550000,closed_won,2024-07-01,2024-11-20,LinkedIn
+L009,C008,Jennifer Lee,jennifer.lee@midmarket.com,+1-555-0109,MidMarket Co,85000,closed_lost,2024-09-15,2024-11-19,Cold Call
+L010,C009,Christopher White,,+1-555-0110,Finance Plus,95000,open,2024-10-20,2024-11-23,Referral
+L011,C010,Patricia Harris,patricia.harris@consulting.com,+1-555-0111,Consulting Group,160000,open,2024-11-05,2024-11-25,LinkedIn
+L012,C002,Michael Clark,michael.clark@techcorp.com,+1-555-0112,TechCorp,65000,closed_won,2024-10-25,2024-11-21,Referral
+L013,C011,Nancy Young,nancy.young@retail.com,+1-555-0113,Retail Plus,42000,open,2024-11-08,2024-11-24,Email
+L014,C012,Daniel Hall,daniel.hall@healthcare.com,,Healthcare Solutions,180000,open,2024-10-30,2024-11-25,LinkedIn
+L015,C013,Karen King,karen.king@manufacturing.com,+1-555-0115,Manufacturing Inc,220000,closed_won,2024-06-15,2024-11-20,Cold Call

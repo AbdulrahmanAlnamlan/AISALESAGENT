@@ -1,0 +1,26 @@
+interaction_id,customer_id,channel,interaction_date,interaction_time_minutes,outcome,notes
+INT001,C001,call,2024-11-20,15,positive,Discussed pricing and timeline
+INT002,C001,email,2024-11-18,0,positive,Sent proposal document
+INT003,C002,whatsapp,2024-11-19,8,positive,Quick follow-up on implementation
+INT004,C002,call,2024-11-15,25,positive,Detailed product demo
+INT005,C003,call,2024-11-10,20,negative,Customer concerned about ROI
+INT006,C003,email,2024-11-08,0,neutral,Sent case studies
+INT007,C004,email,2024-11-22,0,positive,Initial inquiry response
+INT008,C004,whatsapp,2024-11-20,12,positive,Answered technical questions
+INT009,C005,call,2024-11-25,30,positive,Executive briefing
+INT010,C005,email,2024-11-23,0,positive,Contract review
+INT011,C006,email,2024-11-24,0,positive,Welcome email sent
+INT012,C007,call,2024-11-20,45,positive,Strategic planning session
+INT013,C007,email,2024-11-18,0,positive,Sent implementation roadmap
+INT014,C008,call,2024-11-19,20,negative,Budget constraints mentioned
+INT015,C008,email,2024-11-17,0,neutral,Sent alternative proposal
+INT016,C009,call,2024-11-23,15,positive,Follow-up on previous meeting
+INT017,C009,whatsapp,2024-11-21,5,positive,Quick status update
+INT018,C010,email,2024-11-25,0,positive,Sent pricing information
+INT019,C011,call,2024-11-24,18,positive,Discussed timeline
+INT020,C012,email,2024-11-22,0,positive,Initial contact
+INT021,C013,call,2024-11-20,35,positive,Detailed requirements gathering
+INT022,C013,email,2024-11-18,0,positive,Sent technical specifications
+INT023,C001,call,2024-11-25,12,positive,Final approval call
+INT024,C002,call,2024-11-20,20,positive,Implementation kickoff
+INT025,C005,whatsapp,2024-11-24,10,positive,Quick clarification
