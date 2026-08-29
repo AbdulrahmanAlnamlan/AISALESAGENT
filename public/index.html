@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>كحيلان AI — ذكاء اصطناعي يبيع بدلاً عنك</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --maroon:#8B1A2B;--maroon-d:#5C0F1C;--maroon-l:#B52239;
+  --gold:#C8973A;--gold-l:#F5D080;--gold-d:#9A7020;
+  --ink:#0C0507;--s1:#140809;--s2:#1C0C0F;--s3:#240F13;
+  --bd:#3A1520;--bd2:#4A1D28;
+  --tx:#F5EDE0;--mu:#9A7880;--mu2:#5A3840;
+  --green:#2ECC71;--red:#E74C3C;
+}
+html,body{min-height:100vh;background:var(--ink);color:var(--tx);font-family:'Tajawal',sans-serif;overflow-x:hidden}
+input,textarea,select{background:var(--s2);border:1px solid var(--bd);color:var(--tx);border-radius:6px;padding:10px 13px;font-size:14px;font-family:'Tajawal',sans-serif;width:100%;outline:none;transition:border-color .2s}
+input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,151,58,.12)}
+textarea{resize:vertical;min-height:68px;line-height:1.6}
+select option{background:var(--s2)}
+button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;white-space:nowrap}
+.bp{background:linear-gradient(135deg,var(--maroon-d),var(--maroon));color:var(--gold-l);padding:11px 24px;border-radius:4px;font-size:14px;border:1px solid var(--gold-d)}
+.bp:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(139,26,43,.5)}
+.bp:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
+.bg{background:transparent;border:1px solid var(--bd2);color:var(--mu);padding:9px 18px;border-radius:4px;font-size:13px}
+.bg:hover{border-color:var(--gold);color:var(--gold)}
+.bgold{background:linear-gradient(135deg,var(--gold-d),var(--gold));color:var(--ink);padding:11px 24px;border-radius:4px;font-size:14px;font-weight:800}
+.bgold:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(200,151,58,.4)}
+.bsm{padding:6px 13px!important;font-size:11px!important;border-radius:4px!important}
+.bdanger{background:transparent;border:1px solid var(--red);color:var(--red);padding:5px 12px;border-radius:4px;font-size:11px}
+.bdanger:hover{background:var(--red);color:#fff}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:20px}
+.lbl{font-size:10px;font-weight:700;color:var(--mu);margin-bottom:6px;display:block;letter-spacing:.8px;text-transform:uppercase;font-family:sans-serif}
+.fld{margin-bottom:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.err{background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.22);border-radius:6px;padding:12px;font-size:13px;color:#ff8070;line-height:1.6}
+.ok{background:rgba(46,204,113,.07);border:1px solid rgba(46,204,113,.2);border-radius:6px;padding:12px;font-size:13px;color:var(--green);line-height:1.6}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes twinkle{0%,100%{opacity:.8}50%{opacity:.08}}
+.fu{animation:fadeUp .5s ease both}
+.fi{animation:fadeIn .3s ease both}
+.spinner{width:16px;height:16px;border:2px solid rgba(200,151,58,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .6s linear infinite;display:inline-block;flex-shrink:0}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;animation:pulse 2s infinite}
+.dotg{background:var(--green)}
+.tag{display:inline-flex;align-items:center;padding:2px 9px;border-radius:3px;font-size:11px;font-weight:600;font-family:sans-serif}
+.tg{background:rgba(46,204,113,.1);color:var(--green)}.tr{background:rgba(231,76,60,.1);color:var(--red)}
+.ta{background:rgba(200,151,58,.1);color:var(--gold)}.tmu{background:rgba(90,56,64,.3);color:var(--mu)}.tp{background:rgba(139,26,43,.15);color:var(--maroon-l)}
+.screen{display:none}.screen.on{display:block}
+#app-screen{display:none}#app-screen.on{display:flex;height:100vh;overflow:hidden}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;backdrop-filter:blur(4px)}
+.modal{background:var(--s1);border:1px solid var(--bd2);border-radius:12px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
+.mhead{padding:20px 24px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd)}
+.mbody{padding:20px 24px 24px}
+.logo-wrap{display:flex;align-items:center;gap:10px}
+.logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--maroon-d),var(--maroon));border:1px solid var(--gold-d);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--gold-l);flex-shrink:0;font-family:'Tajawal',sans-serif}
+.logo-ar{font-family:'Tajawal',sans-serif;font-size:22px;font-weight:800;color:var(--tx);letter-spacing:1px}
+.logo-ar span{color:var(--gold)}
+.land-nav{display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:68px;background:rgba(12,5,7,.96);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.lang-pill{display:flex;background:var(--s2);border:1px solid var(--bd);border-radius:99px;padding:3px;gap:2px}
+.lang-btn{padding:5px 13px;border-radius:99px;font-size:11px;font-weight:700;border:none;cursor:pointer;color:var(--mu);background:transparent;transition:all .18s;font-family:sans-serif}
+.lang-btn.on{background:var(--maroon);color:var(--gold-l)}
+.hero{position:relative;min-height:93vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:80px 24px 40px}
+.hero-stars{position:absolute;inset:0;overflow:hidden}
+.hero-moon{position:absolute;top:80px;left:110px;width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#F5D080,#C8973A);box-shadow:0 0 28px rgba(200,151,58,.3)}
+.hero-top-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--maroon),var(--gold),var(--maroon),transparent)}
+.skyline-wrap{position:absolute;bottom:0;left:0;right:0}
+.hero-content{position:relative;z-index:10;text-align:center;max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(139,26,43,.18);border:1px solid rgba(200,151,58,.28);border-radius:99px;padding:6px 18px;font-size:12px;color:var(--gold);margin-bottom:28px}
+.hero-h1{font-family:'Tajawal',sans-serif;font-size:clamp(42px,6vw,78px);font-weight:800;line-height:1.1;letter-spacing:1px;margin-bottom:16px}
+.hero-h1 .gold{background:linear-gradient(135deg,var(--gold-d),var(--gold),var(--gold-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-en{font-family:'Cinzel',serif;font-size:13px;letter-spacing:8px;color:var(--mu);text-transform:uppercase;margin-bottom:18px}
+.hero-sub{font-size:16px;color:var(--mu);line-height:1.8;max-width:560px;margin:0 auto 36px}
+.hero-sub strong{color:var(--tx)}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.btn-hp{background:linear-gradient(135deg,var(--maroon-d),var(--maroon));color:var(--gold-l);padding:14px 36px;border-radius:4px;font-size:16px;font-weight:700;border:1px solid var(--gold-d);cursor:pointer;transition:all .2s}
+.btn-hp:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(139,26,43,.6)}
+.btn-hg{background:transparent;color:var(--gold);padding:14px 36px;border-radius:4px;font-size:15px;cursor:pointer;border:1px solid rgba(200,151,58,.3);transition:all .2s}
+.btn-hg:hover{border-color:var(--gold);background:rgba(200,151,58,.06)}
+.hero-stats{display:flex;border:1px solid var(--bd);border-radius:8px;overflow:hidden;background:rgba(20,8,9,.75);backdrop-filter:blur(8px)}
+.hstat{padding:16px 26px;text-align:center;border-left:1px solid var(--bd);flex:1}
+.hstat:last-child{border-left:none}
+.hstat-n{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gold);margin-bottom:2px}
+.hstat-l{font-size:10px;color:var(--mu2);font-family:sans-serif;letter-spacing:1px;text-transform:uppercase}
+.ornament{display:flex;align-items:center;gap:14px;padding:0 52px}
+.orn-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--bd2),transparent)}
+.orn-d{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+.orn-d2{width:5px;height:5px;background:var(--gold-d);transform:rotate(45deg);flex-shrink:0}
+.section{padding:72px 52px;max-width:1080px;margin:0 auto;width:100%}
+.sec-header{text-align:center;margin-bottom:48px}
+.sec-ar{font-family:'Tajawal',sans-serif;font-size:32px;font-weight:800;margin-bottom:8px}
+.sec-en{font-family:'Cinzel',serif;font-size:10px;letter-spacing:6px;color:var(--mu2);text-transform:uppercase}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feat{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:26px 20px;position:relative;overflow:hidden;transition:all .2s}
+.feat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--maroon),transparent);opacity:0;transition:opacity .2s}
+.feat:hover{transform:translateY(-2px)}.feat:hover::after{opacity:1}
+.feat-icon{width:42px;height:42px;background:rgba(139,26,43,.18);border:1px solid rgba(200,151,58,.18);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
+.feat-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.feat-desc{font-size:14px;color:var(--mu);line-height:1.7}
+.pricing-wrap{background:var(--s1);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:72px 52px}
+.pricing-inner{max-width:960px;margin:0 auto}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:44px}
+.plan{background:var(--ink);border:1px solid var(--bd);border-radius:10px;padding:26px 20px;position:relative;transition:all .2s}
+.plan.featured{border-color:var(--gold-d);background:linear-gradient(180deg,rgba(139,26,43,.06),var(--ink))}
+.plan-pop{position:absolute;top:-1px;right:50%;transform:translateX(50%);background:linear-gradient(135deg,var(--maroon-d),var(--maroon));color:var(--gold-l);font-size:11px;font-weight:700;padding:4px 16px;border-radius:0 0 8px 8px;white-space:nowrap}
+.plan-name{font-size:13px;font-weight:700;color:var(--mu);margin-bottom:8px}
+.plan-price{font-family:'Cinzel',serif;font-size:40px;font-weight:700;margin-bottom:4px}
+.plan-price span{font-size:14px;color:var(--mu);font-family:sans-serif;font-weight:400}
+.plan-desc{font-size:13px;color:var(--mu2);margin-bottom:18px}
+.plan-feats{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.pf{font-size:13px;display:flex;gap:8px;align-items:flex-start}
+.pf-dot{color:var(--gold);flex-shrink:0;font-size:10px;margin-top:3px}
+.plan-btn{width:100%;padding:11px;border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Tajawal',sans-serif;transition:all .2s}
+.pbp{background:linear-gradient(135deg,var(--maroon-d),var(--maroon));color:var(--gold-l);border:1px solid var(--gold-d)}
+.pbp:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(139,26,43,.5)}
+.pbg{background:transparent;color:var(--mu);border:1px solid var(--bd)}
+.pbg:hover{border-color:var(--gold);color:var(--gold)}
+.footer{padding:28px 52px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.sidebar{width:220px;background:var(--s1);border-left:1px solid var(--bd);display:flex;flex-direction:column;flex-shrink:0}
+.sb-head{padding:13px;border-bottom:1px solid var(--bd)}
+.sb-label{font-size:10px;font-weight:700;color:var(--mu2);letter-spacing:1px;text-transform:uppercase;padding:10px 10px 4px;font-family:sans-serif}
+.agent-list{flex:1;overflow-y:auto;padding:6px}
+.aitem{padding:9px 10px;border-radius:7px;cursor:pointer;margin-bottom:2px;border:1px solid transparent;transition:all .15s;display:flex;align-items:center;gap:8px}
+.aitem:hover{background:rgba(255,255,255,.02)}.aitem.on{background:rgba(139,26,43,.15);border-color:rgba(200,151,58,.25)}
+.sb-bottom{padding:10px;border-top:1px solid var(--bd);display:flex;flex-direction:column;gap:6px}
+.plan-badge{display:flex;align-items:center;padding:5px 10px;border-radius:4px;font-size:11px;font-weight:600;background:rgba(200,151,58,.1);color:var(--gold);font-family:sans-serif;justify-content:center}
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.tabbar{padding:0 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;background:var(--s1);flex-shrink:0;direction:rtl}
+.tabbtn{background:none;border:none;padding:15px 13px;font-size:13px;font-weight:700;cursor:pointer;color:var(--mu);border-bottom:2px solid transparent;transition:all .18s;font-family:'Tajawal',sans-serif}
+.tabbtn.on{color:var(--tx);border-bottom-color:var(--gold)}.tabbtn:hover:not(.on){color:var(--tx)}
+.tabcon{flex:1;overflow:auto;padding:22px}
+.panel{display:none}.panel.on{display:block}
+.crow{padding:12px 16px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:12px}
+.crow:last-child{border-bottom:none}.crow:hover{background:rgba(200,151,58,.04)}
+.tpanel{width:370px;flex-shrink:0;background:var(--s1);border:1px solid var(--bd);border-radius:12px;display:flex;flex-direction:column;overflow:hidden;max-height:calc(100vh - 132px)}
+.sub{background:var(--s2);border-radius:8px;padding:13px;margin-bottom:10px}
+.subh{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.subh span{font-size:10px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-family:sans-serif}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="sl" class="screen on">
+  <nav class="land-nav">
+    <div class="logo-wrap">
+      <div class="logo-mark">ك</div>
+      <div>
+        <div class="logo-ar">كحيلان <span>AI</span></div>
+        <div style="font-size:9px;color:var(--mu2);letter-spacing:2px;font-family:sans-serif;text-transform:uppercase">KUHAYLAN AI</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:22px;align-items:center">
+      <span style="font-size:13px;color:var(--mu);cursor:pointer" id="nl1">المميزات</span>
+      <span style="font-size:13px;color:var(--mu);cursor:pointer" id="nl2">الأسعار</span>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <div class="lang-pill">
+        <button class="lang-btn" onclick="setLang('en')" id="lben">EN</button>
+        <button class="lang-btn on" onclick="setLang('ar')" id="lbar">AR</button>
+      </div>
+      <button class="bg bsm" onclick="openAuth('login')" id="btn-nav-signin">دخول</button>
+      <button class="bp bsm" onclick="openAuth('signup')" id="btn-nav-start">ابدأ مجاناً</button>
+      <select id="cur-select" onchange="setCurrency(this.value)" style="background:var(--s2);border:1px solid var(--bd);color:var(--gold);border-radius:4px;padding:6px 10px;font-size:12px;font-family:sans-serif;cursor:pointer;outline:none">
+        <option value="USD">🇺🇸 USD</option>
+        <option value="SAR">🇸🇦 SAR</option>
+        <option value="AED">🇦🇪 AED</option>
+        <option value="QAR">🇶🇦 QAR</option>
+        <option value="KWD">🇰🇼 KWD</option>
+        <option value="BHD">🇧🇭 BHD</option>
+      </select>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,#04010A 0%,#0C0507 45%,#140309 75%,#1C050A 100%)"></div>
+    <div class="hero-top-line"></div>
+    <div class="hero-stars" id="stars"></div>
+    <div class="hero-moon"></div>
+    <div class="skyline-wrap">
+      <svg width="100%" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2E1318"/><stop offset="100%" stop-color="#0C0507"/></linearGradient>
+          <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3A1520"/><stop offset="100%" stop-color="#140809"/></linearGradient>
+          <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C0507" stop-opacity="0"/><stop offset="100%" stop-color="#0C0507" stop-opacity="1"/></linearGradient>
+        </defs>
+        <rect x="0" y="272" width="1400" height="28" fill="#140809"/>
+        <!-- DUBAI -->
+        <polygon points="195,272 192,165 194,110 196,55 198,8 200,55 202,110 204,165 207,272" fill="url(#bg2)"/>
+        <line x1="198" y1="8" x2="198" y2="0" stroke="#C8973A" stroke-width="1.5" opacity=".55"/>
+        <circle cx="198" cy="0" r="2" fill="#C8973A" opacity=".45"/>
+        <rect x="191" y="110" width="14" height="2" fill="#3A1520"/>
+        <rect x="192" y="165" width="12" height="2" fill="#3A1520"/>
+        <rect x="112" y="168" width="48" height="104" fill="url(#bg1)"/>
+        <rect x="92" y="198" width="32" height="74" fill="url(#bg2)"/>
+        <rect x="232" y="158" width="42" height="114" fill="url(#bg1)"/>
+        <rect x="280" y="188" width="32" height="84" fill="url(#bg2)"/>
+        <rect x="62" y="190" width="38" height="82" fill="url(#bg1)"/>
+        <path d="M42,272 L42,168 Q56,146 70,168 L70,272 Z" fill="url(#bg2)"/>
+        <rect x="322" y="200" width="26" height="72" fill="url(#bg1)"/>
+        <text x="198" y="265" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="#C8973A" opacity=".4" letter-spacing="3">DUBAI</text>
+        <!-- RIYADH -->
+        <path d="M490,272 L490,140 L492,122 L498,84 L502,46 L506,84 L512,122 L514,140 L514,272 Z" fill="url(#bg2)"/>
+        <ellipse cx="502" cy="75" rx="7" ry="13" fill="#140809" opacity=".5"/>
+        <line x1="502" y1="46" x2="502" y2="32" stroke="#C8973A" stroke-width="1.5" opacity=".5"/>
+        <polygon points="548,272 548,180 556,180 565,148 565,272" fill="url(#bg1)"/>
+        <polygon points="556,180 565,148 565,180" fill="#3A1520"/>
+        <polygon points="561,148 559,132 563,132" fill="#C8973A" opacity=".6"/>
+        <rect x="432" y="186" width="46" height="86" fill="url(#bg1)"/>
+        <rect x="578" y="172" width="38" height="100" fill="url(#bg2)"/>
+        <rect x="390" y="206" width="34" height="66" fill="url(#bg1)"/>
+        <rect x="623" y="194" width="28" height="78" fill="url(#bg2)"/>
+        <text x="502" y="265" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="#C8973A" opacity=".4" letter-spacing="2">RIYADH</text>
+        <!-- DOHA -->
+        <path d="M730,272 L730,112 Q740,98 750,112 L750,272 Z" fill="url(#bg1)"/>
+        <path d="M730,228 Q740,225 750,228" fill="none" stroke="#3A1520" stroke-width="1.2"/>
+        <path d="M730,178 Q740,175 750,178" fill="none" stroke="#3A1520" stroke-width="1.2"/>
+        <path d="M730,135 Q740,132 750,135" fill="none" stroke="#3A1520" stroke-width="1.2"/>
+        <rect x="768" y="145" width="14" height="127" fill="url(#bg2)"/>
+        <ellipse cx="775" cy="145" rx="9" ry="13" fill="#3A1520"/>
+        <line x1="775" y1="132" x2="775" y2="116" stroke="#C8973A" stroke-width="1.8" opacity=".7"/>
+        <ellipse cx="775" cy="115" rx="3" ry="4" fill="#C8973A" opacity=".4"/>
+        <rect x="680" y="180" width="36" height="92" fill="url(#bg1)"/>
+        <rect x="790" y="194" width="40" height="78" fill="url(#bg2)"/>
+        <rect x="840" y="175" width="30" height="97" fill="url(#bg1)"/>
+        <rect x="657" y="210" width="22" height="62" fill="url(#bg2)"/>
+        <text x="748" y="265" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="#C8973A" opacity=".4" letter-spacing="2">DOHA</text>
+        <!-- ABU DHABI -->
+        <rect x="980" y="132" width="24" height="140" fill="url(#bg2)"/>
+        <polygon points="992,132 985,115 992,98 999,115" fill="#3A1520"/>
+        <line x1="992" y1="98" x2="992" y2="83" stroke="#C8973A" stroke-width="1.5" opacity=".6"/>
+        <rect x="1036" y="150" width="17" height="122" fill="url(#bg1)"/>
+        <polygon points="1044,150 1040,141 1044,129 1048,141" fill="#2E1318"/>
+        <rect x="1060" y="166" width="16" height="106" fill="url(#bg2)"/>
+        <rect x="1083" y="182" width="16" height="90" fill="url(#bg1)"/>
+        <rect x="930" y="188" width="40" height="84" fill="url(#bg1)"/>
+        <rect x="1108" y="195" width="32" height="77" fill="url(#bg2)"/>
+        <rect x="1148" y="178" width="26" height="94" fill="url(#bg1)"/>
+        <rect x="1184" y="200" width="36" height="72" fill="url(#bg2)"/>
+        <rect x="1232" y="186" width="32" height="86" fill="url(#bg1)"/>
+        <rect x="1274" y="205" width="42" height="67" fill="url(#bg2)"/>
+        <rect x="1335" y="190" width="36" height="82" fill="url(#bg1)"/>
+        <text x="1048" y="265" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="#C8973A" opacity=".4" letter-spacing="1">ABU DHABI</text>
+        <rect x="0" y="0" width="1400" height="300" fill="url(#fade)"/>
+      </svg>
+    </div>
+
+    <div class="hero-content fu">
+      <div class="hero-badge"><span class="dot dotg"></span><span id="hb-txt">ذكاء اصطناعي · عربي وإنجليزي · 24/7</span></div>
+      <div class="hero-h1"><span id="h1a">وكيل المبيعات الذكي</span><br><span class="gold" id="h1b">للخليج العربي</span></div>
+      <div class="hero-en">KUHAYLAN AI</div>
+      <div class="hero-sub" id="hero-sub"><strong>ذكاء اصطناعي يبيع بدلاً عنك</strong> — يرد على كل مكالمة، يؤهل كل عميل، ويغلق المبيعات بالعربية والإنجليزية على مدار الساعة.</div>
+      <div class="hero-btns">
+        <button class="btn-hp" onclick="openAuth('signup')" id="btn-hero-p">← ابدأ مجاناً — أنشئ وكيلك الآن</button>
+        <button class="btn-hg" id="btn-hero-g">شاهد كيف يعمل</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-n">&lt;5</div><div class="hstat-l" id="hs1">دقائق للإعداد</div></div>
+        <div class="hstat"><div class="hstat-n">GPT-4</div><div class="hstat-l" id="hs2">مدعوم بـ</div></div>
+        <div class="hstat"><div class="hstat-n">عربي+EN</div><div class="hstat-l" id="hs3">ثنائي اللغة</div></div>
+        <div class="hstat"><div class="hstat-n">24/7</div><div class="hstat-l" id="hs4">متاح دائماً</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ornament"><div class="orn-line"></div><div class="orn-d2"></div><div class="orn-d"></div><div class="orn-d2"></div><div class="orn-line"></div></div>
+
+  <div class="section">
+    <div class="sec-header"><div class="sec-ar" id="feat-title">لماذا كحيلان؟</div><div class="sec-en">WHY KUHAYLAN</div></div>
+    <div class="feat-grid">
+      <div class="feat"><div class="feat-icon">🌐</div><div class="feat-title" id="f1t">فحص موقعك تلقائياً</div><div class="feat-desc" id="f1d">الصق رابط موقعك — يقرأ الذكاء الاصطناعي محتواه ويبني وكيلك تلقائياً في ثوانٍ.</div></div>
+      <div class="feat"><div class="feat-icon">📞</div><div class="feat-title" id="f2t">رقم هاتف حقيقي</div><div class="feat-desc" id="f2d">احصل على رقم مخصص. وكيلك يرد على كل مكالمة فوراً بالعربية أو الإنجليزية.</div></div>
+      <div class="feat"><div class="feat-icon">🗣️</div><div class="feat-title" id="f3t">عربي وإنجليزي</div><div class="feat-desc" id="f3d">يكتشف لغة العميل تلقائياً ويرد بشكل طبيعي وسلس بنفس اللغة.</div></div>
+      <div class="feat"><div class="feat-icon">📤</div><div class="feat-title" id="f4t">حملات الاتصال الصادر</div><div class="feat-desc" id="f4d">ارفع قائمة عملائك المحتملين. وكيلك يتصل بهم جميعاً تلقائياً.</div></div>
+      <div class="feat"><div class="feat-icon">📝</div><div class="feat-title" id="f5t">نصوص ومقاطع صوتية</div><div class="feat-desc" id="f5d">كل مكالمة مسجلة ومحولة إلى نص. راجع محادثاتك في أي وقت.</div></div>
+      <div class="feat"><div class="feat-icon">⚡</div><div class="feat-title" id="f6t">متاح دائماً 24/7</div><div class="feat-desc" id="f6d">وكيلك لا ينام، لا يأخذ إجازات، لا يفوته أي عميل.</div></div>
+    </div>
+  </div>
+
+  <div class="ornament"><div class="orn-line"></div><div class="orn-d2"></div><div class="orn-d"></div><div class="orn-d2"></div><div class="orn-line"></div></div>
+
+  <div class="pricing-wrap">
+    <div class="pricing-inner">
+      <div class="sec-header"><div class="sec-ar" id="price-title">أسعار شفافة وبسيطة</div><div class="sec-en">SIMPLE PRICING</div></div>
+      <div class="pricing-grid">
+        <div class="plan">
+          <div class="plan-name" id="pn1">مجاني</div>
+          <div class="plan-price"><span id="price-free">0</span><span id="cur-sym-free"></span><span id="per-mo-free">/mo</span></div>
+          <div class="plan-desc" id="pd1">جرّب بدون أي التزام</div>
+          <div class="plan-feats">
+            <div class="pf"><span class="pf-dot">✦</span><span id="pf11">وكيل AI واحد</span></div>
+            <div class="pf"><span class="pf-dot">✦</span><span id="pf12">50 مكالمة/شهر</span></div>
+            <div class="pf"><span class="pf-dot">✦</span><span id="pf13">عربي + إنجليزي</span></div>
+          </div>
+          <button class="plan-btn pbg" onclick="openAuth('signup')" id="pb1">ابدأ مجاناً</button>
+        </div>
+        <div class="plan featured">
+          <div class="plan-pop" id="pop-txt">الأكثر شعبية</div>
+          <div class="plan-name" id="pn2">المبتدئ</div>
+          <div class="plan-price"><span id="price-starter">49</span><span id="cur-sym-starter"></span><span id="per-mo-starter">/mo</span></div>
+          <div class="plan-desc" id="pd2">للشركات النامية</div>
+          <div class="plan-feats">
+            <div class="pf"><span class="pf-dot">✦</span><span id="pf21">3 وكلاء AI</span></div>
+            <div class="pf"><span class="pf-dot">✦</span><span id="pf22">500 دقيقة/شهر</span></div>
+            <div class="pf"><span class="pf-dot">✦</span><span id="pf23">حملات الاتصال الصادر</span></div>
+            <div class="pf"><span class="pf-dot">✦</span><span id="pf24">نصوص ومقاطع صوتية</span></div>
+          </div>
+          <button class="plan-btn pbp" onclick="subscribe('starter')" id="pb2">ابدأ الخطة ←</button>
+        </div>
+        <div class="plan">
+          <div class="plan-name" id="pn3">الاحترافي</div>
+          <div class="plan-price"><span id="price-pro">149</span><span id="cur-sym-pro"></span><span id="per-mo-pro">/mo</span></div>
+          <div class="plan-desc" id="pd3">للوكالات والمؤسسات</div>
+          <div class="plan-feats">
+            <div class="pf"><span class="pf-dot">✦</span><span id="pf31">10 وكلاء AI</span></div>
+            <div class="pf"><span class="pf-dot">✦</span><span id="pf32">2,000 دقيقة/شهر</span></div>
+            <div class="pf"><span class="pf-dot">✦</span><span id="pf33">كل ما في المبتدئ</span></div>
+            <div class="pf"><span class="pf-dot">✦</span><span id="pf34">دعم ذو أولوية</span></div>
+          </div>
+          <button class="plan-btn pbg" onclick="subscribe('pro')" id="pb3">ابدأ الخطة ←</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="logo-wrap">
+      <div class="logo-mark" style="width:30px;height:30px;font-size:14px">ك</div>
+      <div class="logo-ar" style="font-size:18px">كحيلان <span>AI</span></div>
+    </div>
+    <div style="font-size:13px;color:var(--mu2)" id="ft-tag">ذكاء اصطناعي يبيع بدلاً عنك</div>
+    <div style="font-size:11px;color:var(--mu2);font-family:sans-serif">© 2025 Kuhaylan AI</div>
+  </footer>
+</div>
+
+<!-- AUTH MODAL -->
+<div id="auth-overlay" class="overlay" style="display:none" onclick="if(event.target===this)closeAuth()">
+  <div class="modal fi">
+    <div class="mhead">
+      <div class="logo-wrap"><div class="logo-mark" style="width:30px;height:30px;font-size:14px">ك</div><div class="logo-ar" style="font-size:16px">كحيلان <span>AI</span></div></div>
+      <button onclick="closeAuth()" style="background:none;border:none;color:var(--mu);font-size:18px;cursor:pointer">✕</button>
+    </div>
+    <div class="mbody" id="auth-body"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app-screen" class="screen">
+  <div class="sidebar">
+    <div class="sb-head">
+      <div class="logo-wrap"><div class="logo-mark" style="width:30px;height:30px;font-size:14px">ك</div><div class="logo-ar" style="font-size:16px">كحيلان <span>AI</span></div></div>
+    </div>
+    <div class="sb-label" id="sb-lbl">وكلائي</div>
+    <div class="agent-list" id="agent-list"></div>
+    <div style="padding:10px 8px;border-top:1px solid var(--bd)">
+      <button class="bgold bsm" style="width:100%" onclick="showNewAgentModal()" id="btn-new">+ وكيل جديد</button>
+    </div>
+    <div class="sb-bottom">
+      <div class="plan-badge" id="plan-badge">الخطة المجانية</div>
+      <div class="lang-pill" style="justify-content:center">
+        <button class="lang-btn" onclick="setLang('en')" id="app-lben">EN</button>
+        <button class="lang-btn on" onclick="setLang('ar')" id="app-lbar">AR</button>
+      </div>
+      <button class="bg bsm" style="width:100%" onclick="openBillingPortal()" id="btn-billing">💳 إدارة الاشتراك</button>
+      <button class="bg bsm" style="width:100%" onclick="logout()" id="btn-logout">← خروج</button>
+    </div>
+  </div>
+  <div class="main-area">
+    <div class="tabbar">
+      <div style="display:flex">
+        <button class="tabbtn on" data-t="overview" onclick="switchTab('overview')" id="tab-ov">📊 نظرة عامة</button>
+        <button class="tabbtn" data-t="calls" onclick="switchTab('calls')" id="tab-ca">📞 المكالمات</button>
+        <button class="tabbtn" data-t="outbound" onclick="switchTab('outbound')" id="tab-ob">📤 الاتصال الصادر</button>
+        <button class="tabbtn" data-t="edit" onclick="switchTab('edit')" id="tab-ed">✏️ تعديل</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;padding-left:16px">
+        <span class="dot dotg"></span>
+        <span id="llbl" style="font-size:12px;color:var(--green);font-weight:700;font-family:sans-serif"></span>
+      </div>
+    </div>
+    <div class="tabcon">
+      <div class="panel on" id="po"></div>
+      <div class="panel" id="pc"></div>
+      <div class="panel" id="pb"></div>
+      <div class="panel" id="pe"></div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW AGENT MODAL -->
+<div id="agent-overlay" class="overlay" style="display:none" onclick="if(event.target===this)closeAgentModal()">
+  <div class="modal fi" style="max-width:560px">
+    <div class="mhead">
+      <h2 style="font-size:18px;font-weight:800" id="new-agent-title">🚀 إنشاء وكيل جديد</h2>
+      <button onclick="closeAgentModal()" style="background:none;border:none;color:var(--mu);font-size:18px;cursor:pointer">✕</button>
+    </div>
+    <div class="mbody" id="agent-modal-body"></div>
+  </div>
+</div>
+
+<script>
+var LANG=localStorage.getItem("vf_lang")||"ar";
+var TR={
+  ar:{navSign:"دخول",navStart:"ابدأ مجاناً",hbTxt:"ذكاء اصطناعي · عربي وإنجليزي · 24/7",h1a:"وكيل المبيعات الذكي",h1b:"للخليج العربي",heroSub:"<strong>ذكاء اصطناعي يبيع بدلاً عنك</strong> — يرد على كل مكالمة، يؤهل كل عميل، ويغلق المبيعات بالعربية والإنجليزية على مدار الساعة.",heroBtnP:"← ابدأ مجاناً — أنشئ وكيلك الآن",heroBtnG:"شاهد كيف يعمل",hs1:"دقائق للإعداد",hs2:"مدعوم بـ",hs3:"ثنائي اللغة",hs4:"متاح دائماً",featTitle:"لماذا كحيلان؟",f1t:"فحص موقعك تلقائياً",f1d:"الصق رابط موقعك — يقرأ الذكاء الاصطناعي محتواه ويبني وكيلك تلقائياً في ثوانٍ.",f2t:"رقم هاتف حقيقي",f2d:"احصل على رقم مخصص. وكيلك يرد على كل مكالمة فوراً بالعربية أو الإنجليزية.",f3t:"عربي وإنجليزي",f3d:"يكتشف لغة العميل تلقائياً ويرد بشكل طبيعي وسلس بنفس اللغة.",f4t:"حملات الاتصال الصادر",f4d:"ارفع قائمة عملائك المحتملين. وكيلك يتصل بهم جميعاً تلقائياً.",f5t:"نصوص ومقاطع صوتية",f5d:"كل مكالمة مسجلة ومحولة إلى نص. راجع محادثاتك في أي وقت.",f6t:"متاح دائماً 24/7",f6d:"وكيلك لا ينام، لا يأخذ إجازات، لا يفوته أي عميل.",priceTitle:"أسعار شفافة وبسيطة",popTxt:"الأكثر شعبية",pn1:"مجاني",pd1:"جرّب بدون أي التزام",pf11:"وكيل AI واحد",pf12:"50 مكالمة/شهر",pf13:"عربي + إنجليزي",pb1:"ابدأ مجاناً",pn2:"المبتدئ",pd2:"للشركات النامية",pf21:"3 وكلاء AI",pf22:"500 دقيقة/شهر",pf23:"حملات الاتصال الصادر",pf24:"نصوص ومقاطع صوتية",pb2:"ابدأ الخطة ←",pn3:"الاحترافي",pd3:"للوكالات والمؤسسات",pf31:"10 وكلاء AI",pf32:"2,000 دقيقة/شهر",pf33:"كل ما في المبتدئ",pf34:"دعم ذو أولوية",pb3:"ابدأ الخطة ←",ftTag:"ذكاء اصطناعي يبيع بدلاً عنك",nl1:"المميزات",nl2:"الأسعار",sbLbl:"وكلائي",btnNew:"+ وكيل جديد",btnBilling:"💳 إدارة الاشتراك",btnLogout:"← خروج",tabOv:"📊 نظرة عامة",tabCa:"📞 المكالمات",tabOb:"📤 الاتصال الصادر",tabEd:"✏️ تعديل",freePlan:"الخطة المجانية",starterPlan:"خطة المبتدئ",proPlan:"الخطة الاحترافية",agentMax:" وكلاء",authSignup:"إنشاء حساب",authLogin:"تسجيل الدخول",nameLbl:"الاسم الكامل",emailLbl:"البريد الإلكتروني",passLbl:"كلمة المرور",signupBtn:"إنشاء الحساب →",loginBtn:"تسجيل الدخول →",haveAcc:"لديك حساب؟",signInLnk:"سجّل الدخول",noAcc:"ليس لديك حساب؟",createLnk:"أنشئ واحداً مجاناً",phoneLabel:"رقم المبيعات الذكي",shareNote:"شارك هذا الرقم — وكيلك يرد على كل مكالمة",copyBtn:"📋 نسخ",totalCalls:"إجمالي المكالمات",completed:"مكتملة",talkTime:"وقت الحديث",agentLbl:"الوكيل",recentCalls:"📋 آخر المكالمات",noCalls:"لا مكالمات بعد. شارك رقمك!",refresh:"↻ تحديث",callLog:"📞 سجل المكالمات",transcript:"📝 النص",closeBtn:"✕ إغلاق",recording:"التسجيل",aiSummary:"ملخص AI",conversation:"المحادثة",outboundTitle:"📤 حملة الاتصال الصادر",outboundSub:"وكيلك يتصل بكل رقم تلقائياً.",numbersLbl:"أرقام الهاتف للاتصال",numDetected:" أرقام",launchCamp:"🚀 إطلاق الحملة",stopCamp:"■ إيقاف",campResults:"نتائج الحملة",editTitle:"✏️ تعديل الوكيل",editSub:"التغييرات تُطبَّق فوراً.",saveBtn:"💾 حفظ",savedMsg:"✓ تم الحفظ!",idSection:"🎭 الهوية والصوت",scriptSection:"📋 السكريبتات",openingLbl:"سكريبت الفتح",closingLbl:"سكريبت الإغلاق",agentNameLbl:"اسم الوكيل",bizNameLbl:"اسم الشركة",greetLbl:"الترحيب (إنجليزي)",greetArLbl:"الترحيب (عربي)",voiceLbl:"الصوت",langLbl:"لغة الوكيل",productsLbl:"المنتجات",addProd:"+ إضافة منتج",removeBtn:"حذف",newAgentTitle:"🚀 إنشاء وكيل جديد",createAgentBtn:"🚀 إنشاء الوكيل والحصول على رقم",creatingMsg:"جاري الإنشاء...",emptyTitle:"أنشئ أول وكيل ذكاء اصطناعي",emptySub:"صف عملك واحصل على رقم هاتف يرد عليه وكيلك 24/7.",createFirstBtn:"🚀 إنشاء أول وكيل ←",limitErr:"وصلت إلى الحد الأقصى. قم بترقية خطتك.",industryLbl:"القطاع",areaCodeLbl:"رمز المنطقة"},
+  en:{navSign:"Sign In",navStart:"Get Started",hbTxt:"AI Sales Agent · Arabic & English · 24/7",h1a:"Your AI Sales Agent",h1b:"For The Gulf",heroSub:"<strong>AI that sells for you</strong> — answers every call, qualifies every lead, closes sales in Arabic & English, around the clock.",heroBtnP:"Build My Agent Free →",heroBtnG:"See How It Works",hs1:"Minutes Setup",hs2:"Powered By",hs3:"Bilingual",hs4:"Always Live",featTitle:"Why Kuhaylan?",f1t:"Scan Your Website",f1d:"Paste your URL — AI reads your content and builds your agent automatically in seconds.",f2t:"Real Phone Number",f2d:"Get a dedicated number. Your agent answers every call instantly in Arabic or English.",f3t:"Arabic & English",f3d:"Detects the customer's language and responds naturally in the same language.",f4t:"Outbound Campaigns",f4d:"Upload your lead list. Your agent calls them all automatically one by one.",f5t:"Full Transcripts",f5d:"Every call recorded and transcribed. Review conversations any time.",f6t:"Always On 24/7",f6d:"Your agent never sleeps, never takes days off, never misses a lead.",priceTitle:"Simple Transparent Pricing",popTxt:"Most Popular",pn1:"Free",pd1:"Try with no commitment",pf11:"1 AI agent",pf12:"50 calls/month",pf13:"Arabic + English",pb1:"Get Started Free",pn2:"Starter",pd2:"For growing businesses",pf21:"3 AI agents",pf22:"500 min/month",pf23:"Outbound campaigns",pf24:"Transcripts & recordings",pb2:"Start Starter →",pn3:"Pro",pd3:"For agencies & enterprises",pf31:"10 AI agents",pf32:"2,000 min/month",pf33:"Everything in Starter",pf34:"Priority support",pb3:"Start Pro →",ftTag:"AI That Sells For You",nl1:"Features",nl2:"Pricing",sbLbl:"My Agents",btnNew:"+ New Agent",btnBilling:"💳 Manage Plan",btnLogout:"← Sign Out",tabOv:"📊 Overview",tabCa:"📞 Calls",tabOb:"📤 Outbound",tabEd:"✏️ Edit",freePlan:"Free Plan",starterPlan:"Starter Plan",proPlan:"Pro Plan",agentMax:" agents",authSignup:"Create Account",authLogin:"Sign In",nameLbl:"Full Name",emailLbl:"Email",passLbl:"Password",signupBtn:"Create Account →",loginBtn:"Sign In →",haveAcc:"Already have an account?",signInLnk:"Sign in",noAcc:"No account yet?",createLnk:"Create one free",phoneLabel:"Your AI Sales Number",shareNote:"Share this number — your agent answers every call",copyBtn:"📋 Copy",totalCalls:"Total Calls",completed:"Completed",talkTime:"Talk Time",agentLbl:"Agent",recentCalls:"📋 Recent Calls",noCalls:"No calls yet. Share your number!",refresh:"↻ Refresh",callLog:"📞 Call Log",transcript:"📝 Transcript",closeBtn:"✕ Close",recording:"Recording",aiSummary:"AI Summary",conversation:"Conversation",outboundTitle:"📤 Outbound Campaign",outboundSub:"Your agent calls each number automatically.",numbersLbl:"Phone Numbers to Call",numDetected:" numbers",launchCamp:"🚀 Launch Campaign",stopCamp:"■ Stop",campResults:"Campaign Results",editTitle:"✏️ Edit Agent",editSub:"Changes go live instantly.",saveBtn:"💾 Save",savedMsg:"✓ Saved!",idSection:"🎭 Identity & Voice",scriptSection:"📋 Scripts",openingLbl:"Opening Script",closingLbl:"Closing Script",agentNameLbl:"Agent Name",bizNameLbl:"Business Name",greetLbl:"Greeting (English)",greetArLbl:"Greeting (Arabic)",voiceLbl:"Voice",langLbl:"Agent Language",productsLbl:"Products",addProd:"+ Add Product",removeBtn:"Remove",newAgentTitle:"🚀 Create New Agent",createAgentBtn:"🚀 Create Agent & Get Phone Number",creatingMsg:"Creating...",emptyTitle:"Create your first AI agent",emptySub:"Describe your business and get a real phone number answered by your AI agent 24/7.",createFirstBtn:"🚀 Create My First Agent →",limitErr:"Agent limit reached. Upgrade your plan.",industryLbl:"Industry",areaCodeLbl:"Area Code"}
+};
+function t(k){return(TR[LANG]||TR.ar)[k]||k;}
+function setLang(l){
+  LANG=l;localStorage.setItem("vf_lang",l);
+  document.documentElement.lang=l;document.documentElement.dir=l==="ar"?"rtl":"ltr";
+  var map={"hb-txt":"hbTxt","h1a":"h1a","h1b":"h1b","btn-hero-p":"heroBtnP","btn-hero-g":"heroBtnG","hs1":"hs1","hs2":"hs2","hs3":"hs3","hs4":"hs4","feat-title":"featTitle","f1t":"f1t","f1d":"f1d","f2t":"f2t","f2d":"f2d","f3t":"f3t","f3d":"f3d","f4t":"f4t","f4d":"f4d","f5t":"f5t","f5d":"f5d","f6t":"f6t","f6d":"f6d","price-title":"priceTitle","pop-txt":"popTxt","pn1":"pn1","pd1":"pd1","pf11":"pf11","pf12":"pf12","pf13":"pf13","pb1":"pb1","pn2":"pn2","pd2":"pd2","pf21":"pf21","pf22":"pf22","pf23":"pf23","pf24":"pf24","pb2":"pb2","pn3":"pn3","pd3":"pd3","pf31":"pf31","pf32":"pf32","pf33":"pf33","pf34":"pf34","pb3":"pb3","ft-tag":"ftTag","nl1":"nl1","nl2":"nl2","btn-nav-signin":"navSign","btn-nav-start":"navStart","sb-lbl":"sbLbl","btn-new":"btnNew","btn-billing":"btnBilling","btn-logout":"btnLogout","tab-ov":"tabOv","tab-ca":"tabCa","tab-ob":"tabOb","tab-ed":"tabEd"};
+  Object.entries(map).forEach(([id,k])=>{var el=document.getElementById(id);if(el){if(k==="heroSub")el.innerHTML=t("heroSub");else el.textContent=t(k);}});
+  var hs=document.getElementById("hero-sub");if(hs)hs.innerHTML=t("heroSub");
+  document.querySelectorAll(".lang-btn").forEach(b=>b.classList.toggle("on",b.textContent.trim()===l.toUpperCase()));
+  setCurrency(CUR);
+  if(token)api("/auth/me","PUT",{lang:l}).catch(()=>{});
+}
+var token=localStorage.getItem("vf_token")||null,user=null,agents=[],selIdx=0,stopOB=false;
+async function api(path,method,body){
+  var opts={method:method||"GET",headers:{"Content-Type":"application/json"}};
+  if(token)opts.headers["Authorization"]="Bearer "+token;
+  if(body)opts.body=JSON.stringify(body);
+  var r=await fetch("/api"+path,opts),d=await r.json();
+  if(!r.ok)throw new Error(d.error||"Request failed");
+  return d;
+}
+(async function init(){
+  setLang(LANG);
+  if(!token)return;
+  try{var data=await api("/auth/me");user=data.user;LANG=user.lang||LANG;setLang(LANG);showApp();}
+  catch{token=null;localStorage.removeItem("vf_token");}
+})();
+var authMode="login";
+function openAuth(mode){authMode=mode;document.getElementById("auth-overlay").style.display="flex";renderAuth();}
+function closeAuth(){document.getElementById("auth-overlay").style.display="none";}
+function renderAuth(){
+  var isUp=authMode==="signup";
+  document.getElementById("auth-body").innerHTML=
+  '<h2 style="font-size:18px;font-weight:800;margin-bottom:16px">'+t(isUp?"authSignup":"authLogin")+'</h2>'+
+  '<div id="ae" style="display:none;margin-bottom:12px"></div>'+
+  (isUp?'<div class="fld"><label class="lbl">'+t("nameLbl")+'</label><input id="an" autocomplete="name"></div>':"")+
+  '<div class="fld"><label class="lbl">'+t("emailLbl")+'</label><input id="ae2" type="email" autocomplete="email"></div>'+
+  '<div class="fld"><label class="lbl">'+t("passLbl")+'</label><input id="ap" type="password"></div>'+
+  '<button class="bp" id="ab" style="width:100%;padding:13px;font-size:15px;margin-bottom:12px" onclick="submitAuth()">'+t(isUp?"signupBtn":"loginBtn")+'</button>'+
+  '<p style="text-align:center;font-size:13px;color:var(--mu)">'+
+  (isUp?t("haveAcc")+' <a href="#" onclick="openAuth(\'login\');return false" style="color:var(--gold)">'+t("signInLnk")+'</a>':t("noAcc")+' <a href="#" onclick="openAuth(\'signup\');return false" style="color:var(--gold)">'+t("createLnk")+'</a>')+'</p>';
+  setTimeout(()=>(document.getElementById("an")||document.getElementById("ae2"))?.focus(),80);
+}
+async function submitAuth(){
+  var btn=document.getElementById("ab"),err=document.getElementById("ae");
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';err.style.display="none";
+  try{
+    var email=document.getElementById("ae2")?.value?.trim(),pass=document.getElementById("ap")?.value,name=document.getElementById("an")?.value?.trim();
+    var data=await api(authMode==="signup"?"/auth/signup":"/auth/login","POST",authMode==="signup"?{name,email,password:pass}:{email,password:pass});
+    token=data.token;user=data.user;localStorage.setItem("vf_token",token);closeAuth();showApp();
+  }catch(e){err.innerHTML='<div class="err">⚠️ '+x(e.message)+'</div>';err.style.display="block";btn.disabled=false;btn.textContent=t(authMode==="signup"?"signupBtn":"loginBtn");}
+}
+async function subscribe(plan){if(!user){openAuth("signup");return;}try{var d=await api("/billing/checkout","POST",{plan});window.location.href=d.url;}catch(e){alert("Error: "+e.message);}}
+async function openBillingPortal(){try{var d=await api("/billing/portal","POST");window.open(d.url,"_blank");}catch{alert("Subscribe to a plan first.");}}
+async function showApp(){
+  document.querySelectorAll(".screen").forEach(s=>{s.classList.remove("on");s.style.display="";});
+  var el=document.getElementById("app-screen");el.style.display="flex";el.classList.add("on");
+  var planLabels={free:t("freePlan"),starter:t("starterPlan"),pro:t("proPlan")};
+  var badge=document.getElementById("plan-badge");
+  if(badge&&user)badge.textContent=(planLabels[user.plan]||t("freePlan"))+" · "+(user.agentLimit||1)+t("agentMax");
+  await loadAgents();
+}
+async function loadAgents(){try{agents=await api("/agents");renderSidebar();agents.length?renderActiveTab():renderEmpty();}catch(e){console.error(e);}}
+function logout(){token=null;user=null;agents=[];localStorage.removeItem("vf_token");document.querySelectorAll(".screen").forEach(s=>{s.classList.remove("on");s.style.display="";});document.getElementById("sl").classList.add("on");}
+var COLORS=["#8B1A2B","#C8973A","#5C0F1C","#9A7020","#B52239","#7A5010"];
+function renderSidebar(){
+  document.getElementById("agent-list").innerHTML=agents.map((ag,i)=>
+    '<div class="aitem'+(i===selIdx?" on":"")+ '" onclick="selAgent('+i+')">' +
+    '<div style="width:28px;height:28px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;background:'+COLORS[i%COLORS.length]+'">'+
+    (ag.agentName||"و")[0]+'</div>'+
+    '<div style="min-width:0"><div style="font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:'+(i===selIdx?"var(--tx)":"var(--mu)")+'">'+x(ag.agentName)+'</div>'+
+    '<div style="font-size:10px;color:var(--mu2);font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+x(ag.phoneNumber||"—")+'</div></div></div>'
+  ).join("");
+  var lbl=document.getElementById("llbl");if(lbl)lbl.textContent=(agents[selIdx]?.agentName||"")+" — Live";
+}
+function selAgent(i){selIdx=i;renderSidebar();renderActiveTab();}
+function switchTab(t2){document.querySelectorAll(".tabbtn").forEach(b=>b.classList.toggle("on",b.dataset.t===t2));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id==="p"+t2[0]));renderTab(t2);}
+function renderActiveTab(){var p=document.querySelector(".panel.on");renderTab(p?({po:"overview",pc:"calls",pb:"outbound",pe:"edit"}[p.id]||"overview"):"overview");}
+function renderTab(t2){if(t2==="overview")renderOverview();else if(t2==="calls")renderCalls();else if(t2==="outbound")renderOutbound();else if(t2==="edit")renderEdit();}
+function renderEmpty(){document.getElementById("po").innerHTML='<div style="text-align:center;padding:80px 32px"><div style="font-size:52px;margin-bottom:16px">📞</div><h2 style="font-size:22px;font-weight:800;margin-bottom:8px">'+t("emptyTitle")+'</h2><p style="color:var(--mu);font-size:14px;margin-bottom:28px;max-width:360px;margin-left:auto;margin-right:auto">'+t("emptySub")+'</p><button class="bgold" onclick="showNewAgentModal()" style="font-size:15px;padding:14px 36px">'+t("createFirstBtn")+'</button></div>';}
+async function renderOverview(){
+  var ag=agents[selIdx];if(!ag)return renderEmpty();
+  var el=document.getElementById("po");
+  el.innerHTML='<div style="background:linear-gradient(135deg,rgba(139,26,43,.12),rgba(200,151,58,.05));border:1px solid rgba(200,151,58,.22);border-radius:12px;padding:36px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div><p style="font-size:10px;color:var(--mu);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-family:sans-serif">'+t("phoneLabel")+'</p><div style="font-size:clamp(22px,4vw,42px);font-weight:800;letter-spacing:4px;color:var(--gold-l);margin-bottom:12px;word-break:break-all;font-family:sans-serif">'+x(ag.phoneNumber||"—")+'</div><p style="font-size:14px;color:var(--mu);max-width:380px;margin:0 auto 18px">'+t("shareNote")+' <strong style="color:var(--tx)">'+x(ag.agentName)+'</strong></p><button class="bg bsm" onclick="copyNum(\''+x(ag.phoneNumber||"")+'\')">'+t("copyBtn")+'</button></div>'+
+  '<div class="g4" style="margin-bottom:20px"><div class="card"><div style="font-size:20px;margin-bottom:8px">📞</div><div id="otc" style="font-size:22px;font-weight:800;font-family:sans-serif">—</div><div style="font-size:11px;color:var(--mu);margin-top:3px;font-family:sans-serif">'+t("totalCalls")+'</div></div><div class="card"><div style="font-size:20px;margin-bottom:8px">✅</div><div id="ocp" style="font-size:22px;font-weight:800;font-family:sans-serif">—</div><div style="font-size:11px;color:var(--mu);margin-top:3px;font-family:sans-serif">'+t("completed")+'</div></div><div class="card"><div style="font-size:20px;margin-bottom:8px">⏱️</div><div id="ott" style="font-size:22px;font-weight:800;font-family:sans-serif">—</div><div style="font-size:11px;color:var(--mu);margin-top:3px;font-family:sans-serif">'+t("talkTime")+'</div></div><div class="card"><div style="font-size:20px;margin-bottom:8px">🤖</div><div style="font-size:16px;font-weight:800">'+x(ag.agentName||"—")+'</div><div style="font-size:11px;color:var(--mu);margin-top:3px;font-family:sans-serif">'+t("agentLbl")+'</div></div></div>'+
+  '<div class="card"><p style="font-size:15px;font-weight:700;margin-bottom:14px">'+t("recentCalls")+'</p><div id="orcl"><div style="display:flex;align-items:center;gap:8px;padding:16px 0;color:var(--mu);font-size:13px"><span class="spinner" style="width:14px;height:14px"></span></div></div></div>';
+  try{
+    var calls=await api("/agents/"+ag.id+"/calls"),arr=Array.isArray(calls)?calls:(calls?.calls||[]);
+    var ended=arr.filter(c=>c.status==="ended"||c.status==="completed").length,secs=arr.reduce((s,c)=>s+(c.duration||0),0);
+    var tc=document.getElementById("otc"),cp=document.getElementById("ocp"),tt=document.getElementById("ott");
+    if(tc)tc.textContent=arr.length;if(cp)cp.textContent=ended;if(tt)tt.textContent=fmtD(secs);
+    var rc=document.getElementById("orcl");if(!rc)return;
+    if(!arr.length){rc.innerHTML='<div style="text-align:center;padding:32px;color:var(--mu)"><div style="font-size:32px;margin-bottom:8px">📵</div><p>'+t("noCalls")+'</p></div>';return;}
+    rc.innerHTML=arr.slice(0,6).map(crh).join("");
+  }catch(e){var rc=document.getElementById("orcl");if(rc)rc.innerHTML='<p style="font-size:13px;color:var(--mu);padding:12px">'+x(e.message)+'</p>';}
+}
+function copyNum(num){if(navigator.clipboard)navigator.clipboard.writeText(num).then(()=>alert("✓ Copied!"));else{var ta=document.createElement("textarea");ta.value=num;document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta);alert("Copied!");}}
+async function renderCalls(){
+  var ag=agents[selIdx];if(!ag)return;
+  document.getElementById("pc").innerHTML='<div style="display:flex;gap:18px;height:calc(100vh - 132px)"><div style="flex:1;overflow:auto;min-width:0"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h2 style="font-size:18px;font-weight:800">'+t("callLog")+'</h2><button class="bg bsm" onclick="renderCalls()">'+t("refresh")+'</button></div><div id="clin"><div style="display:flex;align-items:center;gap:8px;padding:18px 0;color:var(--mu);font-size:13px"><span class="spinner" style="width:14px;height:14px"></span></div></div></div><div id="tpan" style="display:none" class="tpanel"></div></div>';
+  try{
+    var calls=await api("/agents/"+ag.id+"/calls"),arr=Array.isArray(calls)?calls:(calls?.calls||[]);
+    var inner=document.getElementById("clin");if(!inner)return;
+    if(!arr.length){inner.innerHTML='<div style="text-align:center;padding:40px;color:var(--mu)"><div style="font-size:36px;margin-bottom:10px">📵</div><p>'+t("noCalls")+'</p></div>';return;}
+    inner.innerHTML='<div class="card" style="padding:0;overflow:hidden">'+arr.map(c=>'<div class="crow" onclick="openCall(\''+c.id+'\')">'+crh(c)+'</div>').join("")+'</div>';
+  }catch(e){var inner=document.getElementById("clin");if(inner)inner.innerHTML='<p style="font-size:13px;color:var(--mu);padding:16px">'+x(e.message)+'</p>';}
+}
+async function openCall(callId){
+  var ag=agents[selIdx],pane=document.getElementById("tpan");if(!pane)return;
+  pane.style.display="flex";pane.style.flexDirection="column";
+  pane.innerHTML='<div style="padding:13px 16px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;flex-shrink:0"><h3 style="font-size:14px;font-weight:800">'+t("transcript")+'</h3><button class="bg bsm" onclick="document.getElementById(\'tpan\').style.display=\'none\'">'+t("closeBtn")+'</button></div><div style="flex:1;overflow:auto;padding:16px;display:flex;align-items:center;justify-content:center"><span class="spinner"></span></div>';
+  try{
+    var d=await api("/agents/"+ag.id+"/calls/"+callId);
+    var h='<div style="background:var(--s2);border-radius:8px;padding:12px;margin-bottom:14px">'+mr("Status",stag(d.status))+mr("Duration",fmtD(d.duration))+mr("Caller",d.customer?.number||"—")+mr("Started",fmtT(d.startedAt))+(d.cost?mr("Cost","$"+Number(d.cost).toFixed(4)):"")+'</div>';
+    if(d.recordingUrl)h+='<div style="margin-bottom:14px"><p class="lbl">'+t("recording")+'</p><audio controls src="'+x(d.recordingUrl)+'" style="width:100%;border-radius:6px"></audio></div>';
+    if(d.summary)h+='<div style="background:rgba(200,151,58,.06);border:1px solid rgba(200,151,58,.15);border-radius:8px;padding:12px;margin-bottom:14px;font-size:13px;line-height:1.6"><p class="lbl" style="margin-bottom:6px">'+t("aiSummary")+'</p>'+x(d.summary)+'</div>';
+    h+='<p class="lbl" style="margin-bottom:8px">'+t("conversation")+'</p>';
+    var msgs=(d.messages||[]).filter(m=>m.role&&m.message);
+    if(msgs.length){h+='<div style="display:flex;flex-direction:column;gap:8px">'+msgs.map(m=>'<div style="display:flex;justify-content:'+(m.role==="bot"?"flex-start":"flex-end")+'"><div style="max-width:87%;padding:9px 13px;border-radius:10px;font-size:13px;line-height:1.5;background:'+(m.role==="bot"?"var(--s3);border:1px solid var(--bd)":"rgba(139,26,43,.15);border:1px solid rgba(200,151,58,.2)")+'"><div style="font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:3px;color:var(--mu);font-family:sans-serif">'+(m.role==="bot"?"🤖 Agent":"👤 Customer")+'</div>'+x(m.message)+'</div></div>').join("")+'</div>';}
+    else if(d.transcript)h+='<div style="font-size:13px;color:var(--mu);line-height:1.8;white-space:pre-wrap">'+x(d.transcript)+'</div>';
+    else h+='<p style="font-size:13px;color:var(--mu2)">Transcript not available yet.</p>';
+    pane.innerHTML='<div style="padding:13px 16px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;flex-shrink:0"><h3 style="font-size:14px;font-weight:800">'+t("transcript")+'</h3><button class="bg bsm" onclick="document.getElementById(\'tpan\').style.display=\'none\'">'+t("closeBtn")+'</button></div><div style="flex:1;overflow:auto;padding:16px">'+h+'</div>';
+  }catch(e){pane.innerHTML='<div style="padding:16px"><p style="font-size:13px;color:var(--mu)">'+x(e.message)+'</p></div>';}
+}
+var obc=[];
+function renderOutbound(){
+  var ag=agents[selIdx];
+  document.getElementById("pb").innerHTML='<div class="fi" style="max-width:800px"><h2 style="font-size:18px;font-weight:800;margin-bottom:6px">'+t("outboundTitle")+'</h2><p style="font-size:13px;color:var(--mu);margin-bottom:20px">'+t("outboundSub")+'</p><div class="card" style="margin-bottom:18px"><div class="fld"><label class="lbl">'+t("numbersLbl")+'</label><textarea id="obn" rows="7" placeholder="+14155551234&#10;+971501234567" style="font-family:monospace;font-size:13px" oninput="document.getElementById(\'nct\').textContent=this.value.split(/[\\n,;]/).map(s=>s.trim()).filter(s=>s.length>=7).length+\''+t("numDetected")+'\'"></textarea><p style="font-size:11px;color:var(--mu);margin-top:6px;font-family:sans-serif" id="nct">0'+t("numDetected")+'</p></div><div id="oberr" style="display:none"></div><div style="display:flex;gap:10px;align-items:center"><button class="bp" id="obbtn" onclick="lcamp()" style="flex:1;padding:12px">'+t("launchCamp")+'</button><button class="bdanger bsm" id="obstop" onclick="stopOB=true" style="display:none">'+t("stopCamp")+'</button></div></div><div id="obres"></div></div>';
+}
+async function lcamp(){
+  var ag=agents[selIdx],ta=document.getElementById("obn"),err=document.getElementById("oberr"),btn=document.getElementById("obbtn"),stp=document.getElementById("obstop");
+  var nums=(ta.value||"").split(/[\n,;]/).map(n=>n.trim().replace(/[\s()\-]/g,"")).filter(n=>n.length>=7);
+  if(!nums.length){err.innerHTML='<div class="err">Enter at least one valid number.</div>';err.style.display="block";return;}
+  err.style.display="none";stopOB=false;obc=nums.map(n=>({number:n,status:"pending",callId:null,em:null}));
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';stp.style.display="inline-flex";
+  var sc={pending:"var(--mu)",calling:"var(--gold)",launched:"var(--green)",failed:"var(--red)"},si={pending:"⏳",calling:"📞",launched:"✅",failed:"❌"};
+  function rend(){var counts=["launched","calling","pending","failed"].map(s=>'<span style="color:'+sc[s]+';font-size:12px;font-family:sans-serif">'+si[s]+" "+obc.filter(c=>c.status===s).length+" "+s+'</span>').join("&nbsp;&nbsp;");var rows=obc.map((c,i)=>'<div style="padding:10px 16px;'+(i<obc.length-1?"border-bottom:1px solid var(--bd)":"")+';display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-family:monospace;font-size:12px">'+x(c.number)+'</span><div style="display:flex;align-items:center;gap:8px;font-family:sans-serif"><span style="color:'+sc[c.status]+';font-weight:700;font-size:12px">'+si[c.status]+" "+c.status+'</span>'+(c.em?'<span style="font-size:11px;color:var(--red)">'+x(c.em)+'</span>':"")+' </div></div>').join("");var r=document.getElementById("obres");if(r)r.innerHTML='<div class="card" style="padding:0;overflow:hidden"><div style="padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center"><p style="font-size:14px;font-weight:700">'+t("campResults")+'</p><div style="display:flex;gap:12px">'+counts+'</div></div>'+rows+'</div>';}
+  async function run(i){if(i>=obc.length||stopOB){if(btn){btn.disabled=false;btn.innerHTML=t("launchCamp");}if(stp)stp.style.display="none";return;}obc[i].status="calling";rend();try{var result=await api("/agents/"+ag.id+"/outbound","POST",{toNumber:obc[i].number});obc[i].status="launched";obc[i].callId=result.callId||null;}catch(e){obc[i].status="failed";obc[i].em=e.message;}rend();await new Promise(r=>setTimeout(r,700));run(i+1);}
+  rend();run(0);
+}
+var editVoice=null;
+function renderEdit(){
+  var ag=agents[selIdx];if(!ag)return;
+  var VS=[{id:"nova",l:"Nova",d:"Warm"},{id:"alloy",l:"Alloy",d:"Neutral"},{id:"echo",l:"Echo",d:"Deep"},{id:"shimmer",l:"Shimmer",d:"Soft"},{id:"onyx",l:"Onyx",d:"Auth."},{id:"fable",l:"Fable",d:"Expr."}];
+  var LANGS=[{id:"en",l:"English only"},{id:"ar",l:"Arabic only"},{id:"both",l:"Both / كليهما"}];
+  editVoice=ag.voice||"nova";
+  var vh=VS.map(v=>'<div id="ev-'+v.id+'" style="padding:9px;border-radius:7px;cursor:pointer;border:1.5px solid '+(ag.voice===v.id?"var(--gold)":"var(--bd)")+';background:'+(ag.voice===v.id?"rgba(200,151,58,.08)":"var(--s2)")+'" onclick="setEV(\''+v.id+'\')">' +
+    '<div style="font-weight:700;font-size:12px;font-family:sans-serif">'+v.l+'</div><div style="font-size:11px;color:var(--mu);font-family:sans-serif">'+v.d+'</div></div>').join("");
+  document.getElementById("pe").innerHTML='<div class="fi" style="max-width:640px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:10px"><div><h2 style="font-size:18px;font-weight:800;margin-bottom:3px">'+t("editTitle")+'</h2><p style="font-size:13px;color:var(--mu)">'+t("editSub")+'</p></div><div style="display:flex;gap:8px;align-items:center"><span id="sms" style="display:none;font-size:13px;color:var(--green);font-weight:700">'+t("savedMsg")+'</span><button class="bp" id="sbtn" onclick="saveAgent()" style="padding:10px 22px">'+t("saveBtn")+'</button></div></div><div id="serr" style="display:none;margin-bottom:14px"></div><div class="card" style="margin-bottom:14px"><p style="font-size:14px;font-weight:700;margin-bottom:14px">'+t("idSection")+'</p><div class="g2"><div class="fld"><label class="lbl">'+t("agentNameLbl")+'</label><input id="e-an" value="'+x(ag.agentName||"")+'"></div><div class="fld"><label class="lbl">'+t("bizNameLbl")+'</label><input id="e-bn" value="'+x(ag.businessName||"")+'"></div></div><div class="fld"><label class="lbl">'+t("greetLbl")+'</label><textarea id="e-gr" rows="2">'+x(ag.greeting||"")+'</textarea></div><div class="fld"><label class="lbl">'+t("greetArLbl")+'</label><textarea id="e-grar" rows="2" dir="rtl">'+x(ag.greetingAr||"")+'</textarea></div><div class="fld"><label class="lbl">'+t("langLbl")+'</label><select id="e-lang">'+LANGS.map(l=>'<option value="'+l.id+'"'+(ag.language===l.id?" selected":"")+'>'+l.l+'</option>').join("")+'</select></div><div class="fld" style="margin-bottom:0"><label class="lbl">'+t("voiceLbl")+'</label><div class="g3">'+vh+'</div></div></div><div class="card"><p style="font-size:14px;font-weight:700;margin-bottom:14px">'+t("scriptSection")+'</p><div class="fld"><label class="lbl">'+t("openingLbl")+'</label><textarea id="e-op" rows="2">'+x(ag.scripts?.opening||"")+'</textarea></div><div class="fld" style="margin-bottom:0"><label class="lbl">'+t("closingLbl")+'</label><textarea id="e-cl" rows="2">'+x(ag.scripts?.closing||"")+'</textarea></div></div></div>';
+}
+function setEV(id){editVoice=id;["nova","alloy","echo","shimmer","onyx","fable"].forEach(v=>{var el=document.getElementById("ev-"+v);if(el){el.style.borderColor=v===id?"var(--gold)":"var(--bd)";el.style.background=v===id?"rgba(200,151,58,.08)":"var(--s2)";}});}
+async function saveAgent(){
+  var ag=agents[selIdx],btn=document.getElementById("sbtn"),err=document.getElementById("serr");
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';err.style.display="none";
+  try{var updated=await api("/agents/"+ag.id,"PUT",{agentName:document.getElementById("e-an")?.value,businessName:document.getElementById("e-bn")?.value,greeting:document.getElementById("e-gr")?.value,greetingAr:document.getElementById("e-grar")?.value,language:document.getElementById("e-lang")?.value,voice:editVoice||ag.voice,scripts:{...ag.scripts,opening:document.getElementById("e-op")?.value,closing:document.getElementById("e-cl")?.value}});agents[selIdx]=updated;renderSidebar();var sm=document.getElementById("sms");if(sm){sm.style.display="inline";setTimeout(()=>sm.style.display="none",2500);}}
+  catch(e){err.innerHTML='<div class="err">⚠️ '+x(e.message)+'</div>';err.style.display="block";}
+  finally{btn.disabled=false;btn.innerHTML=t("saveBtn");}
+}
+var nad={voice:"nova",language:"both",products:[{name:"",price:"",description:""}]};
+function showNewAgentModal(){nad={voice:"nova",language:"both",products:[{name:"",price:"",description:""}]};document.getElementById("agent-overlay").style.display="flex";document.getElementById("new-agent-title").textContent=t("newAgentTitle");renderAgentModal();}
+function closeAgentModal(){document.getElementById("agent-overlay").style.display="none";}
+function renderAgentModal(){
+  var INDS=["Real Estate","Insurance","SaaS / Tech","Healthcare","Finance","E-commerce","Education","Travel","Legal","Automotive","Retail","Consulting","Other"];
+  var VS=[{id:"nova",l:"Nova",d:"Warm"},{id:"alloy",l:"Alloy",d:"Neutral"},{id:"echo",l:"Echo",d:"Deep"},{id:"shimmer",l:"Shimmer",d:"Soft"},{id:"onyx",l:"Onyx",d:"Auth."},{id:"fable",l:"Fable",d:"Expr."}];
+  var LANGS=[{id:"en",l:"English only"},{id:"ar",l:"Arabic only"},{id:"both",l:"Both / كليهما"}];
+  var vh=VS.map(v=>'<div style="padding:9px;border-radius:7px;cursor:pointer;border:1.5px solid '+(nad.voice===v.id?"var(--gold)":"var(--bd)")+';background:'+(nad.voice===v.id?"rgba(200,151,58,.08)":"var(--s2)")+'" onclick="nad.voice=\''+v.id+'\';renderAgentModal()"><div style="font-weight:700;font-size:12px;font-family:sans-serif">'+v.l+'</div><div style="font-size:11px;color:var(--mu);font-family:sans-serif">'+v.d+'</div></div>').join("");
+  var ph=nad.products.map((p,i)=>'<div class="sub"><div class="subh"><span>Product '+(i+1)+'</span>'+(nad.products.length>1?'<button class="bdanger bsm" onclick="nad.products.splice('+i+',1);renderAgentModal()">'+t("removeBtn")+'</button>':"")+
+    '</div><div class="g2" style="margin-bottom:8px"><input placeholder="Name" value="'+x(p.name)+'" oninput="nad.products['+i+'].name=this.value">' +
+    '<input placeholder="Price" value="'+x(p.price)+'" oninput="nad.products['+i+'].price=this.value"></div>' +
+    '<textarea placeholder="Description..." rows="2" oninput="nad.products['+i+'].description=this.value">'+x(p.description)+'</textarea></div>').join("");
+  document.getElementById("agent-modal-body").innerHTML='<div id="na-err" style="display:none;margin-bottom:12px"></div><div class="g2"><div class="fld"><label class="lbl">'+t("bizNameLbl")+' *</label><input id="na-biz" value="'+(nad.businessName||"")+'"></div><div class="fld"><label class="lbl">'+t("industryLbl")+' *</label><select id="na-ind"><option value="">...</option>'+INDS.map(i=>'<option value="'+i+'"'+(nad.industry===i?" selected":"")+'>'+i+'</option>').join("")+'</select></div></div><div class="g2"><div class="fld"><label class="lbl">'+t("agentNameLbl")+' *</label><input id="na-agent" value="'+(nad.agentName||"")+'"></div><div class="fld"><label class="lbl">'+t("langLbl")+'</label><select id="na-lang">'+LANGS.map(l=>'<option value="'+l.id+'"'+(nad.language===l.id?" selected":"")+'>'+l.l+'</option>').join("")+'</select></div></div><div class="fld"><label class="lbl">'+t("greetLbl")+'</label><textarea id="na-gr" rows="2"></textarea></div><div class="fld"><label class="lbl">'+t("greetArLbl")+'</label><textarea id="na-grar" rows="2" dir="rtl"></textarea></div><div class="fld"><label class="lbl">'+t("voiceLbl")+'</label><div class="g3">'+vh+'</div></div><div class="fld"><label class="lbl">'+t("productsLbl")+'</label><div id="na-prods">'+ph+'</div><button class="bg bsm" style="width:100%;justify-content:center;margin-top:4px" onclick="nad.products.push({name:\'\',price:\'\',description:\'\'});renderAgentModal()">'+t("addProd")+'</button></div><div class="fld"><label class="lbl">'+t("areaCodeLbl")+'</label><input id="na-area" placeholder="415" maxlength="3" value="'+(nad.areaCode||"415")+'" style="max-width:110px"></div><div id="na-ok" style="display:none;margin-bottom:12px"></div><button class="bgold" id="na-btn" onclick="createAgent()" style="width:100%;padding:13px;font-size:15px">'+t("createAgentBtn")+'</button><p style="text-align:center;font-size:11px;color:var(--mu);margin-top:8px;font-family:sans-serif">~10 sec · Phone number provisioned automatically</p>';
+}
+async function createAgent(){
+  var btn=document.getElementById("na-btn"),err=document.getElementById("na-err"),ok=document.getElementById("na-ok");
+  var biz=document.getElementById("na-biz")?.value?.trim(),ind=document.getElementById("na-ind")?.value,aname=document.getElementById("na-agent")?.value?.trim();
+  var lang=document.getElementById("na-lang")?.value||"both",area=document.getElementById("na-area")?.value?.trim()||"415";
+  var gr=document.getElementById("na-gr")?.value?.trim(),grAr=document.getElementById("na-grar")?.value?.trim();
+  if(!biz){err.innerHTML='<div class="err">'+t("bizNameLbl")+' required</div>';err.style.display="block";return;}
+  if(!ind){err.innerHTML='<div class="err">'+t("industryLbl")+' required</div>';err.style.display="block";return;}
+  if(!aname){err.innerHTML='<div class="err">'+t("agentNameLbl")+' required</div>';err.style.display="block";return;}
+  err.style.display="none";btn.disabled=true;btn.innerHTML='<span class="spinner"></span> '+t("creatingMsg");
+  try{
+    var agent=await api("/agents","POST",{businessName:biz,industry:ind,agentName:aname,name:aname,areaCode:area,greeting:gr,greetingAr:grAr,language:lang,voice:nad.voice,products:nad.products.filter(p=>p.name)});
+    agents.push(agent);selIdx=agents.length-1;
+    ok.innerHTML='<div class="ok">✅ '+t("phoneLabel")+': <strong>'+(agent.phoneNumber||"provisioning...")+'</strong></div>';
+    ok.style.display="block";btn.innerHTML="✅";
+    renderSidebar();setTimeout(()=>{closeAgentModal();renderOverview();},2200);
+  }catch(e){var isLimit=e.message.includes("limit")||e.message.includes("LIMIT");err.innerHTML='<div class="err">⚠️ '+x(isLimit?t("limitErr"):e.message)+'</div>';err.style.display="block";btn.disabled=false;btn.innerHTML=t("createAgentBtn");}
+}
+(function(){var s=document.getElementById("stars");if(!s)return;for(var i=0;i<130;i++){var el=document.createElement("div"),sz=Math.random()*2.2+0.4;el.style.cssText="position:absolute;border-radius:50%;background:#fff;width:"+sz+"px;height:"+sz+"px;top:"+(Math.random()*65)+"%;left:"+(Math.random()*100)+"%;opacity:"+(Math.random()*.65+.05)+";animation:twinkle "+(2+Math.random()*4)+"s "+(Math.random()*3)+"s infinite";s.appendChild(el);}})();
+/* ════════════════════════════════════════
+   CURRENCY SWITCHER
+   Rates vs USD (approximate, fixed)
+════════════════════════════════════════ */
+var CURRENCIES = {
+  USD: { symbol:"$",  symbolAr:"$",   rate:1,      name:"USD", flag:"🇺🇸", per:"/mo"  },
+  SAR: { symbol:"ر.س", symbolAr:"ريال",rate:3.75,   name:"SAR", flag:"🇸🇦", per:"/شهر" },
+  AED: { symbol:"د.إ", symbolAr:"درهم",rate:3.67,   name:"AED", flag:"🇦🇪", per:"/شهر" },
+  QAR: { symbol:"ر.ق", symbolAr:"ريال",rate:3.64,   name:"QAR", flag:"🇶🇦", per:"/شهر" },
+  KWD: { symbol:"د.ك", symbolAr:"دينار",rate:0.307, name:"KWD", flag:"🇰🇼", per:"/شهر" },
+  BHD: { symbol:"د.ب", symbolAr:"دينار",rate:0.376, name:"BHD", flag:"🇧🇭", per:"/شهر" },
+};
+var CUR = localStorage.getItem("vf_currency") || "USD";
+
+function setCurrency(code) {
+  if (!code || !CURRENCIES[code]) return;
+  CUR = code;
+  localStorage.setItem("vf_currency", code);
+  var c = CURRENCIES[code];
+  var isAr = LANG === "ar";
+  var sym = isAr ? c.symbolAr : c.symbol;
+  var per = isAr ? c.per : "/mo";
+  var prices = { free: 0, starter: 49, pro: 149 };
+  Object.entries(prices).forEach(([plan, usd]) => {
+    var converted = usd === 0 ? 0 : Math.round(usd * c.rate);
+    var el = document.getElementById("price-" + plan);
+    var symEl = document.getElementById("cur-sym-" + plan);
+    var perEl = document.getElementById("per-mo-" + plan);
+    if (el) el.textContent = converted === 0 ? "0" : converted.toLocaleString();
+    if (symEl) symEl.textContent = " " + sym;
+    if (perEl) perEl.textContent = per;
+  });
+  var sel = document.getElementById("cur-select");
+  if (sel) sel.value = code;
+}
+
+// Apply currency after full DOM load
+window.addEventListener("load", function() {
+  var sel = document.getElementById("cur-select");
+  if (sel) sel.value = CUR;
+  setCurrency(CUR);
+});
+
+function fmtD(s){return s?Math.floor(s/60)+"m "+s%60+"s":"—";}
+function fmtT(iso){if(!iso)return"—";try{return new Date(iso).toLocaleString(LANG==="ar"?"ar-SA":"en-US",{dateStyle:"short",timeStyle:"short"});}catch{return iso;}}
+function stag(s){var m={ended:"tg",completed:"tg",failed:"tr","in-progress":"ta",queued:"tp"};return'<span class="tag '+(m[s]||"tmu")+'">'+(s||"unknown")+'</span>';}
+function mr(l,v){return'<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bd);font-size:12px;font-family:sans-serif"><span style="color:var(--mu)">'+l+'</span><span style="font-weight:600">'+v+'</span></div>';}
+function crh(c){return'<div style="display:flex;align-items:center;gap:12px;font-size:13px"><div style="font-size:15px;flex-shrink:0">📞</div><div style="flex:1;min-width:0"><div style="font-weight:600;font-family:monospace;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+x(c.customer?.number||"Unknown")+'</div><div style="font-size:11px;color:var(--mu);margin-top:1px">'+fmtT(c.startedAt||c.createdAt)+'</div></div><div style="font-size:12px;color:var(--mu);flex-shrink:0;font-family:monospace">'+fmtD(c.duration)+'</div>'+stag(c.status)+'</div>';}
+</script>
+</body>
+</html>

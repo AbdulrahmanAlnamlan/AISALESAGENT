@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>كحيلان AI — Admin Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --maroon:#8B1A2B;--maroon-d:#5C0F1C;--maroon-l:#B52239;
+  --gold:#C8973A;--gold-l:#F5D080;--gold-d:#9A7020;
+  --ink:#0C0507;--s1:#140809;--s2:#1C0C0F;--s3:#240F13;
+  --bd:#3A1520;--bd2:#4A1D28;
+  --tx:#F5EDE0;--mu:#9A7880;--mu2:#5A3840;
+  --green:#2ECC71;--red:#E74C3C;--blue:#3498DB;
+}
+html,body{min-height:100vh;background:var(--ink);color:var(--tx);font-family:'Tajawal',sans-serif}
+input,textarea,select{background:var(--s2);border:1px solid var(--bd);color:var(--tx);border-radius:6px;padding:9px 12px;font-size:13px;font-family:'Tajawal',sans-serif;width:100%;outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,151,58,.12)}
+select option{background:var(--s2)}
+button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;white-space:nowrap}
+.bp{background:linear-gradient(135deg,var(--maroon-d),var(--maroon));color:var(--gold-l);padding:9px 20px;border-radius:4px;font-size:13px;border:1px solid var(--gold-d)}
+.bp:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 18px rgba(139,26,43,.5)}
+.bp:disabled{opacity:.4;cursor:not-allowed}
+.bgold{background:linear-gradient(135deg,var(--gold-d),var(--gold));color:var(--ink);padding:9px 20px;border-radius:4px;font-size:13px;font-weight:800}
+.bgold:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(200,151,58,.4)}
+.bg{background:transparent;border:1px solid var(--bd2);color:var(--mu);padding:8px 16px;border-radius:4px;font-size:12px}
+.bg:hover{border-color:var(--gold);color:var(--gold)}
+.bsm{padding:5px 12px!important;font-size:11px!important;border-radius:4px!important}
+.bdanger{background:transparent;border:1px solid var(--red);color:var(--red);padding:5px 11px;border-radius:4px;font-size:11px}
+.bdanger:hover{background:var(--red);color:#fff}
+.bgreen{background:transparent;border:1px solid var(--green);color:var(--green);padding:5px 11px;border-radius:4px;font-size:11px}
+.bgreen:hover{background:var(--green);color:#000}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:20px}
+.lbl{font-size:10px;font-weight:700;color:var(--mu);margin-bottom:5px;display:block;letter-spacing:.8px;text-transform:uppercase;font-family:sans-serif}
+.fld{margin-bottom:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.err{background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.22);border-radius:6px;padding:11px;font-size:12px;color:#ff8070;line-height:1.6}
+.ok{background:rgba(46,204,113,.07);border:1px solid rgba(46,204,113,.2);border-radius:6px;padding:11px;font-size:12px;color:var(--green);line-height:1.6}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.fi{animation:fadeIn .3s ease both}
+.spinner{width:15px;height:15px;border:2px solid rgba(200,151,58,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .6s linear infinite;display:inline-block;flex-shrink:0}
+.tag{display:inline-flex;align-items:center;padding:2px 9px;border-radius:3px;font-size:10px;font-weight:600;font-family:sans-serif}
+.tg{background:rgba(46,204,113,.1);color:var(--green)}.tr{background:rgba(231,76,60,.1);color:var(--red)}
+.ta{background:rgba(200,151,58,.1);color:var(--gold)}.tp{background:rgba(139,26,43,.15);color:var(--maroon-l)}
+.tmu{background:rgba(90,56,64,.3);color:var(--mu)}.tblue{background:rgba(52,152,219,.1);color:var(--blue)}
+/* layout */
+.layout{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:216px;background:var(--s1);border-right:1px solid var(--bd);display:flex;flex-direction:column;flex-shrink:0}
+.sb-logo{padding:18px 14px;border-bottom:1px solid var(--bd)}
+.logo-wrap{display:flex;align-items:center;gap:10px}
+.logo-mark{width:34px;height:34px;background:linear-gradient(135deg,var(--maroon-d),var(--maroon));border:1px solid var(--gold-d);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:var(--gold-l);flex-shrink:0;font-family:'Tajawal',sans-serif}
+.logo-ar{font-family:'Tajawal',sans-serif;font-size:18px;font-weight:800;color:var(--tx);letter-spacing:1px}
+.logo-ar span{color:var(--gold)}
+.logo-sub{font-size:9px;color:var(--maroon-l);letter-spacing:2px;font-family:sans-serif;text-transform:uppercase;margin-top:1px}
+.sb-nav{flex:1;padding:8px;overflow-y:auto}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:600;color:var(--mu);transition:all .15s;margin-bottom:2px;border:1px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.02);color:var(--tx)}
+.nav-item.on{background:rgba(139,26,43,.15);border-color:rgba(200,151,58,.25);color:var(--tx)}
+.nav-item .ni{font-size:16px;flex-shrink:0}
+.nav-divider{height:1px;background:var(--bd);margin:8px 4px}
+.sb-bottom{padding:12px;border-top:1px solid var(--bd);font-size:11px;color:var(--mu2);text-align:center;font-family:sans-serif}
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{padding:14px 24px;border-bottom:1px solid var(--bd);background:var(--s1);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.topbar-title{font-size:16px;font-weight:800}
+.topbar-right{display:flex;gap:10px;align-items:center}
+.content{flex:1;overflow:auto;padding:24px}
+.panel{display:none}.panel.on{display:block}
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;padding:10px 12px;font-size:10px;font-weight:700;color:var(--mu);letter-spacing:.5px;text-transform:uppercase;border-bottom:1px solid var(--bd);background:var(--s2);font-family:sans-serif}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--bd);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(200,151,58,.03)}
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;backdrop-filter:blur(4px)}
+.modal{background:var(--s1);border:1px solid var(--bd2);border-radius:12px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto}
+.mhead{padding:20px 24px 0;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.mbody{padding:0 24px 24px}
+/* stat cards */
+.stat-card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:20px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--maroon),transparent)}
+.stat-n{font-size:28px;font-weight:800;margin-bottom:3px;font-family:'Cinzel',serif}
+.stat-l{font-size:11px;color:var(--mu);font-family:sans-serif;letter-spacing:.5px;text-transform:uppercase}
+.stat-gold .stat-n{color:var(--gold)}
+.stat-green .stat-n{color:var(--green)}
+.stat-maroon .stat-n{color:var(--maroon-l)}
+/* plan tags */
+.plan-free{background:rgba(90,56,64,.3);color:var(--mu)}
+.plan-starter{background:rgba(139,26,43,.15);color:var(--maroon-l)}
+.plan-pro{background:rgba(200,151,58,.12);color:var(--gold)}
+.plan-payg{background:rgba(52,152,219,.1);color:var(--blue)}
+.plan-enterprise{background:rgba(46,204,113,.1);color:var(--green)}
+/* search */
+.search-input{background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:9px 14px;font-size:13px;color:var(--tx);width:260px;outline:none;font-family:'Tajawal',sans-serif}
+.search-input:focus{border-color:var(--gold)}
+/* login */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--ink)}
+.login-card{background:var(--s1);border:1px solid var(--bd2);border-radius:14px;width:100%;max-width:380px;padding:36px;position:relative;overflow:hidden}
+.login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+/* plan breakdown bar */
+.plan-bar{height:8px;border-radius:4px;overflow:hidden;background:var(--s2);margin-top:8px}
+.plan-bar-fill{height:100%;border-radius:4px;transition:width .4s ease}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card fi">
+    <div class="logo-wrap" style="margin-bottom:28px">
+      <div class="logo-mark">ك</div>
+      <div>
+        <div class="logo-ar">كحيلان <span>AI</span></div>
+        <div class="logo-sub">Admin Portal</div>
+      </div>
+    </div>
+    <div id="login-err" style="display:none;margin-bottom:14px"></div>
+    <div class="fld"><label class="lbl">Username</label><input id="lu" placeholder="admin" autocomplete="username"></div>
+    <div class="fld"><label class="lbl">Password</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="bp" style="width:100%;padding:12px;font-size:14px" onclick="doLogin()" id="login-btn">
+      Enter Admin Portal →
+    </button>
+    <p style="text-align:center;font-size:11px;color:var(--mu2);margin-top:16px;font-family:sans-serif">كحيلان AI — Restricted Access</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="layout" style="display:none">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="logo-wrap">
+        <div class="logo-mark">ك</div>
+        <div>
+          <div class="logo-ar">كحيلان <span>AI</span></div>
+          <div class="logo-sub">Admin</div>
+        </div>
+      </div>
+    </div>
+    <div class="sb-nav">
+      <div class="nav-item on" onclick="showPanel('dashboard')"><span class="ni">📊</span> Dashboard</div>
+      <div class="nav-item" onclick="showPanel('users')"><span class="ni">👥</span> Users</div>
+      <div class="nav-item" onclick="showPanel('agents')"><span class="ni">🤖</span> All Agents</div>
+      <div class="nav-divider"></div>
+      <div class="nav-item" onclick="showPanel('create-user')"><span class="ni">➕</span> Create User</div>
+      <div class="nav-divider"></div>
+      <div class="nav-item" onclick="logout()" style="color:var(--red)"><span class="ni">←</span> Logout</div>
+    </div>
+    <div class="sb-bottom" id="admin-badge">admin</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <div class="topbar">
+      <div class="topbar-title" id="page-title">Dashboard</div>
+      <div class="topbar-right">
+        <span id="last-refresh" style="font-size:11px;color:var(--mu2);font-family:sans-serif"></span>
+        <button class="bg bsm" onclick="refreshCurrent()">↻ Refresh</button>
+      </div>
+    </div>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="panel on" id="panel-dashboard">
+        <div class="g4" style="margin-bottom:20px">
+          <div class="stat-card stat-maroon"><div class="stat-n" id="s-users">—</div><div class="stat-l">Total Users</div></div>
+          <div class="stat-card"><div class="stat-n" id="s-agents">—</div><div class="stat-l">Total Agents</div></div>
+          <div class="stat-card stat-maroon"><div class="stat-n" id="s-active">—</div><div class="stat-l">Active Subscriptions</div></div>
+          <div class="stat-card stat-gold"><div class="stat-n" id="s-mrr">—</div><div class="stat-l">Monthly Revenue</div></div>
+        </div>
+        <div class="g2" style="margin-bottom:20px">
+          <div class="card">
+            <p style="font-size:14px;font-weight:700;margin-bottom:16px">📦 Plan Breakdown</p>
+            <div id="plan-breakdown"></div>
+          </div>
+          <div class="card">
+            <p style="font-size:14px;font-weight:700;margin-bottom:16px">⚡ Quick Actions</p>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <button class="bp" style="justify-content:flex-start" onclick="showPanel('create-user')">➕ Create New User</button>
+              <button class="bg" style="justify-content:flex-start" onclick="showPanel('users')">👥 Manage All Users</button>
+              <button class="bg" style="justify-content:flex-start" onclick="showPanel('agents')">🤖 View All Agents</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <p style="font-size:14px;font-weight:700;margin-bottom:14px">🕐 Recent Signups</p>
+          <div id="recent-users"></div>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div class="panel" id="panel-users">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+          <div style="display:flex;gap:10px;align-items:center">
+            <input class="search-input" id="user-search" placeholder="🔍  Search name or email..." oninput="filterUsers()">
+            <select id="plan-filter" style="width:140px;padding:9px 12px;font-size:12px" onchange="filterUsers()">
+              <option value="">All Plans</option>
+              <option value="free">Free</option>
+              <option value="starter">Starter</option>
+              <option value="pro">Pro</option>
+              <option value="payg">Pay As You Go</option>
+              <option value="enterprise">Enterprise</option>
+            </select>
+          </div>
+          <button class="bp bsm" onclick="showPanel('create-user')">➕ Create User</button>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <table class="tbl">
+            <thead><tr>
+              <th>User</th><th>Plan</th><th>Status</th><th>Agents</th><th>Limit</th><th>Joined</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="users-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- AGENTS -->
+      <div class="panel" id="panel-agents">
+        <div style="margin-bottom:16px">
+          <input class="search-input" id="agent-search" placeholder="🔍  Search agent or business..." oninput="filterAgents()" style="width:320px">
+        </div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <table class="tbl">
+            <thead><tr>
+              <th>Agent</th><th>Business</th><th>Owner</th><th>Phone</th><th>Language</th><th>Created</th><th></th>
+            </tr></thead>
+            <tbody id="agents-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CREATE USER -->
+      <div class="panel" id="panel-create-user">
+        <div style="max-width:520px">
+          <h2 style="font-size:18px;font-weight:800;margin-bottom:6px">➕ Create User Account</h2>
+          <p style="font-size:13px;color:var(--mu);margin-bottom:20px">Manually create accounts for clients — great for enterprise and Pay As You Go clients.</p>
+          <div class="card">
+            <div id="cu-err" style="display:none;margin-bottom:14px"></div>
+            <div id="cu-ok" style="display:none;margin-bottom:14px"></div>
+            <div class="g2">
+              <div class="fld"><label class="lbl">Full Name *</label><input id="cu-name" placeholder="Ahmed Al-Rashidi"></div>
+              <div class="fld"><label class="lbl">Email *</label><input id="cu-email" type="email" placeholder="ahmed@company.com"></div>
+            </div>
+            <div class="g2">
+              <div class="fld"><label class="lbl">Password *</label><input id="cu-pass" type="password" placeholder="min 8 characters"></div>
+              <div class="fld"><label class="lbl">Plan</label>
+                <select id="cu-plan" onchange="updateLimitHint()">
+                  <option value="free">Free (1 agent)</option>
+                  <option value="starter">Starter — $49/mo (3 agents)</option>
+                  <option value="pro">Pro — $149/mo (10 agents)</option>
+                  <option value="payg" selected>⚡ Pay As You Go (unlimited)</option>
+                  <option value="enterprise">Enterprise (unlimited)</option>
+                </select>
+              </div>
+            </div>
+            <div class="fld">
+              <label class="lbl">Agent Limit Override <span style="font-weight:400;text-transform:none;letter-spacing:0">(leave blank = plan default)</span></label>
+              <input id="cu-limit" type="number" min="1" max="999" id="cu-limit">
+              <p id="cu-limit-hint" style="font-size:11px;color:var(--mu);margin-top:5px;font-family:sans-serif">Default for Pay As You Go: 999 agents</p>
+            </div>
+            <!-- PAYG info card -->
+            <div style="background:rgba(200,151,58,.06);border:1px solid rgba(200,151,58,.18);border-radius:8px;padding:14px;margin-bottom:16px">
+              <p style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:6px">⚡ Pay As You Go — For Big Clients</p>
+              <p style="font-size:12px;color:var(--mu);line-height:1.6">Client gets unlimited agents. You check your Vapi dashboard monthly to see their actual usage, then invoice them manually. No fixed subscription — pure usage-based billing. Your margin = what you charge minus what Vapi charges.</p>
+            </div>
+            <button class="bgold" id="cu-btn" onclick="createUser()" style="width:100%;padding:12px;font-size:14px">Create Account →</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- EDIT USER MODAL -->
+<div id="edit-overlay" class="overlay" style="display:none" onclick="if(event.target===this)closeEdit()">
+  <div class="modal fi">
+    <div class="mhead">
+      <h2 style="font-size:17px;font-weight:800" id="edit-title">Edit User</h2>
+      <button onclick="closeEdit()" style="background:none;border:none;color:var(--mu);font-size:18px;cursor:pointer">✕</button>
+    </div>
+    <div class="mbody" id="edit-body"></div>
+  </div>
+</div>
+
+<!-- USER DETAIL MODAL -->
+<div id="detail-overlay" class="overlay" style="display:none" onclick="if(event.target===this)closeDetail()">
+  <div class="modal fi" style="max-width:640px">
+    <div class="mhead">
+      <h2 style="font-size:17px;font-weight:800" id="detail-title">User Detail</h2>
+      <button onclick="closeDetail()" style="background:none;border:none;color:var(--mu);font-size:18px;cursor:pointer">✕</button>
+    </div>
+    <div class="mbody" id="detail-body"></div>
+  </div>
+</div>
+
+<script>
+var adminToken=sessionStorage.getItem("admin_token")||null;
+var allUsers=[],allAgents=[],currentPanel="dashboard";
+
+async function api(path,method,body){
+  var opts={method:method||"GET",headers:{"Content-Type":"application/json"}};
+  if(adminToken)opts.headers["Authorization"]="Bearer "+adminToken;
+  if(body)opts.body=JSON.stringify(body);
+  var r=await fetch("/api/admin"+path,opts),d=await r.json();
+  if(!r.ok)throw new Error(d.error||"Request failed");
+  return d;
+}
+
+async function doLogin(){
+  var btn=document.getElementById("login-btn"),err=document.getElementById("login-err");
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Entering...';err.style.display="none";
+  try{
+    var r=await fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:document.getElementById("lu").value,password:document.getElementById("lp").value})});
+    var d=await r.json();if(!r.ok)throw new Error(d.error||"Login failed");
+    adminToken=d.token;sessionStorage.setItem("admin_token",adminToken);
+    document.getElementById("login-screen").style.display="none";
+    document.getElementById("app").style.display="flex";
+    loadDashboard();
+  }catch(e){err.innerHTML='<div class="err">⚠️ '+e.message+'</div>';err.style.display="block";btn.disabled=false;btn.textContent="Enter Admin Portal →";}
+}
+
+function logout(){adminToken=null;sessionStorage.removeItem("admin_token");document.getElementById("app").style.display="none";document.getElementById("login-screen").style.display="flex";}
+
+if(adminToken){document.getElementById("login-screen").style.display="none";document.getElementById("app").style.display="flex";loadDashboard();}
+
+function showPanel(name){
+  currentPanel=name;
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("on"));
+  document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("on"));
+  var panel=document.getElementById("panel-"+name);if(panel)panel.classList.add("on");
+  var titles={dashboard:"Dashboard","users":"User Management",agents:"All Agents","create-user":"Create New User"};
+  document.getElementById("page-title").textContent=titles[name]||name;
+  document.getElementById("last-refresh").textContent="Updated: "+new Date().toLocaleTimeString();
+  var navMap={dashboard:0,users:1,agents:2,"create-user":4};
+  var items=document.querySelectorAll(".nav-item");
+  if(navMap[name]!==undefined&&items[navMap[name]])items[navMap[name]].classList.add("on");
+  if(name==="dashboard")loadDashboard();
+  else if(name==="users")loadUsers();
+  else if(name==="agents")loadAgents();
+}
+
+function refreshCurrent(){showPanel(currentPanel);}
+
+/* ── DASHBOARD ── */
+async function loadDashboard(){
+  try{
+    var stats=await api("/stats");
+    document.getElementById("s-users").textContent=stats.totalUsers;
+    document.getElementById("s-agents").textContent=stats.totalAgents;
+    document.getElementById("s-active").textContent=stats.activeSubsCount;
+    document.getElementById("s-mrr").textContent="$"+stats.mrr.toLocaleString();
+    var pb=document.getElementById("plan-breakdown");
+    var planColors={free:"var(--mu)",starter:"var(--maroon-l)",pro:"var(--gold)",payg:"var(--blue)",enterprise:"var(--green)"};
+    var planLabels={free:"Free",starter:"Starter $49",pro:"Pro $149",payg:"⚡ Pay As You Go",enterprise:"Enterprise"};
+    var total=Object.values(stats.planBreakdown).reduce((a,b)=>a+b,0)||1;
+    pb.innerHTML=Object.entries(stats.planBreakdown).map(([plan,count])=>
+      '<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span class="tag plan-'+plan+'" style="font-size:11px">'+planLabels[plan]+'</span><span style="font-size:13px;font-weight:700;font-family:sans-serif">'+count+' users</span></div>'+
+      '<div class="plan-bar"><div class="plan-bar-fill" style="width:'+(count/total*100).toFixed(0)+'%;background:'+planColors[plan]+'"></div></div></div>'
+    ).join("");
+    var users=await api("/users");allUsers=users;
+    var recent=[...users].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).slice(0,5);
+    document.getElementById("recent-users").innerHTML=recent.length?
+      '<table class="tbl"><thead><tr><th>Name</th><th>Email</th><th>Plan</th><th>Agents</th><th>Joined</th><th></th></tr></thead><tbody>'+
+      recent.map(u=>'<tr><td style="font-weight:600">'+x(u.name)+'</td><td style="color:var(--mu);font-size:12px;font-family:sans-serif">'+x(u.email)+'</td><td>'+planTag(u.plan)+'</td><td style="font-family:sans-serif;text-align:center">'+(u.agentCount||0)+'</td><td style="font-size:11px;color:var(--mu);font-family:sans-serif">'+fmtDate(u.createdAt)+'</td><td><button class="bg bsm" onclick="openDetail(\''+u.id+'\')">View</button></td></tr>').join("")+
+      '</tbody></table>':
+      '<p style="color:var(--mu);font-size:13px">No users yet.</p>';
+  }catch(e){console.error("dashboard:",e);}
+}
+
+/* ── USERS ── */
+async function loadUsers(){
+  var tbody=document.getElementById("users-tbody");
+  tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--mu)"><span class="spinner" style="width:14px;height:14px"></span></td></tr>';
+  try{allUsers=await api("/users");renderUsersTable(allUsers);}
+  catch(e){tbody.innerHTML='<tr><td colspan="7" style="color:var(--red);padding:16px">'+x(e.message)+'</td></tr>';}
+}
+
+function filterUsers(){
+  var q=(document.getElementById("user-search")?.value||"").toLowerCase();
+  var plan=document.getElementById("plan-filter")?.value||"";
+  renderUsersTable(allUsers.filter(u=>(!q||u.name.toLowerCase().includes(q)||u.email.toLowerCase().includes(q))&&(!plan||u.plan===plan)));
+}
+
+function renderUsersTable(users){
+  var tbody=document.getElementById("users-tbody");
+  if(!users.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--mu)">No users found.</td></tr>';return;}
+  tbody.innerHTML=users.map(u=>
+    '<tr>'+
+    '<td><div style="font-weight:600;font-size:13px">'+x(u.name)+'</div><div style="font-size:11px;color:var(--mu);font-family:sans-serif">'+x(u.email)+'</div></td>'+
+    '<td>'+planTag(u.plan)+'</td>'+
+    '<td>'+statusTag(u.subStatus)+(u.suspended?'&nbsp;<span class="tag tr">suspended</span>':'')+' </td>'+
+    '<td style="text-align:center;font-family:sans-serif">'+(u.agentCount||0)+'</td>'+
+    '<td style="text-align:center;font-family:sans-serif">'+(u.agentLimit||1)+'</td>'+
+    '<td style="font-size:11px;color:var(--mu);font-family:sans-serif">'+fmtDate(u.createdAt)+'</td>'+
+    '<td><div style="display:flex;gap:4px;flex-wrap:wrap">'+
+      '<button class="bg bsm" onclick="openDetail(\''+u.id+'\')">👁️</button>'+
+      '<button class="bg bsm" onclick="openEdit(\''+u.id+'\')">✏️</button>'+
+      '<button class="bdanger bsm" onclick="deleteUser(\''+u.id+'\',\''+x(u.email)+'\')">🗑️</button>'+
+    '</div></td>'+
+    '</tr>'
+  ).join("");
+}
+
+/* ── AGENTS ── */
+async function loadAgents(){
+  var tbody=document.getElementById("agents-tbody");
+  tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--mu)"><span class="spinner" style="width:14px;height:14px"></span></td></tr>';
+  try{allAgents=await api("/agents");renderAgentsTable(allAgents);}
+  catch(e){tbody.innerHTML='<tr><td colspan="7" style="color:var(--red);padding:16px">'+x(e.message)+'</td></tr>';}
+}
+
+function filterAgents(){
+  var q=(document.getElementById("agent-search")?.value||"").toLowerCase();
+  renderAgentsTable(allAgents.filter(a=>!q||(a.agentName||"").toLowerCase().includes(q)||(a.businessName||"").toLowerCase().includes(q)||(a.ownerEmail||"").toLowerCase().includes(q)));
+}
+
+function renderAgentsTable(agents){
+  var tbody=document.getElementById("agents-tbody");
+  if(!agents.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--mu)">No agents found.</td></tr>';return;}
+  tbody.innerHTML=agents.map(a=>
+    '<tr>'+
+    '<td><div style="font-weight:600;font-size:13px">'+x(a.agentName||"—")+'</div><div style="font-size:11px;color:var(--mu);font-family:sans-serif">'+x(a.voice||"nova")+'</div></td>'+
+    '<td style="font-size:13px">'+x(a.businessName||"—")+'</td>'+
+    '<td><div style="font-size:12px">'+x(a.ownerName||"—")+'</div><div style="font-size:11px;color:var(--mu);font-family:sans-serif">'+x(a.ownerEmail||"—")+'</div></td>'+
+    '<td style="font-family:monospace;font-size:12px">'+x(a.phoneNumber||"—")+'</td>'+
+    '<td>'+langTag(a.language)+'</td>'+
+    '<td style="font-size:11px;color:var(--mu);font-family:sans-serif">'+fmtDate(a.createdAt)+'</td>'+
+    '<td><button class="bg bsm" onclick="openDetail(\''+a.userId+'\')">Owner</button></td>'+
+    '</tr>'
+  ).join("");
+}
+
+/* ── USER DETAIL ── */
+async function openDetail(userId){
+  document.getElementById("detail-overlay").style.display="flex";
+  document.getElementById("detail-body").innerHTML='<div style="display:flex;align-items:center;gap:8px;padding:20px;color:var(--mu)"><span class="spinner"></span> Loading...</div>';
+  try{
+    var data=await api("/users/"+userId);var u=data.user;
+    document.getElementById("detail-title").textContent=u.name+" — Detail";
+    document.getElementById("detail-body").innerHTML=
+    '<div class="g2" style="margin-bottom:16px">'+
+      '<div class="card"><div class="lbl">Email</div><div style="font-size:13px;font-family:sans-serif">'+x(u.email)+'</div></div>'+
+      '<div class="card"><div class="lbl">Plan & Status</div><div>'+planTag(u.plan)+'&nbsp;'+statusTag(u.subStatus)+'</div></div>'+
+      '<div class="card"><div class="lbl">Agent Limit</div><div style="font-size:22px;font-weight:800;font-family:sans-serif">'+(u.agentLimit||1)+'</div></div>'+
+      '<div class="card"><div class="lbl">Agents Created</div><div style="font-size:22px;font-weight:800;font-family:sans-serif">'+data.agents.length+'</div></div>'+
+    '</div>'+
+    '<p style="font-size:13px;font-weight:700;margin-bottom:10px">🤖 Agents</p>'+
+    (data.agents.length?
+      '<div class="card" style="padding:0;overflow:hidden;margin-bottom:14px">'+data.agents.map(ag=>
+        '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--bd)">'+
+        '<div><div style="font-size:13px;font-weight:600">'+x(ag.agentName)+'</div><div style="font-size:11px;color:var(--mu)">'+x(ag.businessName)+' · <span style="font-family:monospace">'+x(ag.phoneNumber||"No number")+'</span></div></div>'+
+        langTag(ag.language)+'</div>'
+      ).join("")+'</div>':
+      '<p style="font-size:13px;color:var(--mu);margin-bottom:14px">No agents yet.</p>')+
+    '<div style="display:flex;gap:8px">'+
+      '<button class="bp bsm" onclick="closeDetail();openEdit(\''+u.id+'\')">✏️ Edit Plan & Access</button>'+
+      '<button class="bg bsm" onclick="openResetPw(\''+u.id+'\',\''+x(u.name)+'\')">🔑 Reset Password</button>'+
+    '</div>';
+  }catch(e){document.getElementById("detail-body").innerHTML='<p style="color:var(--red);padding:16px">'+x(e.message)+'</p>';}
+}
+function closeDetail(){document.getElementById("detail-overlay").style.display="none";}
+
+/* ── EDIT USER ── */
+function openEdit(userId){
+  var user=allUsers.find(u=>u.id===userId);if(!user)return;
+  document.getElementById("edit-overlay").style.display="flex";
+  document.getElementById("edit-title").textContent="Edit: "+user.name;
+  document.getElementById("edit-body").innerHTML=
+  '<div id="edit-err" style="display:none;margin-bottom:12px"></div>'+
+  '<div id="edit-ok" style="display:none;margin-bottom:12px"></div>'+
+  '<div class="fld"><label class="lbl">Plan</label>'+
+  '<select id="ep-plan" onchange="editUpdateLimit()">'+
+    ['free','starter','pro','payg','enterprise'].map(p=>'<option value="'+p+'"'+(user.plan===p?" selected":"")+'>'+{free:"Free",starter:"Starter — $49/mo",pro:"Pro — $149/mo",payg:"⚡ Pay As You Go",enterprise:"Enterprise"}[p]+'</option>').join("")+
+  '</select></div>'+
+  '<div class="fld"><label class="lbl">Subscription Status</label>'+
+  '<select id="ep-status">'+
+    ['active','inactive','past_due','canceled'].map(s=>'<option value="'+s+'"'+(user.subStatus===s?" selected":"")+'>'+s+'</option>').join("")+
+  '</select></div>'+
+  '<div class="fld"><label class="lbl">Agent Limit</label><input type="number" id="ep-limit" min="1" max="999" value="'+(user.agentLimit||1)+'"></div>'+
+  '<div class="fld"><label class="lbl">Internal Notes</label><textarea id="ep-notes" rows="2" placeholder="Notes about this client...">'+x(user.notes||"")+'</textarea></div>'+
+  '<div style="margin-bottom:14px"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px"><input type="checkbox" id="ep-suspended" '+(user.suspended?"checked":"")+ ' style="width:auto"> Suspend account (blocks login)</label></div>'+
+  '<div style="background:rgba(200,151,58,.06);border:1px solid rgba(200,151,58,.15);border-radius:8px;padding:12px;margin-bottom:14px;font-size:12px;color:var(--mu);line-height:1.6">'+
+  '⚡ <strong style="color:var(--gold)">Pay As You Go:</strong> Unlimited agents. Invoice client monthly based on usage shown in your Vapi dashboard.</div>'+
+  '<div style="display:flex;gap:8px">'+
+    '<button class="bgold" style="flex:1;padding:10px" onclick="saveEdit(\''+user.id+'\')">💾 Save Changes</button>'+
+    '<button class="bg" onclick="closeEdit()">Cancel</button>'+
+  '</div>';
+}
+
+function editUpdateLimit(){
+  var plan=document.getElementById("ep-plan")?.value;
+  var limits={free:1,starter:3,pro:10,payg:999,enterprise:999};
+  var el=document.getElementById("ep-limit");if(el)el.value=limits[plan]||1;
+}
+
+async function saveEdit(userId){
+  var err=document.getElementById("edit-err"),ok=document.getElementById("edit-ok");
+  err.style.display="none";ok.style.display="none";
+  try{
+    var updated=await api("/users/"+userId,"PUT",{
+      plan:document.getElementById("ep-plan")?.value,
+      subStatus:document.getElementById("ep-status")?.value,
+      agentLimit:parseInt(document.getElementById("ep-limit")?.value)||1,
+      notes:document.getElementById("ep-notes")?.value,
+      suspended:document.getElementById("ep-suspended")?.checked?1:0,
+    });
+    ok.innerHTML='<div class="ok">✅ Updated successfully!</div>';ok.style.display="block";
+    var idx=allUsers.findIndex(u=>u.id===userId);if(idx!==-1)allUsers[idx]={...allUsers[idx],...updated};
+    if(currentPanel==="users")renderUsersTable(allUsers);
+    setTimeout(closeEdit,1400);
+  }catch(e){err.innerHTML='<div class="err">⚠️ '+x(e.message)+'</div>';err.style.display="block";}
+}
+function closeEdit(){document.getElementById("edit-overlay").style.display="none";}
+
+/* ── RESET PASSWORD ── */
+function openResetPw(userId,name){
+  closeDetail();
+  document.getElementById("edit-overlay").style.display="flex";
+  document.getElementById("edit-title").textContent="Reset Password: "+name;
+  document.getElementById("edit-body").innerHTML=
+  '<div id="rp-err" style="display:none;margin-bottom:12px"></div>'+
+  '<div id="rp-ok" style="display:none;margin-bottom:12px"></div>'+
+  '<div class="fld"><label class="lbl">New Password</label><input type="password" id="rp-pass" placeholder="min 8 characters"></div>'+
+  '<div style="display:flex;gap:8px">'+
+    '<button class="bp" style="flex:1;padding:10px" onclick="doResetPw(\''+userId+'\')">🔑 Set New Password</button>'+
+    '<button class="bg" onclick="closeEdit()">Cancel</button>'+
+  '</div>';
+}
+
+async function doResetPw(userId){
+  var err=document.getElementById("rp-err"),ok=document.getElementById("rp-ok");
+  err.style.display="none";
+  var pass=document.getElementById("rp-pass")?.value;
+  if(!pass||pass.length<8){err.innerHTML='<div class="err">Min 8 characters</div>';err.style.display="block";return;}
+  try{await api("/users/"+userId+"/reset-password","POST",{newPassword:pass});ok.innerHTML='<div class="ok">✅ Password updated!</div>';ok.style.display="block";setTimeout(closeEdit,1400);}
+  catch(e){err.innerHTML='<div class="err">⚠️ '+x(e.message)+'</div>';err.style.display="block";}
+}
+
+/* ── DELETE USER ── */
+async function deleteUser(userId,email){
+  if(!confirm("Delete "+email+"?\n\nThis removes all their agents from Vapi too. Cannot be undone."))return;
+  try{await api("/users/"+userId,"DELETE");allUsers=allUsers.filter(u=>u.id!==userId);renderUsersTable(allUsers);}
+  catch(e){alert("Error: "+e.message);}
+}
+
+/* ── CREATE USER ── */
+function updateLimitHint(){
+  var plan=document.getElementById("cu-plan")?.value;
+  var defaults={free:1,starter:3,pro:10,payg:999,enterprise:999};
+  var el=document.getElementById("cu-limit-hint");if(el)el.textContent="Default for "+plan+": "+(defaults[plan]||1)+" agents";
+}
+
+async function createUser(){
+  var btn=document.getElementById("cu-btn"),err=document.getElementById("cu-err"),ok=document.getElementById("cu-ok");
+  err.style.display="none";ok.style.display="none";
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Creating...';
+  try{
+    var name=document.getElementById("cu-name")?.value?.trim();
+    var email=document.getElementById("cu-email")?.value?.trim();
+    var password=document.getElementById("cu-pass")?.value;
+    var plan=document.getElementById("cu-plan")?.value||"free";
+    var limitVal=document.getElementById("cu-limit")?.value;
+    var agentLimit=limitVal?parseInt(limitVal):undefined;
+    if(!name||!email||!password)throw new Error("Name, email and password are required");
+    var user=await api("/users","POST",{name,email,password,plan,agentLimit});
+    ok.innerHTML='<div class="ok">✅ Account created!<br>Name: <strong>'+x(user.name)+'</strong><br>Email: <strong>'+x(user.email)+'</strong><br>Plan: <strong>'+user.plan+'</strong> · '+user.agentLimit+' agents max</div>';
+    ok.style.display="block";
+    document.getElementById("cu-name").value="";document.getElementById("cu-email").value="";document.getElementById("cu-pass").value="";
+    allUsers=await api("/users").catch(()=>allUsers);
+  }catch(e){err.innerHTML='<div class="err">⚠️ '+x(e.message)+'</div>';err.style.display="block";}
+  finally{btn.disabled=false;btn.innerHTML="Create Account →";}
+}
+
+/* ── UTILS ── */
+function x(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function fmtDate(iso){if(!iso)return"—";try{return new Date(iso).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});}catch{return iso;}}
+function planTag(p){var cls={free:"plan-free",starter:"plan-starter",pro:"plan-pro",payg:"plan-payg",enterprise:"plan-enterprise"};var lbl={free:"Free",starter:"Starter",pro:"Pro",payg:"⚡ PAYG",enterprise:"Enterprise"};return'<span class="tag '+(cls[p]||"tmu")+'">'+(lbl[p]||p||"—")+'</span>';}
+function statusTag(s){var cls={active:"tg",inactive:"tmu",past_due:"ta",canceled:"tr"};return'<span class="tag '+(cls[s]||"tmu")+'">'+(s||"—")+'</span>';}
+function langTag(l){if(l==="ar")return'<span class="tag ta">عربي</span>';if(l==="both")return'<span class="tag tp">AR+EN</span>';return'<span class="tag tmu">EN</span>';}
+</script>
+</body>
+</html>

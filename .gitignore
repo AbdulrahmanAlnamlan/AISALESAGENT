@@ -1,0 +1,21 @@
+# ── Secrets — NEVER commit ────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Database (lowdb JSON file is the entire database) ──
+voiceforge.db.json
+*.db.json
+
+# ── Dependencies ──────────────────────────────────────
+node_modules/
+
+# ── Unrelated project files living in this folder ─────
+AlThuraiya_Design_Brief.md
+AlThuraiya_Design_Handoff.zip
+
+# ── Noise ─────────────────────────────────────────────
+npm-debug.log*
+*.log
+.DS_Store
+Thumbs.db
