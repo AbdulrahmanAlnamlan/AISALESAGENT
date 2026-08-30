@@ -9,11 +9,11 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --maroon:#8B1A2B;--maroon-d:#5C0F1C;--maroon-l:#B52239;
-  --gold:#C8973A;--gold-l:#F5D080;--gold-d:#9A7020;
-  --ink:#0C0507;--s1:#140809;--s2:#1C0C0F;--s3:#240F13;
-  --bd:#3A1520;--bd2:#4A1D28;
-  --tx:#F5EDE0;--mu:#9A7880;--mu2:#5A3840;
-  --green:#2ECC71;--red:#E74C3C;
+  --gold:#7E5A11;--gold-l:#F5D080;--gold-d:#6E4E0F;
+  --ink:#FBF7F0;--s1:#FFFFFF;--s2:#F4EDE1;--s3:#EAE0CF;
+  --bd:#E2D6C2;--bd2:#CBB99C;
+  --tx:#2A1218;--mu:#6B5158;--mu2:#74595F;
+  --green:#19703D;--red:#C0392B;
 }
 html,body{min-height:100vh;background:var(--ink);color:var(--tx);font-family:'Tajawal',sans-serif;overflow-x:hidden}
 input,textarea,select{background:var(--s2);border:1px solid var(--bd);color:var(--tx);border-radius:6px;padding:10px 13px;font-size:14px;font-family:'Tajawal',sans-serif;width:100%;outline:none;transition:border-color .2s}
@@ -26,7 +26,7 @@ button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transitio
 .bp:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
 .bg{background:transparent;border:1px solid var(--bd2);color:var(--mu);padding:9px 18px;border-radius:4px;font-size:13px}
 .bg:hover{border-color:var(--gold);color:var(--gold)}
-.bgold{background:linear-gradient(135deg,var(--gold-d),var(--gold));color:var(--ink);padding:11px 24px;border-radius:4px;font-size:14px;font-weight:800}
+.bgold{background:linear-gradient(135deg,#C8973A,#E3BC66);color:#2A1218;padding:11px 24px;border-radius:4px;font-size:14px;font-weight:800}
 .bgold:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(200,151,58,.4)}
 .bsm{padding:6px 13px!important;font-size:11px!important;border-radius:4px!important}
 .bdanger{background:transparent;border:1px solid var(--red);color:var(--red);padding:5px 12px;border-radius:4px;font-size:11px}
@@ -51,7 +51,7 @@ button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transitio
 .dotg{background:var(--green)}
 .tag{display:inline-flex;align-items:center;padding:2px 9px;border-radius:3px;font-size:11px;font-weight:600;font-family:sans-serif}
 .tg{background:rgba(46,204,113,.1);color:var(--green)}.tr{background:rgba(231,76,60,.1);color:var(--red)}
-.ta{background:rgba(200,151,58,.1);color:var(--gold)}.tmu{background:rgba(90,56,64,.3);color:var(--mu)}.tp{background:rgba(139,26,43,.15);color:var(--maroon-l)}
+.ta{background:rgba(200,151,58,.1);color:var(--gold)}.tmu{background:rgba(125,99,107,.14);color:var(--mu)}.tp{background:rgba(139,26,43,.15);color:var(--maroon-l)}
 .screen{display:none}.screen.on{display:block}
 #app-screen{display:none}#app-screen.on{display:flex;height:100vh;overflow:hidden}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;backdrop-filter:blur(4px)}
@@ -62,7 +62,7 @@ button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transitio
 .logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--maroon-d),var(--maroon));border:1px solid var(--gold-d);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--gold-l);flex-shrink:0;font-family:'Tajawal',sans-serif}
 .logo-ar{font-family:'Tajawal',sans-serif;font-size:22px;font-weight:800;color:var(--tx);letter-spacing:1px}
 .logo-ar span{color:var(--gold)}
-.land-nav{display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:68px;background:rgba(12,5,7,.96);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.land-nav{display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:68px;background:rgba(251,247,240,.94);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
 .lang-pill{display:flex;background:var(--s2);border:1px solid var(--bd);border-radius:99px;padding:3px;gap:2px}
 .lang-btn{padding:5px 13px;border-radius:99px;font-size:11px;font-weight:700;border:none;cursor:pointer;color:var(--mu);background:transparent;transition:all .18s;font-family:sans-serif}
 .lang-btn.on{background:var(--maroon);color:var(--gold-l)}
@@ -83,7 +83,7 @@ button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transitio
 .btn-hp:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(139,26,43,.6)}
 .btn-hg{background:transparent;color:var(--gold);padding:14px 36px;border-radius:4px;font-size:15px;cursor:pointer;border:1px solid rgba(200,151,58,.3);transition:all .2s}
 .btn-hg:hover{border-color:var(--gold);background:rgba(200,151,58,.06)}
-.hero-stats{display:flex;border:1px solid var(--bd);border-radius:8px;overflow:hidden;background:rgba(20,8,9,.75);backdrop-filter:blur(8px)}
+.hero-stats{display:flex;border:1px solid var(--bd);border-radius:8px;overflow:hidden;background:rgba(255,255,255,.66);backdrop-filter:blur(8px)}
 .hstat{padding:16px 26px;text-align:center;border-left:1px solid var(--bd);flex:1}
 .hstat:last-child{border-left:none}
 .hstat-n{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gold);margin-bottom:2px}
@@ -127,7 +127,7 @@ button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transitio
 .sb-label{font-size:10px;font-weight:700;color:var(--mu2);letter-spacing:1px;text-transform:uppercase;padding:10px 10px 4px;font-family:sans-serif}
 .agent-list{flex:1;overflow-y:auto;padding:6px}
 .aitem{padding:9px 10px;border-radius:7px;cursor:pointer;margin-bottom:2px;border:1px solid transparent;transition:all .15s;display:flex;align-items:center;gap:8px}
-.aitem:hover{background:rgba(255,255,255,.02)}.aitem.on{background:rgba(139,26,43,.15);border-color:rgba(200,151,58,.25)}
+.aitem:hover{background:rgba(43,18,24,.04)}.aitem.on{background:rgba(139,26,43,.15);border-color:rgba(200,151,58,.25)}
 .sb-bottom{padding:10px;border-top:1px solid var(--bd);display:flex;flex-direction:column;gap:6px}
 .plan-badge{display:flex;align-items:center;padding:5px 10px;border-radius:4px;font-size:11px;font-weight:600;background:rgba(200,151,58,.1);color:var(--gold);font-family:sans-serif;justify-content:center}
 .main-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
@@ -142,6 +142,134 @@ button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transitio
 .sub{background:var(--s2);border-radius:8px;padding:13px;margin-bottom:10px}
 .subh{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
 .subh span{font-size:10px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-family:sans-serif}
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE + ACCESSIBILITY LAYER
+   Added after a UI/UX audit. Before this block the file
+   had ZERO media queries, so the desktop layout was
+   served verbatim to phones.
+══════════════════════════════════════════════════════ */
+
+/* Keyboard focus was completely invisible: inputs had a gold ring but
+   buttons/links resolved to outline:none with no box-shadow. */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:2px;
+  border-radius:4px;
+}
+
+/* 130 twinkling stars + 5 keyframe animations ran unconditionally. */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+  .hero-stars{display:none}
+}
+
+@media (max-width:768px){
+  /* 52px gutters left only 271px of usable width on a 375px screen */
+  .section,.pricing-wrap{padding-left:20px;padding-right:20px}
+  .section,.pricing-wrap{padding-top:48px;padding-bottom:48px}
+  .ornament,.footer{padding-left:20px;padding-right:20px}
+
+  /* hero-h1 clamp floor was 42px — "Your AI Sales Agent" rendered 456px wide */
+  .hero{padding:64px 20px 32px;min-height:auto}
+  .hero-content{max-width:100%}
+  .hero-h1{font-size:clamp(28px,7.5vw,42px);letter-spacing:0}
+  .hero-en{font-size:11px;letter-spacing:4px}
+  .hero-sub{font-size:15px}
+  .hero-badge{font-size:11px;padding:6px 14px}
+  .hero-btns{flex-direction:column;align-items:stretch}
+  .btn-hp,.btn-hg{width:100%;padding:14px 20px}
+  .hero-moon{left:24px;top:64px}
+
+  /* 4 stats in a nowrap flex row forced ~456px of minimum width */
+  .hero-stats{flex-wrap:wrap}
+  .hstat{flex:1 1 50%;padding:14px 10px;border-bottom:1px solid var(--bd)}
+
+  .sec-ar{font-size:24px}
+  .feat-grid,.pricing-grid,.g2,.g3,.g4{grid-template-columns:1fr}
+  .footer{justify-content:center;text-align:center}
+
+  /* Dashboard: the 220px fixed sidebar occupied 59% of a 375px viewport,
+     squeezing content to ~155px and pushing the primary CTA off-screen. */
+  #app-screen.on{flex-direction:column;height:100dvh}
+  .sidebar{width:100%;max-height:40vh;border-left:none;border-bottom:1px solid var(--bd)}
+  .agent-list{max-height:20vh}
+  .sb-bottom{flex-direction:row;flex-wrap:wrap}
+  .sb-bottom>*{flex:1 1 auto}
+  .tabbar{padding:0 8px;overflow-x:auto}
+  .tabcon{padding:16px}
+  .tpanel{width:100%;max-height:none}
+
+  /* Touch targets: 5 of 10 interactive elements were under 44px,
+     the EN/AR language toggles as small as 41x22. */
+  button,.tabbtn,.plan-btn,.aitem{min-height:44px}
+  .bsm{min-height:44px;padding:10px 14px!important;font-size:13px!important}
+
+  /* Inputs were 14px; anything under 16px makes iOS Safari auto-zoom on focus. */
+  input,textarea,select{font-size:16px}
+}
+
+@media (max-width:768px){
+  /* The nav's three flex groups needed 584px on a 375px screen: the logo
+     lockup wrapped onto the tagline and both auth buttons fell off-screen. */
+  .land-nav{padding:0 12px;height:68px;gap:6px}
+  /* Sign In is hidden here, not removed: the Get Started modal carries an
+     "Already have an account? Sign in" link, so the path survives. */
+  .land-nav .bg{display:none}
+  .land-nav>div:nth-of-type(2){display:none!important}  /* inline style=display:flex needs !important */      /* Features / Pricing — reachable by scroll */
+  .logo-mark{width:32px;height:32px;font-size:16px}
+  .logo-ar{font-size:15px;letter-spacing:0;white-space:nowrap}
+  .logo-wrap>div:last-child>div:last-child{display:none}  /* KUHAYLAN AI sub-line */
+  .lang-pill{padding:2px}
+  .lang-btn{padding:6px 11px;min-height:44px}
+  .land-nav .bp{padding:11px 14px;font-size:12px;min-height:44px}
+  .land-nav select{font-size:12px;padding:10px 6px;max-width:84px;min-height:44px}
+}
+
+/* ══════════════════════════════════════════════════════
+   LIGHT THEME — hero adjustments
+   The hero was built for a night sky. On parchment the
+   130 white stars are invisible and the headline's
+   gradient ended in #F5D080, which vanishes on cream.
+══════════════════════════════════════════════════════ */
+.hero{
+  background:linear-gradient(180deg,#FDF8EE 0%,#F8ECDA 52%,#F3E1CA 100%);
+}
+/* white dots on parchment render as noise, not stars */
+.hero-stars{display:none}
+
+/* moon -> warm sun, now reading against a light sky */
+.hero-moon{
+  background:radial-gradient(circle at 35% 35%,#F7D98F,#D9A33C);
+  box-shadow:0 0 46px rgba(200,151,58,.45);
+}
+
+/* headline gradient re-weighted so every stop is legible on cream */
+.hero-h1 .gold{
+  background:linear-gradient(135deg,#6E4E0F,#8A6314,#B08029);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* glass panel over a light backdrop needs a light tint, not a dark one */
+.hero-stats{background:rgba(255,255,255,.66)}
+.hero-badge{background:rgba(139,26,43,.07);border-color:rgba(138,99,20,.35)}
+
+/* sticky nav was a near-opaque black veil */
+.land-nav{background:rgba(251,247,240,.94)}
+
+/* maroon CTA keeps its light-gold label - 6.2:1 - so it stays the one
+   clearly primary action on an otherwise light page */
 </style>
 </head>
 <body>
@@ -179,24 +307,24 @@ button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transitio
   </nav>
 
   <div class="hero">
-    <div style="position:absolute;inset:0;background:linear-gradient(180deg,#04010A 0%,#0C0507 45%,#140309 75%,#1C050A 100%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,#FDF9F1 0%,#FAF0E0 45%,#F6E6D2 75%,#F2DDC6 100%)"></div>
     <div class="hero-top-line"></div>
     <div class="hero-stars" id="stars"></div>
     <div class="hero-moon"></div>
     <div class="skyline-wrap">
       <svg width="100%" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2E1318"/><stop offset="100%" stop-color="#0C0507"/></linearGradient>
-          <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3A1520"/><stop offset="100%" stop-color="#140809"/></linearGradient>
-          <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C0507" stop-opacity="0"/><stop offset="100%" stop-color="#0C0507" stop-opacity="1"/></linearGradient>
+          <linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#B4626F"/><stop offset="100%" stop-color="#FBF7F0"/></linearGradient>
+          <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9A3546"/><stop offset="100%" stop-color="#FBF7F0"/></linearGradient>
+          <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FBF7F0" stop-opacity="0"/><stop offset="100%" stop-color="#FBF7F0" stop-opacity="1"/></linearGradient>
         </defs>
-        <rect x="0" y="272" width="1400" height="28" fill="#140809"/>
+        <rect x="0" y="272" width="1400" height="28" fill="#A34A5A"/>
         <!-- DUBAI -->
         <polygon points="195,272 192,165 194,110 196,55 198,8 200,55 202,110 204,165 207,272" fill="url(#bg2)"/>
         <line x1="198" y1="8" x2="198" y2="0" stroke="#C8973A" stroke-width="1.5" opacity=".55"/>
         <circle cx="198" cy="0" r="2" fill="#C8973A" opacity=".45"/>
-        <rect x="191" y="110" width="14" height="2" fill="#3A1520"/>
-        <rect x="192" y="165" width="12" height="2" fill="#3A1520"/>
+        <rect x="191" y="110" width="14" height="2" fill="#8B1A2B"/>
+        <rect x="192" y="165" width="12" height="2" fill="#8B1A2B"/>
         <rect x="112" y="168" width="48" height="104" fill="url(#bg1)"/>
         <rect x="92" y="198" width="32" height="74" fill="url(#bg2)"/>
         <rect x="232" y="158" width="42" height="114" fill="url(#bg1)"/>
@@ -207,10 +335,10 @@ button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transitio
         <text x="198" y="265" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="#C8973A" opacity=".4" letter-spacing="3">DUBAI</text>
         <!-- RIYADH -->
         <path d="M490,272 L490,140 L492,122 L498,84 L502,46 L506,84 L512,122 L514,140 L514,272 Z" fill="url(#bg2)"/>
-        <ellipse cx="502" cy="75" rx="7" ry="13" fill="#140809" opacity=".5"/>
+        <ellipse cx="502" cy="75" rx="7" ry="13" fill="#A34A5A" opacity=".5"/>
         <line x1="502" y1="46" x2="502" y2="32" stroke="#C8973A" stroke-width="1.5" opacity=".5"/>
         <polygon points="548,272 548,180 556,180 565,148 565,272" fill="url(#bg1)"/>
-        <polygon points="556,180 565,148 565,180" fill="#3A1520"/>
+        <polygon points="556,180 565,148 565,180" fill="#8B1A2B"/>
         <polygon points="561,148 559,132 563,132" fill="#C8973A" opacity=".6"/>
         <rect x="432" y="186" width="46" height="86" fill="url(#bg1)"/>
         <rect x="578" y="172" width="38" height="100" fill="url(#bg2)"/>
@@ -223,7 +351,7 @@ button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transitio
         <path d="M730,178 Q740,175 750,178" fill="none" stroke="#3A1520" stroke-width="1.2"/>
         <path d="M730,135 Q740,132 750,135" fill="none" stroke="#3A1520" stroke-width="1.2"/>
         <rect x="768" y="145" width="14" height="127" fill="url(#bg2)"/>
-        <ellipse cx="775" cy="145" rx="9" ry="13" fill="#3A1520"/>
+        <ellipse cx="775" cy="145" rx="9" ry="13" fill="#8B1A2B"/>
         <line x1="775" y1="132" x2="775" y2="116" stroke="#C8973A" stroke-width="1.8" opacity=".7"/>
         <ellipse cx="775" cy="115" rx="3" ry="4" fill="#C8973A" opacity=".4"/>
         <rect x="680" y="180" width="36" height="92" fill="url(#bg1)"/>
@@ -233,10 +361,10 @@ button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transitio
         <text x="748" y="265" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="#C8973A" opacity=".4" letter-spacing="2">DOHA</text>
         <!-- ABU DHABI -->
         <rect x="980" y="132" width="24" height="140" fill="url(#bg2)"/>
-        <polygon points="992,132 985,115 992,98 999,115" fill="#3A1520"/>
+        <polygon points="992,132 985,115 992,98 999,115" fill="#8B1A2B"/>
         <line x1="992" y1="98" x2="992" y2="83" stroke="#C8973A" stroke-width="1.5" opacity=".6"/>
         <rect x="1036" y="150" width="17" height="122" fill="url(#bg1)"/>
-        <polygon points="1044,150 1040,141 1044,129 1048,141" fill="#2E1318"/>
+        <polygon points="1044,150 1040,141 1044,129 1048,141" fill="#B4626F"/>
         <rect x="1060" y="166" width="16" height="106" fill="url(#bg2)"/>
         <rect x="1083" y="182" width="16" height="90" fill="url(#bg1)"/>
         <rect x="930" y="188" width="40" height="84" fill="url(#bg1)"/>
@@ -405,10 +533,74 @@ button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transitio
 </div>
 
 <script>
+/* HTML-escape helper. Used in 28 places below (renderSidebar, renderOverview,
+   renderCalls, renderEdit, openCall, saveAgent, createAgent, submitAuth, ...).
+   It was defined in admin.html but never carried over here, so every one of
+   those call sites threw ReferenceError: x is not defined. An empty account
+   hid it — the empty-state branches don't call x() — but the New Agent modal
+   and any account with at least one agent hit it immediately. */
+function x(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+
+/* Server sends a stable code; the copy lives here, in both languages.
+   Raw server strings (No token / Not found / ...) must never reach a user. */
+var ERRS={
+ en:{
+  AUTH_EXPIRED:"Your session expired. Sign in again to continue.",
+  AUTH_INVALID:"Email or password is incorrect. Check both and try again.",
+  EMAIL_TAKEN:"That email already has an account. Sign in instead.",
+  PASSWORD_SHORT:"Password must be at least 8 characters.",
+  EMAIL_INVALID:"Enter a valid email address, like name@company.com",
+  NAME_REQUIRED:"Enter your full name.",
+  CREDENTIALS_REQUIRED:"Enter your email and password.",
+  FIELDS_REQUIRED:"Fill in every field to continue.",
+  AGENT_LIMIT:"You have reached your plan limit. Upgrade to add more agents.",
+  AGENT_NOT_READY:"This agent is still being set up. Try again in a moment.",
+  NOT_FOUND:"We could not find that. It may have been deleted.",
+  NOT_ADMIN:"You do not have access to this area.",
+  ADMIN_INVALID:"Incorrect username or password.",
+  PLAN_INVALID:"That plan is not available. Pick another.",
+  BILLING_NONE:"No billing account yet. Choose a plan to get started.",
+  BILLING_UNCONFIGURED:"Billing is not available right now. Try again later.",
+  DEFAULT:"Something went wrong on our end. Try again, or contact support if it continues."
+ },
+ ar:{
+  AUTH_EXPIRED:"انتهت جلستك. سجّل الدخول مرة أخرى للمتابعة.",
+  AUTH_INVALID:"البريد الإلكتروني أو كلمة المرور غير صحيحة. تحقق منهما وحاول مرة أخرى.",
+  EMAIL_TAKEN:"لهذا البريد حساب بالفعل. سجّل الدخول بدلاً من ذلك.",
+  PASSWORD_SHORT:"يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
+  EMAIL_INVALID:"أدخل بريداً إلكترونياً صحيحاً، مثل name@company.com",
+  NAME_REQUIRED:"أدخل اسمك الكامل.",
+  CREDENTIALS_REQUIRED:"أدخل بريدك الإلكتروني وكلمة المرور.",
+  FIELDS_REQUIRED:"أكمل جميع الحقول للمتابعة.",
+  AGENT_LIMIT:"وصلت إلى حد خطتك. قم بالترقية لإضافة المزيد من الوكلاء.",
+  AGENT_NOT_READY:"ما زال إعداد هذا الوكيل جارياً. حاول مرة أخرى بعد قليل.",
+  NOT_FOUND:"لم نتمكن من العثور على ذلك. ربما تم حذفه.",
+  NOT_ADMIN:"ليس لديك صلاحية الوصول إلى هذه الصفحة.",
+  ADMIN_INVALID:"اسم المستخدم أو كلمة المرور غير صحيحة.",
+  PLAN_INVALID:"هذه الخطة غير متاحة. اختر خطة أخرى.",
+  BILLING_NONE:"لا يوجد حساب فوترة بعد. اختر خطة للبدء.",
+  BILLING_UNCONFIGURED:"الفوترة غير متاحة حالياً. حاول مرة أخرى لاحقاً.",
+  DEFAULT:"حدث خطأ لدينا. حاول مرة أخرى، أو تواصل مع الدعم إذا استمرت المشكلة."
+ }
+};
+function copiedFeedback(){var b=document.getElementById("copy-btn");if(!b)return;var o=b.textContent;b.textContent=(LANG==="ar"?"تم النسخ":"Copied");b.disabled=true;setTimeout(function(){b.textContent=o;b.disabled=false;},2000);}
+function errMsg(e){var m=ERRS[LANG==="ar"?"ar":"en"];return (e&&e.code&&m[e.code])||m.DEFAULT;}
+
+/* Arabic needs four plural forms where English needs two. */
+function agentCount(n){
+  n=Number(n)||0;
+  if(LANG==="ar"){
+    if(n===1)return "وكيل واحد";
+    if(n===2)return "وكيلان";
+    if(n>=3&&n<=10)return n+" وكلاء";
+    return n+" وكيلاً";
+  }
+  return n+(n===1?" agent":" agents");
+}
 var LANG=localStorage.getItem("vf_lang")||"ar";
 var TR={
-  ar:{navSign:"دخول",navStart:"ابدأ مجاناً",hbTxt:"ذكاء اصطناعي · عربي وإنجليزي · 24/7",h1a:"وكيل المبيعات الذكي",h1b:"للخليج العربي",heroSub:"<strong>ذكاء اصطناعي يبيع بدلاً عنك</strong> — يرد على كل مكالمة، يؤهل كل عميل، ويغلق المبيعات بالعربية والإنجليزية على مدار الساعة.",heroBtnP:"← ابدأ مجاناً — أنشئ وكيلك الآن",heroBtnG:"شاهد كيف يعمل",hs1:"دقائق للإعداد",hs2:"مدعوم بـ",hs3:"ثنائي اللغة",hs4:"متاح دائماً",featTitle:"لماذا كحيلان؟",f1t:"فحص موقعك تلقائياً",f1d:"الصق رابط موقعك — يقرأ الذكاء الاصطناعي محتواه ويبني وكيلك تلقائياً في ثوانٍ.",f2t:"رقم هاتف حقيقي",f2d:"احصل على رقم مخصص. وكيلك يرد على كل مكالمة فوراً بالعربية أو الإنجليزية.",f3t:"عربي وإنجليزي",f3d:"يكتشف لغة العميل تلقائياً ويرد بشكل طبيعي وسلس بنفس اللغة.",f4t:"حملات الاتصال الصادر",f4d:"ارفع قائمة عملائك المحتملين. وكيلك يتصل بهم جميعاً تلقائياً.",f5t:"نصوص ومقاطع صوتية",f5d:"كل مكالمة مسجلة ومحولة إلى نص. راجع محادثاتك في أي وقت.",f6t:"متاح دائماً 24/7",f6d:"وكيلك لا ينام، لا يأخذ إجازات، لا يفوته أي عميل.",priceTitle:"أسعار شفافة وبسيطة",popTxt:"الأكثر شعبية",pn1:"مجاني",pd1:"جرّب بدون أي التزام",pf11:"وكيل AI واحد",pf12:"50 مكالمة/شهر",pf13:"عربي + إنجليزي",pb1:"ابدأ مجاناً",pn2:"المبتدئ",pd2:"للشركات النامية",pf21:"3 وكلاء AI",pf22:"500 دقيقة/شهر",pf23:"حملات الاتصال الصادر",pf24:"نصوص ومقاطع صوتية",pb2:"ابدأ الخطة ←",pn3:"الاحترافي",pd3:"للوكالات والمؤسسات",pf31:"10 وكلاء AI",pf32:"2,000 دقيقة/شهر",pf33:"كل ما في المبتدئ",pf34:"دعم ذو أولوية",pb3:"ابدأ الخطة ←",ftTag:"ذكاء اصطناعي يبيع بدلاً عنك",nl1:"المميزات",nl2:"الأسعار",sbLbl:"وكلائي",btnNew:"+ وكيل جديد",btnBilling:"💳 إدارة الاشتراك",btnLogout:"← خروج",tabOv:"📊 نظرة عامة",tabCa:"📞 المكالمات",tabOb:"📤 الاتصال الصادر",tabEd:"✏️ تعديل",freePlan:"الخطة المجانية",starterPlan:"خطة المبتدئ",proPlan:"الخطة الاحترافية",agentMax:" وكلاء",authSignup:"إنشاء حساب",authLogin:"تسجيل الدخول",nameLbl:"الاسم الكامل",emailLbl:"البريد الإلكتروني",passLbl:"كلمة المرور",signupBtn:"إنشاء الحساب →",loginBtn:"تسجيل الدخول →",haveAcc:"لديك حساب؟",signInLnk:"سجّل الدخول",noAcc:"ليس لديك حساب؟",createLnk:"أنشئ واحداً مجاناً",phoneLabel:"رقم المبيعات الذكي",shareNote:"شارك هذا الرقم — وكيلك يرد على كل مكالمة",copyBtn:"📋 نسخ",totalCalls:"إجمالي المكالمات",completed:"مكتملة",talkTime:"وقت الحديث",agentLbl:"الوكيل",recentCalls:"📋 آخر المكالمات",noCalls:"لا مكالمات بعد. شارك رقمك!",refresh:"↻ تحديث",callLog:"📞 سجل المكالمات",transcript:"📝 النص",closeBtn:"✕ إغلاق",recording:"التسجيل",aiSummary:"ملخص AI",conversation:"المحادثة",outboundTitle:"📤 حملة الاتصال الصادر",outboundSub:"وكيلك يتصل بكل رقم تلقائياً.",numbersLbl:"أرقام الهاتف للاتصال",numDetected:" أرقام",launchCamp:"🚀 إطلاق الحملة",stopCamp:"■ إيقاف",campResults:"نتائج الحملة",editTitle:"✏️ تعديل الوكيل",editSub:"التغييرات تُطبَّق فوراً.",saveBtn:"💾 حفظ",savedMsg:"✓ تم الحفظ!",idSection:"🎭 الهوية والصوت",scriptSection:"📋 السكريبتات",openingLbl:"سكريبت الفتح",closingLbl:"سكريبت الإغلاق",agentNameLbl:"اسم الوكيل",bizNameLbl:"اسم الشركة",greetLbl:"الترحيب (إنجليزي)",greetArLbl:"الترحيب (عربي)",voiceLbl:"الصوت",langLbl:"لغة الوكيل",productsLbl:"المنتجات",addProd:"+ إضافة منتج",removeBtn:"حذف",newAgentTitle:"🚀 إنشاء وكيل جديد",createAgentBtn:"🚀 إنشاء الوكيل والحصول على رقم",creatingMsg:"جاري الإنشاء...",emptyTitle:"أنشئ أول وكيل ذكاء اصطناعي",emptySub:"صف عملك واحصل على رقم هاتف يرد عليه وكيلك 24/7.",createFirstBtn:"🚀 إنشاء أول وكيل ←",limitErr:"وصلت إلى الحد الأقصى. قم بترقية خطتك.",industryLbl:"القطاع",areaCodeLbl:"رمز المنطقة"},
-  en:{navSign:"Sign In",navStart:"Get Started",hbTxt:"AI Sales Agent · Arabic & English · 24/7",h1a:"Your AI Sales Agent",h1b:"For The Gulf",heroSub:"<strong>AI that sells for you</strong> — answers every call, qualifies every lead, closes sales in Arabic & English, around the clock.",heroBtnP:"Build My Agent Free →",heroBtnG:"See How It Works",hs1:"Minutes Setup",hs2:"Powered By",hs3:"Bilingual",hs4:"Always Live",featTitle:"Why Kuhaylan?",f1t:"Scan Your Website",f1d:"Paste your URL — AI reads your content and builds your agent automatically in seconds.",f2t:"Real Phone Number",f2d:"Get a dedicated number. Your agent answers every call instantly in Arabic or English.",f3t:"Arabic & English",f3d:"Detects the customer's language and responds naturally in the same language.",f4t:"Outbound Campaigns",f4d:"Upload your lead list. Your agent calls them all automatically one by one.",f5t:"Full Transcripts",f5d:"Every call recorded and transcribed. Review conversations any time.",f6t:"Always On 24/7",f6d:"Your agent never sleeps, never takes days off, never misses a lead.",priceTitle:"Simple Transparent Pricing",popTxt:"Most Popular",pn1:"Free",pd1:"Try with no commitment",pf11:"1 AI agent",pf12:"50 calls/month",pf13:"Arabic + English",pb1:"Get Started Free",pn2:"Starter",pd2:"For growing businesses",pf21:"3 AI agents",pf22:"500 min/month",pf23:"Outbound campaigns",pf24:"Transcripts & recordings",pb2:"Start Starter →",pn3:"Pro",pd3:"For agencies & enterprises",pf31:"10 AI agents",pf32:"2,000 min/month",pf33:"Everything in Starter",pf34:"Priority support",pb3:"Start Pro →",ftTag:"AI That Sells For You",nl1:"Features",nl2:"Pricing",sbLbl:"My Agents",btnNew:"+ New Agent",btnBilling:"💳 Manage Plan",btnLogout:"← Sign Out",tabOv:"📊 Overview",tabCa:"📞 Calls",tabOb:"📤 Outbound",tabEd:"✏️ Edit",freePlan:"Free Plan",starterPlan:"Starter Plan",proPlan:"Pro Plan",agentMax:" agents",authSignup:"Create Account",authLogin:"Sign In",nameLbl:"Full Name",emailLbl:"Email",passLbl:"Password",signupBtn:"Create Account →",loginBtn:"Sign In →",haveAcc:"Already have an account?",signInLnk:"Sign in",noAcc:"No account yet?",createLnk:"Create one free",phoneLabel:"Your AI Sales Number",shareNote:"Share this number — your agent answers every call",copyBtn:"📋 Copy",totalCalls:"Total Calls",completed:"Completed",talkTime:"Talk Time",agentLbl:"Agent",recentCalls:"📋 Recent Calls",noCalls:"No calls yet. Share your number!",refresh:"↻ Refresh",callLog:"📞 Call Log",transcript:"📝 Transcript",closeBtn:"✕ Close",recording:"Recording",aiSummary:"AI Summary",conversation:"Conversation",outboundTitle:"📤 Outbound Campaign",outboundSub:"Your agent calls each number automatically.",numbersLbl:"Phone Numbers to Call",numDetected:" numbers",launchCamp:"🚀 Launch Campaign",stopCamp:"■ Stop",campResults:"Campaign Results",editTitle:"✏️ Edit Agent",editSub:"Changes go live instantly.",saveBtn:"💾 Save",savedMsg:"✓ Saved!",idSection:"🎭 Identity & Voice",scriptSection:"📋 Scripts",openingLbl:"Opening Script",closingLbl:"Closing Script",agentNameLbl:"Agent Name",bizNameLbl:"Business Name",greetLbl:"Greeting (English)",greetArLbl:"Greeting (Arabic)",voiceLbl:"Voice",langLbl:"Agent Language",productsLbl:"Products",addProd:"+ Add Product",removeBtn:"Remove",newAgentTitle:"🚀 Create New Agent",createAgentBtn:"🚀 Create Agent & Get Phone Number",creatingMsg:"Creating...",emptyTitle:"Create your first AI agent",emptySub:"Describe your business and get a real phone number answered by your AI agent 24/7.",createFirstBtn:"🚀 Create My First Agent →",limitErr:"Agent limit reached. Upgrade your plan.",industryLbl:"Industry",areaCodeLbl:"Area Code"}
+  ar:{navSign:"دخول",navStart:"ابدأ مجاناً",hbTxt:"ذكاء اصطناعي · عربي وإنجليزي · 24/7",h1a:"وكيل المبيعات الذكي",h1b:"للخليج العربي",heroSub:"<strong>ذكاء اصطناعي يبيع بدلاً عنك</strong> — يرد على كل مكالمة، يؤهل كل عميل، ويغلق المبيعات بالعربية والإنجليزية على مدار الساعة.",heroBtnP:"← ابدأ مجاناً — أنشئ وكيلك الآن",heroBtnG:"شاهد كيف يعمل",hs1:"دقائق للإعداد",hs2:"مدعوم بـ",hs3:"ثنائي اللغة",hs4:"متاح دائماً",featTitle:"لماذا كحيلان؟",f1t:"فحص موقعك تلقائياً",f1d:"الصق رابط موقعك — يقرأ الذكاء الاصطناعي محتواه ويبني وكيلك تلقائياً في ثوانٍ.",f2t:"رقم هاتف حقيقي",f2d:"احصل على رقم مخصص. وكيلك يرد على كل مكالمة فوراً بالعربية أو الإنجليزية.",f3t:"عربي وإنجليزي",f3d:"يكتشف لغة العميل تلقائياً ويرد بشكل طبيعي وسلس بنفس اللغة.",f4t:"حملات الاتصال الصادر",f4d:"ارفع قائمة عملائك المحتملين. وكيلك يتصل بهم جميعاً تلقائياً.",f5t:"نصوص ومقاطع صوتية",f5d:"كل مكالمة مسجلة ومحولة إلى نص. راجع محادثاتك في أي وقت.",f6t:"متاح دائماً 24/7",f6d:"وكيلك لا ينام، لا يأخذ إجازات، لا يفوته أي عميل.",priceTitle:"أسعار شفافة وبسيطة",popTxt:"الأكثر شعبية",pn1:"مجاني",pd1:"جرّب بدون أي التزام",pf11:"وكيل AI واحد",pf12:"50 مكالمة/شهر",pf13:"عربي + إنجليزي",pb1:"ابدأ مجاناً",pn2:"المبتدئ",pd2:"للشركات النامية",pf21:"3 وكلاء AI",pf22:"500 دقيقة/شهر",pf23:"حملات الاتصال الصادر",pf24:"نصوص ومقاطع صوتية",pb2:"ابدأ الخطة ←",pn3:"الاحترافي",pd3:"للوكالات والمؤسسات",pf31:"10 وكلاء AI",pf32:"2,000 دقيقة/شهر",pf33:"كل ما في المبتدئ",pf34:"دعم ذو أولوية",pb3:"ابدأ الخطة ←",ftTag:"ذكاء اصطناعي يبيع بدلاً عنك",nl1:"المميزات",nl2:"الأسعار",sbLbl:"وكلائي",btnNew:"+ وكيل جديد",btnBilling:"💳 إدارة الاشتراك",btnLogout:"← خروج",tabOv:"📊 نظرة عامة",tabCa:"📞 المكالمات",tabOb:"📤 الاتصال الصادر",tabEd:"✏️ تعديل",freePlan:"الخطة المجانية",starterPlan:"خطة المبتدئ",proPlan:"الخطة الاحترافية",agentMax:" وكلاء",authSignup:"إنشاء حساب",authLogin:"تسجيل الدخول",nameLbl:"الاسم الكامل",emailLbl:"البريد الإلكتروني",passLbl:"كلمة المرور",signupBtn:"إنشاء الحساب →",loginBtn:"تسجيل الدخول →",haveAcc:"لديك حساب؟",signInLnk:"سجّل الدخول",noAcc:"ليس لديك حساب؟",createLnk:"أنشئ واحداً مجاناً",phoneLabel:"رقم المبيعات الذكي",shareNote:"شارك هذا الرقم — وكيلك يرد على كل مكالمة",copyBtn:"📋 نسخ",totalCalls:"إجمالي المكالمات",completed:"مكتملة",talkTime:"وقت الحديث",agentLbl:"الوكيل",recentCalls:"📋 آخر المكالمات",noCalls:"لا مكالمات بعد. شارك رقمك!",refresh:"↻ تحديث",callLog:"📞 سجل المكالمات",transcript:"📝 النص",closeBtn:"✕ إغلاق",recording:"التسجيل",aiSummary:"ملخص AI",conversation:"المحادثة",outboundTitle:"📤 حملة الاتصال الصادر",outboundSub:"وكيلك يتصل بكل رقم تلقائياً.",numbersLbl:"أرقام الهاتف للاتصال",numDetected:" أرقام",launchCamp:"🚀 إطلاق الحملة",stopCamp:"■ إيقاف",campResults:"نتائج الحملة",editTitle:"✏️ تعديل الوكيل",editSub:"التغييرات تُطبَّق فوراً.",saveBtn:"💾 حفظ",savedMsg:"✓ تم الحفظ!",idSection:"🎭 الهوية والصوت",scriptSection:"📋 السكريبتات",openingLbl:"سكريبت الفتح",closingLbl:"سكريبت الإغلاق",agentNameLbl:"اسم الوكيل",bizNameLbl:"اسم الشركة",greetLbl:"الترحيب (إنجليزي)",greetArLbl:"الترحيب (عربي)",voiceLbl:"الصوت",langLbl:"لغة الوكيل",productsLbl:"المنتجات",addProd:"+ إضافة منتج",removeBtn:"حذف",newAgentTitle:"🚀 إنشاء وكيل جديد",createAgentBtn:"إنشاء الوكيل والحصول على رقم",creatingMsg:"جاري الإنشاء...",emptyTitle:"أنشئ أول وكيل ذكاء اصطناعي",emptySub:"صف عملك واحصل على رقم هاتف يرد عليه وكيلك 24/7.",createFirstBtn:"إنشاء أول وكيل ←",limitErr:"وصلت إلى الحد الأقصى. قم بترقية خطتك.",industryLbl:"القطاع",areaCodeLbl:"رمز المنطقة"},
+  en:{navSign:"Sign In",navStart:"Get Started",hbTxt:"AI Sales Agent · Arabic & English · 24/7",h1a:"Your AI Sales Agent",h1b:"For The Gulf",heroSub:"<strong>AI that sells for you</strong> — answers every call, qualifies every lead, closes sales in Arabic & English, around the clock.",heroBtnP:"Build My Agent Free →",heroBtnG:"See How It Works",hs1:"Minutes Setup",hs2:"Powered By",hs3:"Bilingual",hs4:"Always Live",featTitle:"Why Kuhaylan?",f1t:"Scan Your Website",f1d:"Paste your URL — AI reads your content and builds your agent automatically in seconds.",f2t:"Real Phone Number",f2d:"Get a dedicated number. Your agent answers every call instantly in Arabic or English.",f3t:"Arabic & English",f3d:"Detects the customer's language and responds naturally in the same language.",f4t:"Outbound Campaigns",f4d:"Upload your lead list. Your agent calls them all automatically one by one.",f5t:"Full Transcripts",f5d:"Every call recorded and transcribed. Review conversations any time.",f6t:"Always On 24/7",f6d:"Your agent never sleeps, never takes days off, never misses a lead.",priceTitle:"Simple Transparent Pricing",popTxt:"Most Popular",pn1:"Free",pd1:"Try with no commitment",pf11:"1 AI agent",pf12:"50 calls/month",pf13:"Arabic + English",pb1:"Get Started Free",pn2:"Starter",pd2:"For growing businesses",pf21:"3 AI agents",pf22:"500 min/month",pf23:"Outbound campaigns",pf24:"Transcripts & recordings",pb2:"Start Starter →",pn3:"Pro",pd3:"For agencies & enterprises",pf31:"10 AI agents",pf32:"2,000 min/month",pf33:"Everything in Starter",pf34:"Priority support",pb3:"Start Pro →",ftTag:"AI That Sells For You",nl1:"Features",nl2:"Pricing",sbLbl:"My Agents",btnNew:"+ New Agent",btnBilling:"💳 Manage Plan",btnLogout:"← Sign Out",tabOv:"📊 Overview",tabCa:"📞 Calls",tabOb:"📤 Outbound",tabEd:"✏️ Edit",freePlan:"Free Plan",starterPlan:"Starter Plan",proPlan:"Pro Plan",agentMax:" agents",authSignup:"Create Account",authLogin:"Sign In",nameLbl:"Full Name",emailLbl:"Email",passLbl:"Password",signupBtn:"Create Account →",loginBtn:"Sign In →",haveAcc:"Already have an account?",signInLnk:"Sign in",noAcc:"No account yet?",createLnk:"Create one free",phoneLabel:"Your AI Sales Number",shareNote:"Share this number — your agent answers every call",copyBtn:"📋 Copy",totalCalls:"Total Calls",completed:"Completed",talkTime:"Talk Time",agentLbl:"Agent",recentCalls:"📋 Recent Calls",noCalls:"No calls yet. Share your number!",refresh:"↻ Refresh",callLog:"📞 Call Log",transcript:"📝 Transcript",closeBtn:"✕ Close",recording:"Recording",aiSummary:"AI Summary",conversation:"Conversation",outboundTitle:"📤 Outbound Campaign",outboundSub:"Your agent calls each number automatically.",numbersLbl:"Phone Numbers to Call",numDetected:" numbers",launchCamp:"🚀 Launch Campaign",stopCamp:"■ Stop",campResults:"Campaign Results",editTitle:"✏️ Edit Agent",editSub:"Changes go live instantly.",saveBtn:"💾 Save",savedMsg:"✓ Saved!",idSection:"🎭 Identity & Voice",scriptSection:"📋 Scripts",openingLbl:"Opening Script",closingLbl:"Closing Script",agentNameLbl:"Agent Name",bizNameLbl:"Business Name",greetLbl:"Greeting (English)",greetArLbl:"Greeting (Arabic)",voiceLbl:"Voice",langLbl:"Agent Language",productsLbl:"Products",addProd:"+ Add Product",removeBtn:"Remove",newAgentTitle:"🚀 Create New Agent",createAgentBtn:"Create agent & get phone number",creatingMsg:"Creating...",emptyTitle:"Create your first AI agent",emptySub:"Describe your business and get a real phone number answered by your AI agent 24/7.",createFirstBtn:"Create my first agent →",limitErr:"Agent limit reached. Upgrade your plan.",industryLbl:"Industry",areaCodeLbl:"Area Code"}
 };
 function t(k){return(TR[LANG]||TR.ar)[k]||k;}
 function setLang(l){
@@ -427,7 +619,7 @@ async function api(path,method,body){
   if(token)opts.headers["Authorization"]="Bearer "+token;
   if(body)opts.body=JSON.stringify(body);
   var r=await fetch("/api"+path,opts),d=await r.json();
-  if(!r.ok)throw new Error(d.error||"Request failed");
+  if(!r.ok){var er=new Error(d.error||"Request failed");er.code=d.code;throw er;}
   return d;
 }
 (async function init(){
@@ -459,16 +651,16 @@ async function submitAuth(){
     var email=document.getElementById("ae2")?.value?.trim(),pass=document.getElementById("ap")?.value,name=document.getElementById("an")?.value?.trim();
     var data=await api(authMode==="signup"?"/auth/signup":"/auth/login","POST",authMode==="signup"?{name,email,password:pass}:{email,password:pass});
     token=data.token;user=data.user;localStorage.setItem("vf_token",token);closeAuth();showApp();
-  }catch(e){err.innerHTML='<div class="err">⚠️ '+x(e.message)+'</div>';err.style.display="block";btn.disabled=false;btn.textContent=t(authMode==="signup"?"signupBtn":"loginBtn");}
+  }catch(e){err.innerHTML='<div class="err">⚠️ '+x(errMsg(e))+'</div>';err.style.display="block";btn.disabled=false;btn.textContent=t(authMode==="signup"?"signupBtn":"loginBtn");}
 }
-async function subscribe(plan){if(!user){openAuth("signup");return;}try{var d=await api("/billing/checkout","POST",{plan});window.location.href=d.url;}catch(e){alert("Error: "+e.message);}}
+async function subscribe(plan){if(!user){openAuth("signup");return;}try{var d=await api("/billing/checkout","POST",{plan});window.location.href=d.url;}catch(e){alert(errMsg(e));}}
 async function openBillingPortal(){try{var d=await api("/billing/portal","POST");window.open(d.url,"_blank");}catch{alert("Subscribe to a plan first.");}}
 async function showApp(){
   document.querySelectorAll(".screen").forEach(s=>{s.classList.remove("on");s.style.display="";});
   var el=document.getElementById("app-screen");el.style.display="flex";el.classList.add("on");
   var planLabels={free:t("freePlan"),starter:t("starterPlan"),pro:t("proPlan")};
   var badge=document.getElementById("plan-badge");
-  if(badge&&user)badge.textContent=(planLabels[user.plan]||t("freePlan"))+" · "+(user.agentLimit||1)+t("agentMax");
+  if(badge&&user)badge.textContent=(planLabels[user.plan]||t("freePlan"))+" · "+agentCount(user.agentLimit||1);
   await loadAgents();
 }
 async function loadAgents(){try{agents=await api("/agents");renderSidebar();agents.length?renderActiveTab():renderEmpty();}catch(e){console.error(e);}}
@@ -492,7 +684,7 @@ function renderEmpty(){document.getElementById("po").innerHTML='<div style="text
 async function renderOverview(){
   var ag=agents[selIdx];if(!ag)return renderEmpty();
   var el=document.getElementById("po");
-  el.innerHTML='<div style="background:linear-gradient(135deg,rgba(139,26,43,.12),rgba(200,151,58,.05));border:1px solid rgba(200,151,58,.22);border-radius:12px;padding:36px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div><p style="font-size:10px;color:var(--mu);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-family:sans-serif">'+t("phoneLabel")+'</p><div style="font-size:clamp(22px,4vw,42px);font-weight:800;letter-spacing:4px;color:var(--gold-l);margin-bottom:12px;word-break:break-all;font-family:sans-serif">'+x(ag.phoneNumber||"—")+'</div><p style="font-size:14px;color:var(--mu);max-width:380px;margin:0 auto 18px">'+t("shareNote")+' <strong style="color:var(--tx)">'+x(ag.agentName)+'</strong></p><button class="bg bsm" onclick="copyNum(\''+x(ag.phoneNumber||"")+'\')">'+t("copyBtn")+'</button></div>'+
+  el.innerHTML='<div style="background:linear-gradient(135deg,rgba(139,26,43,.12),rgba(200,151,58,.05));border:1px solid rgba(200,151,58,.22);border-radius:12px;padding:36px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div><p style="font-size:10px;color:var(--mu);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-family:sans-serif">'+t("phoneLabel")+'</p><div style="font-size:clamp(22px,4vw,42px);font-weight:800;letter-spacing:4px;color:var(--gold-l);margin-bottom:12px;word-break:break-all;font-family:sans-serif">'+x(ag.phoneNumber||"—")+'</div><p style="font-size:14px;color:var(--mu);max-width:380px;margin:0 auto 18px">'+t("shareNote")+' <strong style="color:var(--tx)">'+x(ag.agentName)+'</strong></p><button id="copy-btn" class="bg bsm" onclick="copyNum(\''+x(ag.phoneNumber||"")+'\')">'+t("copyBtn")+'</button></div>'+
   '<div class="g4" style="margin-bottom:20px"><div class="card"><div style="font-size:20px;margin-bottom:8px">📞</div><div id="otc" style="font-size:22px;font-weight:800;font-family:sans-serif">—</div><div style="font-size:11px;color:var(--mu);margin-top:3px;font-family:sans-serif">'+t("totalCalls")+'</div></div><div class="card"><div style="font-size:20px;margin-bottom:8px">✅</div><div id="ocp" style="font-size:22px;font-weight:800;font-family:sans-serif">—</div><div style="font-size:11px;color:var(--mu);margin-top:3px;font-family:sans-serif">'+t("completed")+'</div></div><div class="card"><div style="font-size:20px;margin-bottom:8px">⏱️</div><div id="ott" style="font-size:22px;font-weight:800;font-family:sans-serif">—</div><div style="font-size:11px;color:var(--mu);margin-top:3px;font-family:sans-serif">'+t("talkTime")+'</div></div><div class="card"><div style="font-size:20px;margin-bottom:8px">🤖</div><div style="font-size:16px;font-weight:800">'+x(ag.agentName||"—")+'</div><div style="font-size:11px;color:var(--mu);margin-top:3px;font-family:sans-serif">'+t("agentLbl")+'</div></div></div>'+
   '<div class="card"><p style="font-size:15px;font-weight:700;margin-bottom:14px">'+t("recentCalls")+'</p><div id="orcl"><div style="display:flex;align-items:center;gap:8px;padding:16px 0;color:var(--mu);font-size:13px"><span class="spinner" style="width:14px;height:14px"></span></div></div></div>';
   try{
@@ -503,9 +695,9 @@ async function renderOverview(){
     var rc=document.getElementById("orcl");if(!rc)return;
     if(!arr.length){rc.innerHTML='<div style="text-align:center;padding:32px;color:var(--mu)"><div style="font-size:32px;margin-bottom:8px">📵</div><p>'+t("noCalls")+'</p></div>';return;}
     rc.innerHTML=arr.slice(0,6).map(crh).join("");
-  }catch(e){var rc=document.getElementById("orcl");if(rc)rc.innerHTML='<p style="font-size:13px;color:var(--mu);padding:12px">'+x(e.message)+'</p>';}
+  }catch(e){var rc=document.getElementById("orcl");if(rc)rc.innerHTML='<p style="font-size:13px;color:var(--mu);padding:12px">'+x(errMsg(e))+'</p>';}
 }
-function copyNum(num){if(navigator.clipboard)navigator.clipboard.writeText(num).then(()=>alert("✓ Copied!"));else{var ta=document.createElement("textarea");ta.value=num;document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta);alert("Copied!");}}
+function copyNum(num){if(navigator.clipboard)navigator.clipboard.writeText(num).then(()=>copiedFeedback());else{var ta=document.createElement("textarea");ta.value=num;document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta);copiedFeedback();}}
 async function renderCalls(){
   var ag=agents[selIdx];if(!ag)return;
   document.getElementById("pc").innerHTML='<div style="display:flex;gap:18px;height:calc(100vh - 132px)"><div style="flex:1;overflow:auto;min-width:0"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h2 style="font-size:18px;font-weight:800">'+t("callLog")+'</h2><button class="bg bsm" onclick="renderCalls()">'+t("refresh")+'</button></div><div id="clin"><div style="display:flex;align-items:center;gap:8px;padding:18px 0;color:var(--mu);font-size:13px"><span class="spinner" style="width:14px;height:14px"></span></div></div></div><div id="tpan" style="display:none" class="tpanel"></div></div>';
@@ -514,7 +706,7 @@ async function renderCalls(){
     var inner=document.getElementById("clin");if(!inner)return;
     if(!arr.length){inner.innerHTML='<div style="text-align:center;padding:40px;color:var(--mu)"><div style="font-size:36px;margin-bottom:10px">📵</div><p>'+t("noCalls")+'</p></div>';return;}
     inner.innerHTML='<div class="card" style="padding:0;overflow:hidden">'+arr.map(c=>'<div class="crow" onclick="openCall(\''+c.id+'\')">'+crh(c)+'</div>').join("")+'</div>';
-  }catch(e){var inner=document.getElementById("clin");if(inner)inner.innerHTML='<p style="font-size:13px;color:var(--mu);padding:16px">'+x(e.message)+'</p>';}
+  }catch(e){var inner=document.getElementById("clin");if(inner)inner.innerHTML='<p style="font-size:13px;color:var(--mu);padding:16px">'+x(errMsg(e))+'</p>';}
 }
 async function openCall(callId){
   var ag=agents[selIdx],pane=document.getElementById("tpan");if(!pane)return;
@@ -531,7 +723,7 @@ async function openCall(callId){
     else if(d.transcript)h+='<div style="font-size:13px;color:var(--mu);line-height:1.8;white-space:pre-wrap">'+x(d.transcript)+'</div>';
     else h+='<p style="font-size:13px;color:var(--mu2)">Transcript not available yet.</p>';
     pane.innerHTML='<div style="padding:13px 16px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;flex-shrink:0"><h3 style="font-size:14px;font-weight:800">'+t("transcript")+'</h3><button class="bg bsm" onclick="document.getElementById(\'tpan\').style.display=\'none\'">'+t("closeBtn")+'</button></div><div style="flex:1;overflow:auto;padding:16px">'+h+'</div>';
-  }catch(e){pane.innerHTML='<div style="padding:16px"><p style="font-size:13px;color:var(--mu)">'+x(e.message)+'</p></div>';}
+  }catch(e){pane.innerHTML='<div style="padding:16px"><p style="font-size:13px;color:var(--mu)">'+x(errMsg(e))+'</p></div>';}
 }
 var obc=[];
 function renderOutbound(){
@@ -546,7 +738,7 @@ async function lcamp(){
   btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';stp.style.display="inline-flex";
   var sc={pending:"var(--mu)",calling:"var(--gold)",launched:"var(--green)",failed:"var(--red)"},si={pending:"⏳",calling:"📞",launched:"✅",failed:"❌"};
   function rend(){var counts=["launched","calling","pending","failed"].map(s=>'<span style="color:'+sc[s]+';font-size:12px;font-family:sans-serif">'+si[s]+" "+obc.filter(c=>c.status===s).length+" "+s+'</span>').join("&nbsp;&nbsp;");var rows=obc.map((c,i)=>'<div style="padding:10px 16px;'+(i<obc.length-1?"border-bottom:1px solid var(--bd)":"")+';display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-family:monospace;font-size:12px">'+x(c.number)+'</span><div style="display:flex;align-items:center;gap:8px;font-family:sans-serif"><span style="color:'+sc[c.status]+';font-weight:700;font-size:12px">'+si[c.status]+" "+c.status+'</span>'+(c.em?'<span style="font-size:11px;color:var(--red)">'+x(c.em)+'</span>':"")+' </div></div>').join("");var r=document.getElementById("obres");if(r)r.innerHTML='<div class="card" style="padding:0;overflow:hidden"><div style="padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center"><p style="font-size:14px;font-weight:700">'+t("campResults")+'</p><div style="display:flex;gap:12px">'+counts+'</div></div>'+rows+'</div>';}
-  async function run(i){if(i>=obc.length||stopOB){if(btn){btn.disabled=false;btn.innerHTML=t("launchCamp");}if(stp)stp.style.display="none";return;}obc[i].status="calling";rend();try{var result=await api("/agents/"+ag.id+"/outbound","POST",{toNumber:obc[i].number});obc[i].status="launched";obc[i].callId=result.callId||null;}catch(e){obc[i].status="failed";obc[i].em=e.message;}rend();await new Promise(r=>setTimeout(r,700));run(i+1);}
+  async function run(i){if(i>=obc.length||stopOB){if(btn){btn.disabled=false;btn.innerHTML=t("launchCamp");}if(stp)stp.style.display="none";return;}obc[i].status="calling";rend();try{var result=await api("/agents/"+ag.id+"/outbound","POST",{toNumber:obc[i].number});obc[i].status="launched";obc[i].callId=result.callId||null;}catch(e){obc[i].status="failed";obc[i].em=errMsg(e);}rend();await new Promise(r=>setTimeout(r,700));run(i+1);}
   rend();run(0);
 }
 var editVoice=null;
@@ -564,7 +756,7 @@ async function saveAgent(){
   var ag=agents[selIdx],btn=document.getElementById("sbtn"),err=document.getElementById("serr");
   btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';err.style.display="none";
   try{var updated=await api("/agents/"+ag.id,"PUT",{agentName:document.getElementById("e-an")?.value,businessName:document.getElementById("e-bn")?.value,greeting:document.getElementById("e-gr")?.value,greetingAr:document.getElementById("e-grar")?.value,language:document.getElementById("e-lang")?.value,voice:editVoice||ag.voice,scripts:{...ag.scripts,opening:document.getElementById("e-op")?.value,closing:document.getElementById("e-cl")?.value}});agents[selIdx]=updated;renderSidebar();var sm=document.getElementById("sms");if(sm){sm.style.display="inline";setTimeout(()=>sm.style.display="none",2500);}}
-  catch(e){err.innerHTML='<div class="err">⚠️ '+x(e.message)+'</div>';err.style.display="block";}
+  catch(e){err.innerHTML='<div class="err">⚠️ '+x(errMsg(e))+'</div>';err.style.display="block";}
   finally{btn.disabled=false;btn.innerHTML=t("saveBtn");}
 }
 var nad={voice:"nova",language:"both",products:[{name:"",price:"",description:""}]};
@@ -596,7 +788,7 @@ async function createAgent(){
     ok.innerHTML='<div class="ok">✅ '+t("phoneLabel")+': <strong>'+(agent.phoneNumber||"provisioning...")+'</strong></div>';
     ok.style.display="block";btn.innerHTML="✅";
     renderSidebar();setTimeout(()=>{closeAgentModal();renderOverview();},2200);
-  }catch(e){var isLimit=e.message.includes("limit")||e.message.includes("LIMIT");err.innerHTML='<div class="err">⚠️ '+x(isLimit?t("limitErr"):e.message)+'</div>';err.style.display="block";btn.disabled=false;btn.innerHTML=t("createAgentBtn");}
+  }catch(e){err.innerHTML='<div class="err">⚠️ '+x(errMsg(e))+'</div>';err.style.display="block";btn.disabled=false;btn.innerHTML=t("createAgentBtn");}
 }
 (function(){var s=document.getElementById("stars");if(!s)return;for(var i=0;i<130;i++){var el=document.createElement("div"),sz=Math.random()*2.2+0.4;el.style.cssText="position:absolute;border-radius:50%;background:#fff;width:"+sz+"px;height:"+sz+"px;top:"+(Math.random()*65)+"%;left:"+(Math.random()*100)+"%;opacity:"+(Math.random()*.65+.05)+";animation:twinkle "+(2+Math.random()*4)+"s "+(Math.random()*3)+"s infinite";s.appendChild(el);}})();
 /* ════════════════════════════════════════

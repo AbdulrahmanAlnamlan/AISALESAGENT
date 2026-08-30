@@ -19,3 +19,6 @@ npm-debug.log*
 *.log
 .DS_Store
 Thumbs.db
+
+# Local Claude Code dev scaffolding
+.claude/

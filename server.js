@@ -163,12 +163,12 @@ app.use(express.static(path.join(__dirname, "public")));
 /* ── Auth middleware ── */
 function auth(req, res, next) {
   const t = (req.headers.authorization || "").replace("Bearer ", "");
-  if (!t) return res.status(401).json({ error: "No token" });
+  if (!t) return res.status(401).json({ error: "No token", code: "AUTH_EXPIRED" });
   try {
     req.user = DB.getUser(jwt.verify(t, JWT_SECRET).sub);
-    if (!req.user) return res.status(401).json({ error: "User not found" });
+    if (!req.user) return res.status(401).json({ error: "User not found", code: "AUTH_EXPIRED" });
     next();
-  } catch { res.status(401).json({ error: "Invalid token" }); }
+  } catch { res.status(401).json({ error: "Invalid token", code: "AUTH_EXPIRED" }); }
 }
 
 /* ══════════════════════════════════════════════════════
@@ -177,10 +177,10 @@ function auth(req, res, next) {
 app.post("/api/auth/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    if (!name?.trim())        return res.status(400).json({ error: "Name required" });
-    if (!email?.includes("@")) return res.status(400).json({ error: "Valid email required" });
-    if (!password || password.length < 8) return res.status(400).json({ error: "Password min 8 characters" });
-    if (DB.getUserByEmail(email)) return res.status(409).json({ error: "Email already registered" });
+    if (!name?.trim())        return res.status(400).json({ error: "Name required", code: "NAME_REQUIRED" });
+    if (!email?.includes("@")) return res.status(400).json({ error: "Valid email required", code: "EMAIL_INVALID" });
+    if (!password || password.length < 8) return res.status(400).json({ error: "Password min 8 characters", code: "PASSWORD_SHORT" });
+    if (DB.getUserByEmail(email)) return res.status(409).json({ error: "Email already registered", code: "EMAIL_TAKEN" });
     const hash = await bcrypt.hash(password, 12);
     const user = DB.createUser(email, hash, name.trim());
     const token = jwt.sign({ sub: user.id }, JWT_SECRET, { expiresIn: "30d" });
@@ -192,10 +192,10 @@ app.post("/api/auth/signup", async (req, res) => {
 app.post("/api/auth/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ error: "Email and password required" });
+    if (!email || !password) return res.status(400).json({ error: "Email and password required", code: "CREDENTIALS_REQUIRED" });
     const user = DB.getUserByEmail(email);
     if (!user || !(await bcrypt.compare(password, user.password)))
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ error: "Invalid email or password", code: "AUTH_INVALID" });
     const token = jwt.sign({ sub: user.id }, JWT_SECRET, { expiresIn: "30d" });
     const { password: _, ...safe } = user;
     res.json({ token, user: safe });
@@ -224,7 +224,7 @@ app.post("/api/agents", auth, async (req, res) => {
   try {
     const user = req.user;
     if (DB.countAgents(user.id) >= user.agentLimit) {
-      return res.status(403).json({ error: "Agent limit reached. Upgrade your plan.", code: "LIMIT" });
+      return res.status(403).json({ error: "Agent limit reached. Upgrade your plan.", code: "AGENT_LIMIT" });
     }
 
     const data = req.body;
@@ -283,14 +283,14 @@ app.post("/api/agents", auth, async (req, res) => {
 
 app.get("/api/agents/:id", auth, (req, res) => {
   const agent = DB.getAgent(req.params.id);
-  if (!agent || agent.userId !== req.user.id) return res.status(404).json({ error: "Not found" });
+  if (!agent || agent.userId !== req.user.id) return res.status(404).json({ error: "Not found", code: "NOT_FOUND" });
   res.json(agent);
 });
 
 app.put("/api/agents/:id", auth, async (req, res) => {
   try {
     const agent = DB.getAgent(req.params.id);
-    if (!agent || agent.userId !== req.user.id) return res.status(404).json({ error: "Not found" });
+    if (!agent || agent.userId !== req.user.id) return res.status(404).json({ error: "Not found", code: "NOT_FOUND" });
 
     const data = { ...agent, ...req.body };
 
@@ -323,7 +323,7 @@ app.put("/api/agents/:id", auth, async (req, res) => {
 app.delete("/api/agents/:id", auth, async (req, res) => {
   try {
     const agent = DB.getAgent(req.params.id);
-    if (!agent || agent.userId !== req.user.id) return res.status(404).json({ error: "Not found" });
+    if (!agent || agent.userId !== req.user.id) return res.status(404).json({ error: "Not found", code: "NOT_FOUND" });
     if (agent.vapiId) await vapi(`/assistant/${agent.vapiId}`, "DELETE").catch(() => {});
     DB.deleteAgent(req.params.id, req.user.id);
     res.json({ success: true });
@@ -334,7 +334,7 @@ app.delete("/api/agents/:id", auth, async (req, res) => {
 app.get("/api/agents/:id/calls", auth, async (req, res) => {
   try {
     const agent = DB.getAgent(req.params.id);
-    if (!agent || agent.userId !== req.user.id) return res.status(404).json({ error: "Not found" });
+    if (!agent || agent.userId !== req.user.id) return res.status(404).json({ error: "Not found", code: "NOT_FOUND" });
     if (!agent.vapiId) return res.json([]);
     const data = await vapi(`/call?assistantId=${agent.vapiId}&limit=50`);
     res.json(Array.isArray(data) ? data : data?.calls || []);
@@ -344,7 +344,7 @@ app.get("/api/agents/:id/calls", auth, async (req, res) => {
 app.get("/api/agents/:id/calls/:callId", auth, async (req, res) => {
   try {
     const agent = DB.getAgent(req.params.id);
-    if (!agent || agent.userId !== req.user.id) return res.status(404).json({ error: "Not found" });
+    if (!agent || agent.userId !== req.user.id) return res.status(404).json({ error: "Not found", code: "NOT_FOUND" });
     const call = await vapi(`/call/${req.params.callId}`);
     res.json(call);
   } catch(e) { res.status(500).json({ error: e.message }); }
@@ -354,8 +354,8 @@ app.get("/api/agents/:id/calls/:callId", auth, async (req, res) => {
 app.post("/api/agents/:id/outbound", auth, async (req, res) => {
   try {
     const agent = DB.getAgent(req.params.id);
-    if (!agent || agent.userId !== req.user.id) return res.status(404).json({ error: "Not found" });
-    if (!agent.vapiId) return res.status(400).json({ error: "Agent not initialized" });
+    if (!agent || agent.userId !== req.user.id) return res.status(404).json({ error: "Not found", code: "NOT_FOUND" });
+    if (!agent.vapiId) return res.status(400).json({ error: "Agent not initialized", code: "AGENT_NOT_READY" });
     const call = await vapi("/call", "POST", {
       type:        "outboundPhoneCall",
       assistantId: agent.vapiId,
@@ -377,12 +377,12 @@ const PLANS = {
 app.get("/api/billing/plans", (_, res) => res.json(PLANS));
 
 app.post("/api/billing/checkout", auth, async (req, res) => {
-  if (!process.env.STRIPE_SECRET_KEY) return res.status(400).json({ error: "Stripe not configured" });
+  if (!process.env.STRIPE_SECRET_KEY) return res.status(400).json({ error: "Stripe not configured", code: "BILLING_UNCONFIGURED" });
   const Stripe = require("stripe");
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
   try {
     const plan = PLANS[req.body.plan];
-    if (!plan) return res.status(400).json({ error: "Invalid plan" });
+    if (!plan) return res.status(400).json({ error: "Invalid plan", code: "PLAN_INVALID" });
     let customerId = req.user.stripeId;
     if (!customerId) {
       const c = await stripe.customers.create({ email: req.user.email, name: req.user.name, metadata: { userId: req.user.id } });
@@ -407,7 +407,7 @@ app.post("/api/billing/checkout", auth, async (req, res) => {
 
 app.post("/api/billing/portal", auth, async (req, res) => {
   if (!process.env.STRIPE_SECRET_KEY || !req.user.stripeId)
-    return res.status(400).json({ error: "No billing account" });
+    return res.status(400).json({ error: "No billing account", code: "BILLING_NONE" });
   const Stripe = require("stripe");
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
   try {
@@ -448,19 +448,19 @@ const ADMIN_PASS = required("ADMIN_PASS");
 
 function adminAuth(req, res, next) {
   const t = (req.headers.authorization || "").replace("Bearer ", "");
-  if (!t) return res.status(401).json({ error: "No token" });
+  if (!t) return res.status(401).json({ error: "No token", code: "AUTH_EXPIRED" });
   try {
     const p = jwt.verify(t, JWT_SECRET);
-    if (p.role !== "admin") return res.status(403).json({ error: "Not admin" });
+    if (p.role !== "admin") return res.status(403).json({ error: "Not admin", code: "NOT_ADMIN" });
     next();
-  } catch { res.status(401).json({ error: "Invalid token" }); }
+  } catch { res.status(401).json({ error: "Invalid token", code: "AUTH_EXPIRED" }); }
 }
 
 /* ── Admin login ── */
 app.post("/api/admin/login", (req, res) => {
   const { username, password } = req.body;
   if (username !== ADMIN_USER || password !== ADMIN_PASS)
-    return res.status(401).json({ error: "Invalid admin credentials" });
+    return res.status(401).json({ error: "Invalid admin credentials", code: "ADMIN_INVALID" });
   const token = jwt.sign({ role: "admin", sub: "admin" }, JWT_SECRET, { expiresIn: "8h" });
   res.json({ token });
 });
@@ -496,7 +496,7 @@ app.get("/api/admin/users", adminAuth, (req, res) => {
 /* ── GET /api/admin/users/:id — single user detail ── */
 app.get("/api/admin/users/:id", adminAuth, (req, res) => {
   const user = DB.getUser(req.params.id);
-  if (!user) return res.status(404).json({ error: "Not found" });
+  if (!user) return res.status(404).json({ error: "Not found", code: "NOT_FOUND" });
   const { password, ...safe } = user;
   const agents = DB.getAgentsByUser(req.params.id);
   res.json({ user: safe, agents });
@@ -514,7 +514,7 @@ app.put("/api/admin/users/:id", adminAuth, (req, res) => {
     update.agentLimit = planLimits[plan] || 1;
   }
   const updated = DB.updateUser(req.params.id, update);
-  if (!updated) return res.status(404).json({ error: "Not found" });
+  if (!updated) return res.status(404).json({ error: "Not found", code: "NOT_FOUND" });
   const { password, ...safe } = updated;
   res.json(safe);
 });
@@ -522,7 +522,7 @@ app.put("/api/admin/users/:id", adminAuth, (req, res) => {
 /* ── DELETE /api/admin/users/:id — delete user + their agents ── */
 app.delete("/api/admin/users/:id", adminAuth, async (req, res) => {
   const user   = DB.getUser(req.params.id);
-  if (!user) return res.status(404).json({ error: "Not found" });
+  if (!user) return res.status(404).json({ error: "Not found", code: "NOT_FOUND" });
   // Delete all their agents from Vapi too
   const agents = DB.getAgentsByUser(req.params.id);
   for (const ag of agents) {
@@ -537,7 +537,7 @@ app.delete("/api/admin/users/:id", adminAuth, async (req, res) => {
 app.post("/api/admin/users/:id/reset-password", adminAuth, async (req, res) => {
   const { newPassword } = req.body;
   if (!newPassword || newPassword.length < 8)
-    return res.status(400).json({ error: "Password min 8 chars" });
+    return res.status(400).json({ error: "Password min 8 chars", code: "PASSWORD_SHORT" });
   const hash = await bcrypt.hash(newPassword, 12);
   db.get("users").find(u => u.id === req.params.id).assign({ password: hash }).write();
   res.json({ success: true });
@@ -568,8 +568,8 @@ app.get("/api/admin/agents/:id/calls", adminAuth, async (req, res) => {
 app.post("/api/admin/users", adminAuth, async (req, res) => {
   try {
     const { name, email, password, plan, agentLimit } = req.body;
-    if (!name || !email || !password) return res.status(400).json({ error: "name, email, password required" });
-    if (DB.getUserByEmail(email)) return res.status(409).json({ error: "Email already exists" });
+    if (!name || !email || !password) return res.status(400).json({ error: "name, email, password required", code: "FIELDS_REQUIRED" });
+    if (DB.getUserByEmail(email)) return res.status(409).json({ error: "Email already exists", code: "EMAIL_TAKEN" });
     const hash = await bcrypt.hash(password, 12);
     const user = DB.createUser(email, hash, name);
     const planLimits = { free:1, starter:3, pro:10, payg:999 };
@@ -590,7 +590,7 @@ app.get("/admin", (req, res) => {
 
 /* ── Serve frontend ── */
 app.get("*", (req, res) => {
-  if (req.path.startsWith("/api")) return res.status(404).json({ error: "Not found" });
+  if (req.path.startsWith("/api")) return res.status(404).json({ error: "Not found", code: "NOT_FOUND" });
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
