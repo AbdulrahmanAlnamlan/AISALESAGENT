@@ -73,7 +73,8 @@ const DB = {
       website: data.website || "", agentName: data.agentName || "Agent",
       voice: data.voice || "nova", tone: data.tone || "professional",
       greeting: data.greeting || "", greetingAr: data.greetingAr || "",
-      phoneNumber: data.phoneNumber || null, language: data.language || "en",
+      phoneNumber: data.phoneNumber || null, numberStatus: data.numberStatus || "pending",
+      language: data.language || "en",
       products: data.products || [], faqs: data.faqs || [],
       scripts: data.scripts || {},
       createdAt: new Date().toISOString(),
@@ -88,10 +89,15 @@ const DB = {
     const existing = DB.getAgent(id);
     if (!existing || existing.userId !== userId) return null;
     const allowed = ["name","businessName","industry","website","agentName","voice","tone",
-      "greeting","greetingAr","phoneNumber","language","vapiId","products","faqs","scripts"];
+      "greeting","greetingAr","phoneNumber","numberStatus","language","vapiId","products","faqs","scripts"];
     const update = {};
     allowed.forEach(k => { if (data[k] !== undefined) update[k] = data[k]; });
     db.get("agents").find(a => a.id === id).assign(update).write();
+    return DB.getAgent(id);
+  },
+  adminSetNumber: (id, phoneNumber, numberStatus) => {
+    db.get("agents").find(a => a.id === id)
+      .assign({ phoneNumber, numberStatus }).write();
     return DB.getAgent(id);
   },
   deleteAgent: (id, userId) => {
@@ -260,20 +266,14 @@ app.post("/api/agents", auth, async (req, res) => {
       recordingEnabled: true,
     });
 
-    // Buy phone number under YOUR Vapi account
-    let phoneNumber = null;
-    try {
-      const ph = await vapi("/phone-number/buy", "POST", {
-        areaCode:    data.areaCode || "415",
-        assistantId: vapiAsst.id,
-      });
-      phoneNumber = ph?.number || ph?.phoneNumber || null;
-    } catch(e) {
-      console.warn("Phone provisioning:", e.message);
-    }
-
-    // Save to YOUR database
-    const agent = DB.createAgent(user.id, { ...data, vapiId: vapiAsst.id, phoneNumber });
+    /* No automatic phone-number purchase.
+       Vapi can only buy US numbers directly, so this previously handed every
+       customer a US number regardless of market. GCC numbers are bought in
+       Twilio (behind a regulatory bundle), imported into Vapi, then assigned
+       to an agent by an admin via POST /api/admin/agents/:id/assign-number. */
+    const agent = DB.createAgent(user.id, {
+      ...data, vapiId: vapiAsst.id, phoneNumber: null, numberStatus: "pending",
+    });
     res.status(201).json(agent);
   } catch(e) {
     console.error("create agent:", e.message);
@@ -562,6 +562,69 @@ app.get("/api/admin/agents/:id/calls", adminAuth, async (req, res) => {
     const data = await vapi(`/call?assistantId=${ag.vapiId}&limit=50`);
     res.json(Array.isArray(data) ? data : data?.calls || []);
   } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+/* ══════════════════════════════════════════════════════
+   PHONE NUMBERS — manual assignment
+   Vapi can only buy US numbers directly. GCC numbers are purchased in
+   Twilio (behind a regulatory bundle), imported into Vapi, and then
+   attached to a customer agent here. The customer never sees any of it.
+══════════════════════════════════════════════════════ */
+
+/* ── GET /api/admin/phone-numbers — every number on the Vapi account ── */
+app.get("/api/admin/phone-numbers", adminAuth, async (req, res) => {
+  try {
+    const data = await vapi("/phone-number");
+    const nums = Array.isArray(data) ? data : (data?.results || []);
+    const agents = db.get("agents").value();
+    res.json(nums.map(n => {
+      const claimedBy = agents.find(a => a.vapiId && a.vapiId === n.assistantId) || null;
+      return {
+        id: n.id, number: n.number, provider: n.provider, name: n.name || null,
+        assistantId: n.assistantId || null,
+        assignedAgentId:   claimedBy ? claimedBy.id : null,
+        assignedAgentName: claimedBy ? claimedBy.agentName : null,
+        available: !n.assistantId,
+      };
+    }));
+  } catch(e) {
+    console.error("list phone numbers:", e.message);
+    res.status(502).json({ error: "Could not reach Vapi", code: "VAPI_UNAVAILABLE" });
+  }
+});
+
+/* ── POST /api/admin/agents/:id/assign-number ── */
+app.post("/api/admin/agents/:id/assign-number", adminAuth, async (req, res) => {
+  const { phoneNumberId } = req.body || {};
+  if (!phoneNumberId) return res.status(400).json({ error: "phoneNumberId required", code: "FIELDS_REQUIRED" });
+  const agent = DB.getAgent(req.params.id);
+  if (!agent) return res.status(404).json({ error: "Not found", code: "NOT_FOUND" });
+  if (!agent.vapiId) return res.status(400).json({ error: "Agent not initialized", code: "AGENT_NOT_READY" });
+  try {
+    // point the Vapi number at this agent's assistant
+    const updated = await vapi("/phone-number/" + phoneNumberId, "PATCH", { assistantId: agent.vapiId });
+    const number  = updated?.number || null;
+    const saved   = DB.adminSetNumber(agent.id, number, "assigned");
+    res.json(saved);
+  } catch(e) {
+    console.error("assign number:", e.message);
+    res.status(502).json({ error: "Could not reach Vapi", code: "VAPI_UNAVAILABLE" });
+  }
+});
+
+/* ── POST /api/admin/agents/:id/unassign-number ── */
+app.post("/api/admin/agents/:id/unassign-number", adminAuth, async (req, res) => {
+  const { phoneNumberId } = req.body || {};
+  const agent = DB.getAgent(req.params.id);
+  if (!agent) return res.status(404).json({ error: "Not found", code: "NOT_FOUND" });
+  try {
+    if (phoneNumberId) await vapi("/phone-number/" + phoneNumberId, "PATCH", { assistantId: null });
+    const saved = DB.adminSetNumber(agent.id, null, "pending");
+    res.json(saved);
+  } catch(e) {
+    console.error("unassign number:", e.message);
+    res.status(502).json({ error: "Could not reach Vapi", code: "VAPI_UNAVAILABLE" });
+  }
 });
 
 /* ── POST /api/admin/users — create user manually ── */
