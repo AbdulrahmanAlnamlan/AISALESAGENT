@@ -5,58 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>كحيلان AI — Admin Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css"/>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --maroon:#8B1A2B;--maroon-d:#5C0F1C;--maroon-l:#B52239;
-  --gold:#7E5A11;--gold-l:#F5D080;--gold-d:#6E4E0F;
-  --ink:#FBF7F0;--s1:#FFFFFF;--s2:#F4EDE1;--s3:#EAE0CF;
-  --bd:#E2D6C2;--bd2:#CBB99C;
-  --tx:#2A1218;--mu:#6B5158;--mu2:#74595F;
-  --green:#19703D;--red:#C0392B;--blue:#1F6F9E;
-}
-html,body{min-height:100vh;background:var(--ink);color:var(--tx);font-family:'Tajawal',sans-serif}
-input,textarea,select{background:var(--s2);border:1px solid var(--bd);color:var(--tx);border-radius:6px;padding:9px 12px;font-size:13px;font-family:'Tajawal',sans-serif;width:100%;outline:none;transition:border-color .2s}
 input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,151,58,.12)}
-select option{background:var(--s2)}
-button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;white-space:nowrap}
-.bp{background:linear-gradient(135deg,var(--maroon-d),var(--maroon));color:var(--gold-l);padding:9px 20px;border-radius:4px;font-size:13px;border:1px solid var(--gold-d)}
-.bp:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 18px rgba(139,26,43,.5)}
-.bp:disabled{opacity:.4;cursor:not-allowed}
-.bgold{background:linear-gradient(135deg,#C8973A,#E3BC66);color:#2A1218;padding:9px 20px;border-radius:4px;font-size:13px;font-weight:800}
 .bgold:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(200,151,58,.4)}
-.bg{background:transparent;border:1px solid var(--bd2);color:var(--mu);padding:8px 16px;border-radius:4px;font-size:12px}
-.bg:hover{border-color:var(--gold);color:var(--gold)}
-.bsm{padding:5px 12px!important;font-size:11px!important;border-radius:4px!important}
-.bdanger{background:transparent;border:1px solid var(--red);color:var(--red);padding:5px 11px;border-radius:4px;font-size:11px}
-.bdanger:hover{background:var(--red);color:#fff}
 .bgreen{background:transparent;border:1px solid var(--green);color:var(--green);padding:5px 11px;border-radius:4px;font-size:11px}
 .bgreen:hover{background:var(--green);color:#000}
-.card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:20px}
-.lbl{font-size:10px;font-weight:700;color:var(--mu);margin-bottom:5px;display:block;letter-spacing:.8px;text-transform:uppercase;font-family:sans-serif}
-.fld{margin-bottom:14px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.err{background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.22);border-radius:6px;padding:11px;font-size:12px;color:#ff8070;line-height:1.6}
-.ok{background:rgba(46,204,113,.07);border:1px solid rgba(46,204,113,.2);border-radius:6px;padding:11px;font-size:12px;color:var(--green);line-height:1.6}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-.fi{animation:fadeIn .3s ease both}
-.spinner{width:15px;height:15px;border:2px solid rgba(200,151,58,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .6s linear infinite;display:inline-block;flex-shrink:0}
-.tag{display:inline-flex;align-items:center;padding:2px 9px;border-radius:3px;font-size:10px;font-weight:600;font-family:sans-serif}
-.tg{background:rgba(46,204,113,.1);color:var(--green)}.tr{background:rgba(231,76,60,.1);color:var(--red)}
-.ta{background:rgba(200,151,58,.1);color:var(--gold)}.tp{background:rgba(139,26,43,.15);color:var(--maroon-l)}
-.tmu{background:rgba(125,99,107,.14);color:var(--mu)}.tblue{background:rgba(52,152,219,.1);color:var(--blue)}
+
+.tblue{background:rgba(52,152,219,.1);color:var(--blue)}
 /* layout */
 .layout{display:flex;height:100vh;overflow:hidden}
 .sidebar{width:216px;background:var(--s1);border-right:1px solid var(--bd);display:flex;flex-direction:column;flex-shrink:0}
 .sb-logo{padding:18px 14px;border-bottom:1px solid var(--bd)}
-.logo-wrap{display:flex;align-items:center;gap:10px}
-.logo-mark{width:34px;height:34px;background:linear-gradient(135deg,var(--maroon-d),var(--maroon));border:1px solid var(--gold-d);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:var(--gold-l);flex-shrink:0;font-family:'Tajawal',sans-serif}
-.logo-ar{font-family:'Tajawal',sans-serif;font-size:18px;font-weight:800;color:var(--tx);letter-spacing:1px}
-.logo-ar span{color:var(--gold)}
 .logo-sub{font-size:9px;color:var(--maroon-l);letter-spacing:2px;font-family:sans-serif;text-transform:uppercase;margin-top:1px}
 .sb-nav{flex:1;padding:8px;overflow-y:auto}
 .nav-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:600;color:var(--mu);transition:all .15s;margin-bottom:2px;border:1px solid transparent}
@@ -79,9 +39,6 @@ button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transitio
 .tbl tr:hover td{background:rgba(200,151,58,.03)}
 /* modal */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;backdrop-filter:blur(4px)}
-.modal{background:var(--s1);border:1px solid var(--bd2);border-radius:12px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto}
-.mhead{padding:20px 24px 0;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.mbody{padding:0 24px 24px}
 /* stat cards */
 .stat-card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:20px;position:relative;overflow:hidden}
 .stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--maroon),transparent)}
