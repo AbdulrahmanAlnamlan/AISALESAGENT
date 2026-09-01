@@ -17,53 +17,88 @@
   --ink:#FBF7F0;--s1:#FFFFFF;--s2:#F4EDE1;--s3:#EAE0CF;
   --bd:#E2D6C2;--bd2:#CBB99C;
   --tx:#2A1218;--mu:#6B5158;--mu2:#74595F;
-  --green:#19703D;--red:#C0392B;}
+  --green:#19703D;--red:#C0392B;
+
+  /* Spacing - 4px grid. 27 ad-hoc values previously, 13 off any grid. */
+  --sp-1:4px;  --sp-2:8px;  --sp-3:12px; --sp-4:16px; --sp-5:20px;
+  --sp-6:24px; --sp-8:32px; --sp-10:40px;--sp-12:48px;--sp-16:64px;
+
+  /* Type - 7 steps. Every shared component already landed on one of
+     these, so adopting the scale changes no rendered size. */
+  --fs-2xs:10px;--fs-xs:11px;--fs-sm:13px;--fs-md:14px;
+  --fs-lg:16px; --fs-xl:20px;--fs-2xl:28px;
+
+  /* Radius */
+  --r-xs:4px;--r-sm:6px;--r-md:10px;--r-lg:12px;--r-full:999px;
+
+  /* Motion */
+  --dur-fast:150ms;--dur-base:200ms;--dur-slow:300ms;
+  --ease-out:cubic-bezier(.2,.8,.2,1);}
 
 /* ── RESET & BASE ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100vh;background:var(--ink);color:var(--tx);font-family:'Tajawal',sans-serif;overflow-x:hidden}
 
 /* ── FORM CONTROLS ── */
-input,textarea,select{background:var(--s2);border:1px solid var(--bd);color:var(--tx);border-radius:6px;padding:10px 13px;font-size:14px;font-family:'Tajawal',sans-serif;width:100%;outline:none;transition:border-color .2s}
+input,textarea,select{background:var(--s2);border:1px solid var(--bd);color:var(--tx);border-radius:var(--r-sm);padding:var(--sp-3);font-size:var(--fs-md);font-family:'Tajawal',sans-serif;width:100%;outline:none;transition:border-color var(--dur-base) var(--ease-out)}
 select option{background:var(--s2)}
 
 /* ── BUTTONS ── */
-button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;white-space:nowrap}
-.bp{background:linear-gradient(135deg,var(--maroon-d),var(--maroon));color:var(--gold-l);padding:11px 24px;border-radius:4px;font-size:14px;border:1px solid var(--gold-d)}
+button{cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-2);
+  border:none;white-space:nowrap;
+  /* transition:all makes the browser watch every property; name them */
+  transition:background-color var(--dur-base) var(--ease-out),
+             border-color var(--dur-base) var(--ease-out),
+             color var(--dur-base) var(--ease-out),
+             box-shadow var(--dur-base) var(--ease-out),
+             transform var(--dur-fast) var(--ease-out)}
+.bp{background:linear-gradient(135deg,var(--maroon-d),var(--maroon));color:var(--gold-l);padding:var(--sp-3) var(--sp-6);border-radius:var(--r-xs);font-size:var(--fs-md);border:1px solid var(--gold-d)}
 .bp:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(139,26,43,.5)}
 .bp:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
-.bg{background:transparent;border:1px solid var(--bd2);color:var(--mu);padding:9px 18px;border-radius:4px;font-size:13px}
+.bg{background:transparent;border:1px solid var(--bd2);color:var(--mu);padding:var(--sp-2) var(--sp-5);border-radius:var(--r-xs);font-size:var(--fs-sm)}
 .bg:hover{border-color:var(--gold);color:var(--gold)}
-.bgold{background:linear-gradient(135deg,#C8973A,#E3BC66);color:#2A1218;padding:11px 24px;border-radius:4px;font-size:14px;font-weight:800}
-.bsm{padding:6px 13px!important;font-size:11px!important;border-radius:4px!important}
-.bdanger{background:transparent;border:1px solid var(--red);color:var(--red);padding:5px 12px;border-radius:4px;font-size:11px}
-.bdanger:hover{background:var(--red);color:#fff}
+.bgold{background:linear-gradient(135deg,#C8973A,#E3BC66);color:var(--tx);padding:var(--sp-3) var(--sp-6);border-radius:var(--r-xs);font-size:var(--fs-md);font-weight:800}
+.bsm{padding:var(--sp-2) var(--sp-3)!important;font-size:var(--fs-xs)!important;border-radius:var(--r-xs)!important}
+.bdanger{background:transparent;border:1px solid var(--red);color:var(--red);padding:var(--sp-1) var(--sp-3);border-radius:var(--r-xs);font-size:var(--fs-xs)}
+.bdanger:hover:not(:disabled){background:var(--red);color:#fff}
+
+/* Press feedback. No button defined :active before, so nothing in the
+   product acknowledged a tap until the action itself completed. */
+.bp:active:not(:disabled),
+.bgold:active:not(:disabled){transform:translateY(0) scale(.98);box-shadow:none}
+.bg:active:not(:disabled),
+.bdanger:active:not(:disabled){transform:scale(.98)}
+.bgold:hover:not(:disabled){filter:brightness(1.04)}
+
+/* Disabled parity - only .bp had it */
+.bg:disabled,.bgold:disabled,.bdanger:disabled{opacity:.4;cursor:not-allowed;transform:none!important;box-shadow:none}
 
 /* ── LAYOUT PRIMITIVES ── */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-4)}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--sp-3)}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-4)}
 
 /* ── SURFACES ── */
-.card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:20px}
-.modal{background:var(--s1);border:1px solid var(--bd2);border-radius:12px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
-.mhead{padding:20px 24px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd)}
-.mbody{padding:20px 24px 24px}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r-md);padding:var(--sp-5)}
+.modal{background:var(--s1);border:1px solid var(--bd2);border-radius:var(--r-lg);width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
+.mhead{padding:var(--sp-5) var(--sp-6) var(--sp-4);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd)}
+.mbody{padding:var(--sp-5) var(--sp-6) var(--sp-6)}
 
 /* ── FORM LAYOUT ── */
-.fld{margin-bottom:16px}
-.lbl{font-size:10px;font-weight:700;color:var(--mu);margin-bottom:6px;display:block;letter-spacing:.8px;text-transform:uppercase;font-family:sans-serif}
+.fld{margin-bottom:var(--sp-4)}
+.lbl{font-size:10px;font-weight:700;color:var(--mu);margin-bottom:var(--sp-2);display:block;letter-spacing:.8px;text-transform:uppercase;font-family:sans-serif}
 
 /* ── FEEDBACK ── */
-.err{background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.22);border-radius:6px;padding:12px;font-size:13px;color:#ff8070;line-height:1.6}
-.ok{background:rgba(46,204,113,.07);border:1px solid rgba(46,204,113,.2);border-radius:6px;padding:12px;font-size:13px;color:var(--green);line-height:1.6}
+.err{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.28);border-radius:var(--r-sm);padding:var(--sp-3);font-size:var(--fs-sm);color:var(--red);line-height:1.6}
+.ok{background:rgba(25,112,61,.08);border:1px solid rgba(25,112,61,.24);border-radius:var(--r-sm);padding:var(--sp-3);font-size:var(--fs-sm);color:var(--green);line-height:1.6}
 .spinner{width:16px;height:16px;border:2px solid rgba(200,151,58,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .6s linear infinite;display:inline-block;flex-shrink:0}
 .fi{animation:fadeIn .3s ease both}
 
 /* ── TAGS ── */
-.tag{display:inline-flex;align-items:center;padding:2px 9px;border-radius:3px;font-size:11px;font-weight:600;font-family:sans-serif}
-.tg{background:rgba(46,204,113,.1);color:var(--green)}
-.tr{background:rgba(231,76,60,.1);color:var(--red)}
+.tag{display:inline-flex;align-items:center;padding:var(--sp-1) var(--sp-2);border-radius:var(--r-xs);font-size:var(--fs-xs);font-weight:600;font-family:sans-serif}
+.tg{background:rgba(25,112,61,.12);color:var(--green)}
+.tr{background:rgba(192,57,43,.12);color:var(--red)}
 .ta{background:rgba(200,151,58,.1);color:var(--gold)}
 .tmu{background:rgba(125,99,107,.14);color:var(--mu)}
 .tp{background:rgba(139,26,43,.15);color:var(--maroon-l)}
